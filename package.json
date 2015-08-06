@@ -17,7 +17,12 @@
     "webpack-dev-server": "^1.10.1"
   },
   "dependencies": {
+    "graphlib": "^1.0.7",
     "lodash": "^3.10.1",
     "two.js": "^0.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.grcc.ru:modelling/ashberry.git"
   }
 }
