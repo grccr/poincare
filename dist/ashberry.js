@@ -49,7 +49,7 @@
 	var two = __webpack_require__(1);
 	var renderer = __webpack_require__(6);
 
-	exports.test = function () {
+	exports.test = window.TEST = function () {
 	  var two = new Two({
 	    fullscreen: true,
 	    autostart: true
@@ -18104,7 +18104,7 @@
 
 	exports.execute = function (msg) {
 	  var m = new _Map();
-	  console.log("Hi there ${msg}!!");
+	  console.log("Hi there " + msg + "!!");
 	};
 
 /***/ },
