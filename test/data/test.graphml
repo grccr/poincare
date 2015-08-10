@@ -1,0 +1,2914 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key attr.name="refinery_alkylation" attr.type="double" for="node" id="d31" />
+  <key attr.name="refinery_fluid_catalytic_cracker" attr.type="double" for="node" id="d30" />
+  <key attr.name="refinery_vacuum_unit" attr.type="double" for="node" id="d29" />
+  <key attr.name="refinery_nelson_complexity" attr.type="double" for="node" id="d28" />
+  <key attr.name="refinery_catalytic_reformer" attr.type="double" for="node" id="d27" />
+  <key attr.name="refinery_nelson_complexity_ling" attr.type="string" for="node" id="d26" />
+  <key attr.name="refinery_visbreaker" attr.type="double" for="node" id="d25" />
+  <key attr.name="refinery_vacuum_distillation" attr.type="double" for="node" id="d24" />
+  <key attr.name="vvt_year" attr.type="string" for="node" id="d23" />
+  <key attr.name="classes" attr.type="string" for="node" id="d22" />
+  <key attr.name="depth" attr.type="int" for="node" id="d21" />
+  <key attr.name="refinery_atmospheric_distillation" attr.type="double" for="node" id="d20" />
+  <key attr.name="title" attr.type="string" for="node" id="d19" />
+  <key attr.name="created" attr.type="string" for="node" id="d18" />
+  <key attr.name="path" attr.type="string" for="node" id="d17" />
+  <key attr.name="refinery_electricity_consumption_predicted" attr.type="double" for="node" id="d16" />
+  <key attr.name="pskov_path" attr.type="string" for="node" id="d15" />
+  <key attr.name="doctypes" attr.type="string" for="node" id="d14" />
+  <key attr.name="refinery_capacity_ling" attr.type="string" for="node" id="d13" />
+  <key attr.name="full" attr.type="boolean" for="node" id="d12" />
+  <key attr.name="updated" attr.type="string" for="node" id="d11" />
+  <key attr.name="type" attr.type="string" for="node" id="d10" />
+  <key attr.name="source" attr.type="string" for="node" id="d9" />
+  <key attr.name="webpage_domain" attr.type="string" for="node" id="d8" />
+  <key attr.name="label" attr.type="string" for="node" id="d7" />
+  <key attr.name="refinery_capacity" attr.type="double" for="node" id="d6" />
+  <key attr.name="geo_country" attr.type="string" for="node" id="d5" />
+  <key attr.name="docid" attr.type="string" for="node" id="d4" />
+  <key attr.name="geo_address" attr.type="string" for="node" id="d3" />
+  <key attr.name="plant_owner" attr.type="string" for="node" id="d2" />
+  <key attr.name="vvt_import_date_trunc" attr.type="string" for="node" id="d1" />
+  <key attr.name="translates" attr.type="string" for="graph" id="d0" />
+  <graph edgedefault="undirected">
+    <data key="d0">{"updated": "Документ: Дата обработки", "docid": "ID объекта", "title": "Заголовок", "created": "Документ: Дата публикации", "pskov_path": "URL в БД", "source": "Источник", "depth": "Глубина", "classes": "Классы", "path": "URL", "label": "Заголовок"}</data>
+    <node id="5533df297532c447bd2d1a3d">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Hyundai Oilbank</data>
+      <data key="d3">South Korea</data>
+      <data key="d4">5533df297532c447bd2d1a3d</data>
+      <data key="d5">South Korea</data>
+      <data key="d6">390000.0</data>
+      <data key="d7">Hyundai Daesan Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:26.732667</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df297532c447bd2d1a3d</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/hyundai-daesan-refinery</data>
+      <data key="d18">2015-04-19 20:00:24.780000+00:00</data>
+      <data key="d19">Hyundai Daesan Refinery</data>
+      <data key="d20">390000.0</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533dee77532c447bed0c494">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Tema Oil</data>
+      <data key="d3">Ghana</data>
+      <data key="d4">5533dee77532c447bed0c494</data>
+      <data key="d19">Tema Refinery</data>
+      <data key="d6">43000.0</data>
+      <data key="d7">Tema Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:32.196585</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533dee77532c447bed0c494</data>
+      <data key="d16">213.364559066</data>
+      <data key="d17">http://abarrelfull.wikidot.com/tema-refinery</data>
+      <data key="d18">2015-04-19 19:59:19.294000+00:00</data>
+      <data key="d5">Ghana</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533def07532c447bd2d19e1">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">(Oil Refinery Brod) Zarubezneft</data>
+      <data key="d3">Bosanski Brod, Republiska Srpska</data>
+      <data key="d4">5533def07532c447bd2d19e1</data>
+      <data key="d5">Bosnia and Herzegovina</data>
+      <data key="d6">30000.0</data>
+      <data key="d7">Bosanski Brod Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:30.922571</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533def07532c447bd2d19e1</data>
+      <data key="d16">182.471029604</data>
+      <data key="d17">http://abarrelfull.wikidot.com/bosanski-brod-refinery</data>
+      <data key="d18">2015-04-19 19:59:28.670000+00:00</data>
+      <data key="d19">Bosanski Brod Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d24">-11980.0</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df387532c447bd2d1a56">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">BP</data>
+      <data key="d3">Western Australia</data>
+      <data key="d4">5533df387532c447bd2d1a56</data>
+      <data key="d19">Kwinana Refinery</data>
+      <data key="d6">137000.0</data>
+      <data key="d7">Kwinana Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:25.639384</data>
+      <data key="d12">True</data>
+      <data key="d13">average</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df387532c447bd2d1a56</data>
+      <data key="d16">273.410881767</data>
+      <data key="d17">http://abarrelfull.wikidot.com/kwinana-refinery</data>
+      <data key="d18">2015-04-19 20:00:40.019000+00:00</data>
+      <data key="d5">Australian Refineries</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533deda7532c447bd2d19af">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Petrobras</data>
+      <data key="d3">Province of Buenos Aires, Argentina</data>
+      <data key="d4">5533deda7532c447bd2d19af</data>
+      <data key="d19">Bahia Blanca Refinery</data>
+      <data key="d6">30000.0</data>
+      <data key="d7">Bahia Blanca Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:33.067372</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533deda7532c447bd2d19af</data>
+      <data key="d16">182.471029604</data>
+      <data key="d17">http://abarrelfull.wikidot.com/bahia-blanca-refinery</data>
+      <data key="d18">2015-04-19 19:59:06.587000+00:00</data>
+      <data key="d5">Argentina</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df197532c447bd2d1a2c">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">ARMO</data>
+      <data key="d3">Fier, Albania</data>
+      <data key="d4">5533df197532c447bd2d1a2c</data>
+      <data key="d19">Fier Refinery</data>
+      <data key="d6">10000.0</data>
+      <data key="d7">Fier Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:27.382534</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df197532c447bd2d1a2c</data>
+      <data key="d16">53.8955223881</data>
+      <data key="d17">http://abarrelfull.wikidot.com/fier-refinery</data>
+      <data key="d18">2015-04-19 20:00:09.824000+00:00</data>
+      <data key="d5">Albania</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df087532c447c0f1b4a5">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Repsol</data>
+      <data key="d3">Tarragona, Spain</data>
+      <data key="d4">5533df087532c447c0f1b4a5</data>
+      <data key="d19">Tarragona Refinery</data>
+      <data key="d6">186000.0</data>
+      <data key="d7">Tarragona Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:29.146202</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df087532c447c0f1b4a5</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/tarragona-refinery</data>
+      <data key="d18">2015-04-19 19:59:52.297000+00:00</data>
+      <data key="d5">Spain</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533defe7532c447bd2d19f7">
+      <data key="d1">2015-04-19</data>
+      <data key="d25">-1.04</data>
+      <data key="d2">Ruhr Oel (BP, Rosneft)</data>
+      <data key="d26">average</data>
+      <data key="d3">Gelsenkirchen</data>
+      <data key="d4">5533defe7532c447bd2d19f7</data>
+      <data key="d5">Germany</data>
+      <data key="d6">254000.0</data>
+      <data key="d7">Gelsenkirchen Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:30.163680</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533defe7532c447bd2d19f7</data>
+      <data key="d16">266.869902825</data>
+      <data key="d27">-1.3</data>
+      <data key="d17">http://abarrelfull.wikidot.com/gelsenkirchen-refinery</data>
+      <data key="d28">9.3</data>
+      <data key="d18">2015-04-19 19:59:41.626000+00:00</data>
+      <data key="d19">Gelsenkirchen Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d24">5.5</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df047532c447c0f1b49f">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">ConocoPhillips</data>
+      <data key="d3">Lower Saxony, Germany</data>
+      <data key="d4">5533df047532c447c0f1b49f</data>
+      <data key="d5">Germany</data>
+      <data key="d6">270000.0</data>
+      <data key="d7">Wilhelmshaven Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:29.493875</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df047532c447c0f1b49f</data>
+      <data key="d16">0.0</data>
+      <data key="d27">-1.7</data>
+      <data key="d17">http://abarrelfull.wikidot.com/wilhelmshaven-refinery</data>
+      <data key="d18">2015-04-19 19:59:48.017000+00:00</data>
+      <data key="d19">Wilhelmshaven Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d24">-4.8</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533def07532c447bed0c49f">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Société Chérifienne des Pétroles</data>
+      <data key="d3">Morocco</data>
+      <data key="d4">5533def07532c447bed0c49f</data>
+      <data key="d19">Samir Sidi Kacem Refinery</data>
+      <data key="d7">Samir Sidi Kacem Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:30.988179</data>
+      <data key="d12">True</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533def07532c447bed0c49f</data>
+      <data key="d29">7400.0</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/samir-sidi-kacem-refinery</data>
+      <data key="d18">2015-04-19 19:59:27.986000+00:00</data>
+      <data key="d5">Morroco</data>
+      <data key="d20">25600.0</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df387532c447c0f1b505">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Caltex</data>
+      <data key="d3">Brisbane</data>
+      <data key="d4">5533df387532c447c0f1b505</data>
+      <data key="d19">Lytton Refinery</data>
+      <data key="d6">106000.0</data>
+      <data key="d7">Lytton Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:25.480671</data>
+      <data key="d12">True</data>
+      <data key="d13">average</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df387532c447c0f1b505</data>
+      <data key="d16">270.017094017</data>
+      <data key="d17">http://abarrelfull.wikidot.com/lytton-refinery</data>
+      <data key="d18">2015-04-19 20:00:40.771000+00:00</data>
+      <data key="d5">Australian Refineries</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df157532c447bd2d1a20">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Enar Petroleum</data>
+      <data key="d3">Karachi, Pakistan</data>
+      <data key="d4">5533df157532c447bd2d1a20</data>
+      <data key="d19">Enar Petroleum Refining Facility</data>
+      <data key="d6">3000.0</data>
+      <data key="d7">Enar Petroleum Refining Facility</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:28.243077</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df157532c447bd2d1a20</data>
+      <data key="d16">53.8955223881</data>
+      <data key="d17">http://abarrelfull.wikidot.com/enar-petroleum-refining-facility</data>
+      <data key="d18">2015-04-19 20:00:04.981000+00:00</data>
+      <data key="d5">Pakistan</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df3f7532c447c0f1b50f">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Lyondell Basell</data>
+      <data key="d26">weak</data>
+      <data key="d3">Berre l’Etang, near Marseille in the south of France</data>
+      <data key="d4">5533df3f7532c447c0f1b50f</data>
+      <data key="d5">France</data>
+      <data key="d6">80000.0</data>
+      <data key="d7">Berre L Etang Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:24.983435</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df3f7532c447c0f1b50f</data>
+      <data key="d16">246.979910797</data>
+      <data key="d17">http://abarrelfull.wikidot.com/berre-l-etang-refinery</data>
+      <data key="d28">6.7</data>
+      <data key="d18">2015-04-19 20:00:47.143000+00:00</data>
+      <data key="d19">Berre L Etang Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df3f7532c447bed0c514">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Exxon Mobil</data>
+      <data key="d3">Fos Sur Mer, France</data>
+      <data key="d4">5533df3f7532c447bed0c514</data>
+      <data key="d5">France</data>
+      <data key="d6">143000.0</data>
+      <data key="d7">Fos Sur Mer Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:24.827884</data>
+      <data key="d12">True</data>
+      <data key="d13">average</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df3f7532c447bed0c514</data>
+      <data key="d16">274.132151199</data>
+      <data key="d17">http://abarrelfull.wikidot.com/fos-sur-mer-refinery</data>
+      <data key="d18">2015-04-19 20:00:47.751000+00:00</data>
+      <data key="d19">Fos Sur Mer Refinery</data>
+      <data key="d20">143000.0</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df1c7532c447c0f1b4cd">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Takreer</data>
+      <data key="d3">Abu Dhabi</data>
+      <data key="d4">5533df1c7532c447c0f1b4cd</data>
+      <data key="d19">Umm Al Narr Refinery</data>
+      <data key="d6">85000.0</data>
+      <data key="d7">Umm Al Narr Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:27.282669</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df1c7532c447c0f1b4cd</data>
+      <data key="d16">252.682627625</data>
+      <data key="d27">14000.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/umm-al-narr-refinery</data>
+      <data key="d18">2015-04-19 20:00:12.284000+00:00</data>
+      <data key="d5">United Arab Emirates</data>
+      <data key="d20">-85000.0</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533ded47532c447bd2d19a0">
+      <data key="d1">2015-04-19</data>
+      <data key="d25">-27000.0</data>
+      <data key="d2">Repsol</data>
+      <data key="d3">Peru</data>
+      <data key="d4">5533ded47532c447bd2d19a0</data>
+      <data key="d5">Perú</data>
+      <data key="d6">102000.0</data>
+      <data key="d7">Refineria La Pampilla Lima</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:33.778494</data>
+      <data key="d12">True</data>
+      <data key="d13">average</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533ded47532c447bd2d19a0</data>
+      <data key="d16">269.631578947</data>
+      <data key="d17">http://abarrelfull.wikidot.com/refineria-la-pampilla-lima</data>
+      <data key="d18">2015-04-19 19:59:00.335000+00:00</data>
+      <data key="d19">Refineria La Pampilla Lima</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d24">-36000.0</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df2a7532c447bed0c4f4">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">SK Energy</data>
+      <data key="d3">Ulusan, South Korea</data>
+      <data key="d4">5533df2a7532c447bed0c4f4</data>
+      <data key="d5">South Korea</data>
+      <data key="d6">840000.0</data>
+      <data key="d7">Sk Ulsan Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:26.571268</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df2a7532c447bed0c4f4</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/sk-ulsan-refinery</data>
+      <data key="d18">2015-04-19 20:00:25.932000+00:00</data>
+      <data key="d19">Sk Ulsan Refinery</data>
+      <data key="d20">160000.211</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533dee87532c447bd2d19cb">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Saudi Aramco</data>
+      <data key="d3">Riyadh, Saudi Arabia</data>
+      <data key="d4">5533dee87532c447bd2d19cb</data>
+      <data key="d5">Saudi Arabia</data>
+      <data key="d6">120000.0</data>
+      <data key="d7">Riyadh Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:31.864623</data>
+      <data key="d12">True</data>
+      <data key="d13">average</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533dee87532c447bd2d19cb</data>
+      <data key="d16">271.470588235</data>
+      <data key="d17">http://abarrelfull.wikidot.com/riyadh-refinery</data>
+      <data key="d18">2015-04-19 19:59:19.874000+00:00</data>
+      <data key="d19">Riyadh Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d24">-40000.0</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df497532c447bed0c520">
+      <data key="d1">2015-04-19</data>
+      <data key="d25">-55000.0</data>
+      <data key="d2">Exxon</data>
+      <data key="d3">Jurong Island, Singapore</data>
+      <data key="d4">5533df497532c447bed0c520</data>
+      <data key="d5">Singapore</data>
+      <data key="d6">605000.0</data>
+      <data key="d7">Exxon Singapore Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:23.785176</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df497532c447bed0c520</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/exxon-singapore-refinery</data>
+      <data key="d18">2015-04-19 20:00:57.059000+00:00</data>
+      <data key="d19">Exxon Singapore Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533ded67532c447bed0c47e">
+      <data key="d3">Peru</data>
+      <data key="d11">2015-04-27T20:52:33.428128</data>
+      <data key="d12">True</data>
+      <data key="d4">5533ded67532c447bed0c47e</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d19">Iquitos Refinery</data>
+      <data key="d5">Perú</data>
+      <data key="d18">2015-04-19 19:59:02.691000+00:00</data>
+      <data key="d20">-10.5</data>
+      <data key="d7">Iquitos Refinery</data>
+      <data key="d2">Petroperu</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d16">0.0</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d1">2015-04-19</data>
+      <data key="d17">http://abarrelfull.wikidot.com/iquitos-refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533ded67532c447bed0c47e</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df207532c447bd2d1a37">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Socar</data>
+      <data key="d3">Baku, Azerbaijan</data>
+      <data key="d4">5533df207532c447bd2d1a37</data>
+      <data key="d19">Heydar Aliyev Baku Oil Refinery</data>
+      <data key="d6">400000.0</data>
+      <data key="d7">Heydar Aliyev Baku Oil Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:26.895266</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df207532c447bd2d1a37</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/heydar-aliyev-baku-oil-refinery</data>
+      <data key="d18">2015-04-19 20:00:16.636000+00:00</data>
+      <data key="d5">Azerbaijan</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533defd7532c447bed0c4b0">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">BP</data>
+      <data key="d3">Lingen, Germany</data>
+      <data key="d4">5533defd7532c447bed0c4b0</data>
+      <data key="d5">Germany</data>
+      <data key="d6">90000.0</data>
+      <data key="d7">Emsland Lingen Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:30.239843</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533defd7532c447bed0c4b0</data>
+      <data key="d16">258.371463289</data>
+      <data key="d17">http://abarrelfull.wikidot.com/emsland-lingen-refinery</data>
+      <data key="d18">2015-04-19 19:59:41.310000+00:00</data>
+      <data key="d19">Emsland Lingen Refinery</data>
+      <data key="d20">4500000.0</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d24">2100000.0</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df377532c447bed0c509">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Caltex</data>
+      <data key="d3">Sydney, Australia</data>
+      <data key="d4">5533df377532c447bed0c509</data>
+      <data key="d19">Kurnell Refinery</data>
+      <data key="d6">135000.0</data>
+      <data key="d7">Kurnell Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:25.713830</data>
+      <data key="d12">True</data>
+      <data key="d13">average</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df377532c447bed0c509</data>
+      <data key="d16">273.174159553</data>
+      <data key="d17">http://abarrelfull.wikidot.com/kurnell-refinery</data>
+      <data key="d18">2015-04-19 20:00:39.063000+00:00</data>
+      <data key="d5">Australian Refineries</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df457532c447bd2d1a70">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Slovnaft (MOL)</data>
+      <data key="d3">Bratislava, Slovakia</data>
+      <data key="d4">5533df457532c447bd2d1a70</data>
+      <data key="d5">Slovakia</data>
+      <data key="d6">120000.0</data>
+      <data key="d30">850.0</data>
+      <data key="d7">Slovnaft Bratislava Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:24.171074</data>
+      <data key="d12">True</data>
+      <data key="d13">average</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df457532c447bd2d1a70</data>
+      <data key="d16">271.470588235</data>
+      <data key="d17">http://abarrelfull.wikidot.com/slovnaft-bratislava-refinery</data>
+      <data key="d18">2015-04-19 20:00:53.735000+00:00</data>
+      <data key="d19">Slovnaft Bratislava Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df3d7532c447c0f1b50a">
+      <data key="d1">2015-04-19</data>
+      <data key="d25">16000.0</data>
+      <data key="d2">Total</data>
+      <data key="d3">Near Paris</data>
+      <data key="d4">5533df3d7532c447c0f1b50a</data>
+      <data key="d5">France</data>
+      <data key="d6">99000.0</data>
+      <data key="d7">Grandpuits Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:25.045211</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df3d7532c447c0f1b50a</data>
+      <data key="d16">268.369319969</data>
+      <data key="d17">http://abarrelfull.wikidot.com/grandpuits-refinery</data>
+      <data key="d18">2015-04-19 20:00:44.915000+00:00</data>
+      <data key="d19">Grandpuits Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533dedc7532c447c0f1b460">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Refinor
+
+The company has three partners: Petrobras (28.5%), Pluspetrol (21.5%), and Repsol-YPF (50%)</data>
+      <data key="d3">Campo Duran in the province of Salta, North Argentina</data>
+      <data key="d4">5533dedc7532c447c0f1b460</data>
+      <data key="d19">Campo Duran Refinor Refinery</data>
+      <data key="d6">28500.0</data>
+      <data key="d7">Campo Duran Refinor Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:33.027726</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533dedc7532c447c0f1b460</data>
+      <data key="d16">174.523625205</data>
+      <data key="d17">http://abarrelfull.wikidot.com/campo-duran-refinor-refinery</data>
+      <data key="d18">2015-04-19 19:59:08.675000+00:00</data>
+      <data key="d5">Argentina</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df0a7532c447c0f1b4af">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Cepsa (IPIC)</data>
+      <data key="d3">Gibralter-San Roque</data>
+      <data key="d4">5533df0a7532c447c0f1b4af</data>
+      <data key="d19">Gibraltar Refinery</data>
+      <data key="d6">240000.0</data>
+      <data key="d7">Gibraltar Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:28.946274</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df0a7532c447c0f1b4af</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/gibraltar-refinery</data>
+      <data key="d18">2015-04-19 19:59:54.717000+00:00</data>
+      <data key="d5">Spain</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df447532c447c0f1b51f">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Total</data>
+      <data key="d3">Dunkirk</data>
+      <data key="d4">5533df447532c447c0f1b51f</data>
+      <data key="d19">Flandres Refinery</data>
+      <data key="d6">156000.0</data>
+      <data key="d7">Flandres Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:24.326309</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df447532c447c0f1b51f</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/flandres-refinery</data>
+      <data key="d18">2015-04-19 20:00:51.927000+00:00</data>
+      <data key="d5">France</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df067532c447bd2d1a0b">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Repsol</data>
+      <data key="d3">Puertollano, Spain</data>
+      <data key="d4">5533df067532c447bd2d1a0b</data>
+      <data key="d19">Puertollano Refinery</data>
+      <data key="d6">150000.0</data>
+      <data key="d7">Puertollano Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:29.159092</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df067532c447bd2d1a0b</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/puertollano-refinery</data>
+      <data key="d18">2015-04-19 19:59:50.581000+00:00</data>
+      <data key="d5">Spain</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533deee7532c447c0f1b482">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Saudi Aramco / Shell</data>
+      <data key="d3">Jubail, Saudi Arabia</data>
+      <data key="d4">5533deee7532c447c0f1b482</data>
+      <data key="d19">Aramco Shell Jubail Refinery</data>
+      <data key="d6">305000.0</data>
+      <data key="d7">Aramco Shell Jubail Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:31.326909</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533deee7532c447c0f1b482</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/aramco-shell-jubail-refinery</data>
+      <data key="d18">2015-04-19 19:59:25.914000+00:00</data>
+      <data key="d5">Saudi Arabia</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df4c7532c447c0f1b52a">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">HOVENSA, Hess Corporation and Petroleos de Venezuela, S.A. (PDVSA)</data>
+      <data key="d3">St. Croix in the United States Virgin Islands</data>
+      <data key="d4">5533df4c7532c447c0f1b52a</data>
+      <data key="d19">St Croix Refinery</data>
+      <data key="d6">350000.0</data>
+      <data key="d7">St Croix Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:23.711193</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df4c7532c447c0f1b52a</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/st-croix-refinery</data>
+      <data key="d18">2015-04-19 20:01:00.359000+00:00</data>
+      <data key="d5">Virgin Islands</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df417532c447c0f1b515">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Ineos</data>
+      <data key="d3">Lavéra: located on the coast of the Mediterranean crude oil trading basin, next to the port of Marseille and adjacent crude oil terminal.</data>
+      <data key="d4">5533df417532c447c0f1b515</data>
+      <data key="d19">Lavera Marseilles Refinery</data>
+      <data key="d6">210000.0</data>
+      <data key="d7">Lavera Marseilles Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:24.778396</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df417532c447c0f1b515</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/lavera-marseilles-refinery</data>
+      <data key="d18">2015-04-19 20:00:48.855000+00:00</data>
+      <data key="d5">France</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df317532c447c0f1b4f0">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Bangladesh Petroleum Corporation</data>
+      <data key="d3">Chittagong, Bangladesh</data>
+      <data key="d4">5533df317532c447c0f1b4f0</data>
+      <data key="d19">Eastern Refinery Limited</data>
+      <data key="d6">33000.0</data>
+      <data key="d7">Eastern Refinery Limited</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:26.167681</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df317532c447c0f1b4f0</data>
+      <data key="d16">194.029360498</data>
+      <data key="d17">http://abarrelfull.wikidot.com/eastern-refinery-limited</data>
+      <data key="d18">2015-04-19 20:00:33.180000+00:00</data>
+      <data key="d5">Bangladesh</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df2e7532c447bed0c4fa">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Tupras</data>
+      <data key="d26">average</data>
+      <data key="d3">İzmit, Turkey</data>
+      <data key="d4">5533df2e7532c447bed0c4fa</data>
+      <data key="d5">Turkey</data>
+      <data key="d6">220000.0</data>
+      <data key="d7">Izmit Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:26.222295</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df2e7532c447bed0c4fa</data>
+      <data key="d16">268.331925828</data>
+      <data key="d17">http://abarrelfull.wikidot.com/izmit-refinery</data>
+      <data key="d28">7.78</data>
+      <data key="d18">2015-04-19 20:00:29.896000+00:00</data>
+      <data key="d19">Izmit Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df357532c447c0f1b500">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Vitol</data>
+      <data key="d3">Corio Bay, Australia</data>
+      <data key="d4">5533df357532c447c0f1b500</data>
+      <data key="d19">Geelong Refinery</data>
+      <data key="d6">120000.0</data>
+      <data key="d7">Geelong Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:25.751166</data>
+      <data key="d12">True</data>
+      <data key="d13">average</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df357532c447c0f1b500</data>
+      <data key="d16">271.470588235</data>
+      <data key="d17">http://abarrelfull.wikidot.com/geelong-refinery</data>
+      <data key="d18">2015-04-19 20:00:37.711000+00:00</data>
+      <data key="d5">Australian Refineries</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df2e7532c447bed0c4ff">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Tupras</data>
+      <data key="d26">huge</data>
+      <data key="d3">İzmir, Turkey</data>
+      <data key="d4">5533df2e7532c447bed0c4ff</data>
+      <data key="d5">Turkey</data>
+      <data key="d6">220000.0</data>
+      <data key="d7">Aliaga Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:26.212636</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df2e7532c447bed0c4ff</data>
+      <data key="d16">53.8955223881</data>
+      <data key="d17">http://abarrelfull.wikidot.com/aliaga-refinery</data>
+      <data key="d28">766.0</data>
+      <data key="d18">2015-04-19 20:00:30.792000+00:00</data>
+      <data key="d19">Aliaga Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df187532c447c0f1b4c7">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Shell Pakistan Limited, Chevron Pakistan Limited, Pakistan State Oil and The Dawood Group hold the majority shares of Pakistan Refinery Limited.</data>
+      <data key="d3">Korangi Creek, Karachi</data>
+      <data key="d4">5533df187532c447c0f1b4c7</data>
+      <data key="d19">Pakistan Refinery Limited</data>
+      <data key="d6">47.11</data>
+      <data key="d7">Pakistan Refinery Limited</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:27.802670</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df187532c447c0f1b4c7</data>
+      <data key="d16">53.8955223881</data>
+      <data key="d17">http://abarrelfull.wikidot.com/pakistan-refinery-limited</data>
+      <data key="d18">2015-04-19 20:00:08.049000+00:00</data>
+      <data key="d5">Pakistan</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533dee77532c447c0f1b471">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Sonara (Société Nationale de Raffinage)
+
+Government of Cameroon (66%)
+TOTAL (18%)
+ExxonMobil Corporation (8%)
+Shell International Ltd (8%)</data>
+      <data key="d3">Cape Lemboh Limbe, Cameroon</data>
+      <data key="d4">5533dee77532c447c0f1b471</data>
+      <data key="d19">Sonara Limbe Refinery</data>
+      <data key="d6">45000.0</data>
+      <data key="d7">Sonara Limbe Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:32.170962</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533dee77532c447c0f1b471</data>
+      <data key="d16">215.486845761</data>
+      <data key="d17">http://abarrelfull.wikidot.com/limbe-refinery</data>
+      <data key="d18">2015-04-19 19:59:19.286000+00:00</data>
+      <data key="d5">Cameroon</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533def97532c447bd2d19ed">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Bayernoil</data>
+      <data key="d3">Bavaria, Germany</data>
+      <data key="d4">5533def97532c447bd2d19ed</data>
+      <data key="d5">Germany</data>
+      <data key="d6">80000.0</data>
+      <data key="d30">-19100.0</data>
+      <data key="d7">Bayernoil Ingolstadt Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:30.376192</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533def97532c447bd2d19ed</data>
+      <data key="d16">246.979910797</data>
+      <data key="d17">http://abarrelfull.wikidot.com/bayernoil-ingolstadt-refinery</data>
+      <data key="d18">2015-04-19 19:59:37.502000+00:00</data>
+      <data key="d19">Bayernoil Ingolstadt Refinery</data>
+      <data key="d20">80000.0</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533dee47532c447c0f1b46c">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">YPFB Refinación S.A.</data>
+      <data key="d3">Bolivia</data>
+      <data key="d4">5533dee47532c447c0f1b46c</data>
+      <data key="d19">Guillermo Elder Bell Santa Cruz Refinery</data>
+      <data key="d6">16500.0</data>
+      <data key="d7">Guillermo Elder Bell Santa Cruz Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:32.338899</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533dee47532c447c0f1b46c</data>
+      <data key="d16">53.8955223881</data>
+      <data key="d17">http://abarrelfull.wikidot.com/guillermo-elder-bell-santa-cruz-refinery</data>
+      <data key="d18">2015-04-19 19:59:16.098000+00:00</data>
+      <data key="d5">Bolivia</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df007532c447bd2d19fd">
+      <data key="d1">2015-04-19</data>
+      <data key="d25">1.4</data>
+      <data key="d2">Shell/ExxonMobil/Rosneft/BP/Conoco</data>
+      <data key="d26">average</data>
+      <data key="d3">Karlsruhe, southwest Germany</data>
+      <data key="d4">5533df007532c447bd2d19fd</data>
+      <data key="d5">Germany</data>
+      <data key="d6">320000.0</data>
+      <data key="d7">Miro Karlsruhe Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:29.940742</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df007532c447bd2d19fd</data>
+      <data key="d16">266.694520091</data>
+      <data key="d17">http://abarrelfull.wikidot.com/miro-karlsruhe-refinery</data>
+      <data key="d28">9.75</data>
+      <data key="d18">2015-04-19 19:59:44.125000+00:00</data>
+      <data key="d19">Miro Karlsruhe Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df017532c447bed0c4b6">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Gunvor</data>
+      <data key="d3">Ingolstadt, Germany approximately 80 kilometers north of Munich</data>
+      <data key="d4">5533df017532c447bed0c4b6</data>
+      <data key="d19">Petroplus Ingolstadt Refinery</data>
+      <data key="d6">110.0</data>
+      <data key="d7">Petroplus Ingolstadt Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:29.926468</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df017532c447bed0c4b6</data>
+      <data key="d16">53.8955223881</data>
+      <data key="d17">http://abarrelfull.wikidot.com/petroplus-ingolstadt-refinery</data>
+      <data key="d18">2015-04-19 19:59:44.845000+00:00</data>
+      <data key="d5">Germany</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df027532c447bd2d1a06">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">PCK Raffinerie GmbH</data>
+      <data key="d26">average</data>
+      <data key="d3">Schwedt/Oder</data>
+      <data key="d4">5533df027532c447bd2d1a06</data>
+      <data key="d5">Germany</data>
+      <data key="d6">240000.0</data>
+      <data key="d7">Schwedt Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:29.511496</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df027532c447bd2d1a06</data>
+      <data key="d16">266.928180671</data>
+      <data key="d17">http://abarrelfull.wikidot.com/schwedt-refinery</data>
+      <data key="d28">9.2</data>
+      <data key="d18">2015-04-19 19:59:46.765000+00:00</data>
+      <data key="d19">Schwedt Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df337532c447bd2d1a51">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">BP</data>
+      <data key="d3">Bulwer Island, Queensland, Australia</data>
+      <data key="d4">5533df337532c447bd2d1a51</data>
+      <data key="d19">Bulwer Island Refinery</data>
+      <data key="d6">101000.0</data>
+      <data key="d7">Bulwer Island Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:25.946414</data>
+      <data key="d12">True</data>
+      <data key="d13">average</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df337532c447bd2d1a51</data>
+      <data key="d16">269.537203337</data>
+      <data key="d17">http://abarrelfull.wikidot.com/bulwer-island-refinery</data>
+      <data key="d18">2015-04-19 20:00:35.732000+00:00</data>
+      <data key="d5">Australian Refineries</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df0c7532c447bed0c4cc">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Cepsa (IPIC)</data>
+      <data key="d3">Tenerife</data>
+      <data key="d4">5533df0c7532c447bed0c4cc</data>
+      <data key="d19">Tenerife Refinery</data>
+      <data key="d6">90000.0</data>
+      <data key="d7">Tenerife Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:28.814564</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df0c7532c447bed0c4cc</data>
+      <data key="d16">258.371463289</data>
+      <data key="d17">http://abarrelfull.wikidot.com/tenerife-refinery</data>
+      <data key="d18">2015-04-19 19:59:56.577000+00:00</data>
+      <data key="d5">Spain</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533ded57532c447bd2d19a6">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Petroperu</data>
+      <data key="d3">Talara, seashore province of Piura Department, Peru</data>
+      <data key="d4">5533ded57532c447bd2d19a6</data>
+      <data key="d19">Talara Refinery</data>
+      <data key="d6">62.0</data>
+      <data key="d7">Talara Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:33.474623</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533ded57532c447bd2d19a6</data>
+      <data key="d16">53.8955223881</data>
+      <data key="d17">http://abarrelfull.wikidot.com/talara-refinery</data>
+      <data key="d18">2015-04-19 19:59:01.651000+00:00</data>
+      <data key="d5">Perú</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df0c7532c447bd2d1a10">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Cepsa (IPIC)</data>
+      <data key="d3">Palos de la Frontera (Huelva).</data>
+      <data key="d4">5533df0c7532c447bd2d1a10</data>
+      <data key="d19">La Rabida Huelva Refinery</data>
+      <data key="d6">190000.0</data>
+      <data key="d7">La Rabida Huelva Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:28.817545</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df0c7532c447bd2d1a10</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/la-rabida-huelva-refinery</data>
+      <data key="d18">2015-04-19 19:59:55.885000+00:00</data>
+      <data key="d5">Spain</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533dedd7532c447bed0c488">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Exxon</data>
+      <data key="d3">Campana, Buenos Aires, Argentina</data>
+      <data key="d4">5533dedd7532c447bed0c488</data>
+      <data key="d5">Argentina</data>
+      <data key="d6">85000.0</data>
+      <data key="d7">Esso Campana Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:32.867775</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533dedd7532c447bed0c488</data>
+      <data key="d16">252.682627625</data>
+      <data key="d17">http://abarrelfull.wikidot.com/esso-campana-refinery</data>
+      <data key="d18">2015-04-19 19:59:09.607000+00:00</data>
+      <data key="d19">Esso Campana Refinery</data>
+      <data key="d20">-85000.0</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533deea7532c447bd2d19d0">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Saudi Aramco</data>
+      <data key="d3">Yanbu, Saudi Arabia</data>
+      <data key="d4">5533deea7532c447bd2d19d0</data>
+      <data key="d19">Yanbu Refinery</data>
+      <data key="d6">225000.0</data>
+      <data key="d7">Yanbu Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:31.869856</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533deea7532c447bd2d19d0</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/yanbu-refinery</data>
+      <data key="d18">2015-04-19 19:59:22.198000+00:00</data>
+      <data key="d5">Saudi Arabia</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df277532c447c0f1b4de">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Kenya Petroleum Refineries Limited</data>
+      <data key="d3">Mombasa, Kenya</data>
+      <data key="d4">5533df277532c447c0f1b4de</data>
+      <data key="d19">Mombasa Refinery</data>
+      <data key="d6">80000.0</data>
+      <data key="d7">Mombasa Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:26.828819</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df277532c447c0f1b4de</data>
+      <data key="d16">246.979910797</data>
+      <data key="d17">http://abarrelfull.wikidot.com/mombasa-refinery</data>
+      <data key="d18">2015-04-19 20:00:23.392000+00:00</data>
+      <data key="d5">Kenya</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533def67532c447c0f1b48d">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Klesch</data>
+      <data key="d26">average</data>
+      <data key="d3">Schleswig-Holstein</data>
+      <data key="d4">5533def67532c447c0f1b48d</data>
+      <data key="d5">Germany</data>
+      <data key="d6">90.0</data>
+      <data key="d7">Erdoelwerk Holstein Heide Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:30.599146</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533def67532c447c0f1b48d</data>
+      <data key="d16">205.974889064</data>
+      <data key="d17">http://abarrelfull.wikidot.com/erdoelwerk-holstein-heide-refinery</data>
+      <data key="d28">9.6</data>
+      <data key="d18">2015-04-19 19:59:34.478000+00:00</data>
+      <data key="d19">Erdoelwerk Holstein Heide Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533def87532c447bed0c4aa">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Bayernoil</data>
+      <data key="d26">weak</data>
+      <data key="d3">Bavaria, Germany</data>
+      <data key="d4">5533def87532c447bed0c4aa</data>
+      <data key="d5">Germany</data>
+      <data key="d6">86000.0</data>
+      <data key="d7">Neustadt Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:30.501717</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533def87532c447bed0c4aa</data>
+      <data key="d16">253.823003409</data>
+      <data key="d17">http://abarrelfull.wikidot.com/neustadt-refinery</data>
+      <data key="d28">6.8</data>
+      <data key="d18">2015-04-19 19:59:36.362000+00:00</data>
+      <data key="d19">Neustadt Refinery</data>
+      <data key="d20">-4.3</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533defc7532c447bd2d19f2">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">OMV</data>
+      <data key="d26">average</data>
+      <data key="d3">Bavaria, Germany</data>
+      <data key="d4">5533defc7532c447bd2d19f2</data>
+      <data key="d5">Germany</data>
+      <data key="d6">70.0</data>
+      <data key="d7">Burghausen Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:30.243486</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533defc7532c447bd2d19f2</data>
+      <data key="d16">197.229139445</data>
+      <data key="d17">http://abarrelfull.wikidot.com/burghausen-refinery</data>
+      <data key="d28">7.3</data>
+      <data key="d18">2015-04-19 19:59:40.298000+00:00</data>
+      <data key="d19">Burghausen Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df337532c447c0f1b4f6">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Exxon</data>
+      <data key="d3">13km west of Melbourne, Australia</data>
+      <data key="d4">5533df337532c447c0f1b4f6</data>
+      <data key="d19">Altona Refinery</data>
+      <data key="d6">100000.0</data>
+      <data key="d7">Altona Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:25.954243</data>
+      <data key="d12">True</data>
+      <data key="d13">average</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df337532c447c0f1b4f6</data>
+      <data key="d16">269.444444444</data>
+      <data key="d17">http://abarrelfull.wikidot.com/altona-refinery</data>
+      <data key="d18">2015-04-19 20:00:34.952000+00:00</data>
+      <data key="d5">Australian Refineries</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533ded77532c447bed0c483">
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d11">2015-04-27T20:52:33.389426</data>
+      <data key="d12">True</data>
+      <data key="d4">5533ded77532c447bed0c483</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d19">Conchan Refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533ded77532c447bed0c483</data>
+      <data key="d1">2015-04-19</data>
+      <data key="d18">2015-04-19 19:59:03.655000+00:00</data>
+      <data key="d21">0</data>
+      <data key="d7">Conchan Refinery</data>
+      <data key="d2">Petroperu</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d6">15000.0</data>
+      <data key="d13">weak</data>
+      <data key="d16">53.8955223881</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d5">Perú</data>
+      <data key="d17">http://abarrelfull.wikidot.com/conchan-refinery</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df457532c447bed0c51a">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Petrolplus</data>
+      <data key="d3">Alsace, France, near the city of Strasbourg</data>
+      <data key="d4">5533df457532c447bed0c51a</data>
+      <data key="d19">Reichstett Refinery</data>
+      <data key="d6">85000.0</data>
+      <data key="d7">Reichstett Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:24.322562</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df457532c447bed0c51a</data>
+      <data key="d16">252.682627625</data>
+      <data key="d17">http://abarrelfull.wikidot.com/reichstett-refinery</data>
+      <data key="d18">2015-04-19 20:00:52.899000+00:00</data>
+      <data key="d5">France</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df187532c447bd2d1a26">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">ARMO</data>
+      <data key="d3">Ballsh, Albania</data>
+      <data key="d4">5533df187532c447bd2d1a26</data>
+      <data key="d19">Ballsh Refinery</data>
+      <data key="d6">20000.0</data>
+      <data key="d7">Ballsh Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:27.505636</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df187532c447bd2d1a26</data>
+      <data key="d16">53.8955223881</data>
+      <data key="d17">http://abarrelfull.wikidot.com/ballsh-refinery</data>
+      <data key="d18">2015-04-19 20:00:08.637000+00:00</data>
+      <data key="d5">Albania</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533dee07532c447c0f1b466">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">YPF</data>
+      <data key="d26">average</data>
+      <data key="d3">Mendoza Province, Argentina</data>
+      <data key="d4">5533dee07532c447c0f1b466</data>
+      <data key="d5">Argentina</data>
+      <data key="d6">105000.0</data>
+      <data key="d7">Lujan De Cuyo Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:32.667095</data>
+      <data key="d12">True</data>
+      <data key="d13">average</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533dee07532c447c0f1b466</data>
+      <data key="d16">266.829496899</data>
+      <data key="d17">http://abarrelfull.wikidot.com/lujan-de-cuyo-refinery</data>
+      <data key="d28">10.7</data>
+      <data key="d18">2015-04-19 19:59:11.899000+00:00</data>
+      <data key="d19">Lujan De Cuyo Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533defb7532c447c0f1b493">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Total</data>
+      <data key="d26">weak</data>
+      <data key="d3">Saxony-Anhalt</data>
+      <data key="d4">5533defb7532c447c0f1b493</data>
+      <data key="d5">Germany</data>
+      <data key="d6">240.0</data>
+      <data key="d7">Buna Sow Leuna Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:30.334082</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533defb7532c447c0f1b493</data>
+      <data key="d16">186.966159721</data>
+      <data key="d17">http://abarrelfull.wikidot.com/buna-sow-leuna-refinery</data>
+      <data key="d28">6.4</data>
+      <data key="d18">2015-04-19 19:59:38.866000+00:00</data>
+      <data key="d19">Buna Sow Leuna Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533dedb7532c447c0f1b45a">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Shell</data>
+      <data key="d3">Buenos Aires, Argentina</data>
+      <data key="d4">5533dedb7532c447c0f1b45a</data>
+      <data key="d19">Buenos Aires Refinery</data>
+      <data key="d6">100000.0</data>
+      <data key="d7">Buenos Aires Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:33.073768</data>
+      <data key="d12">True</data>
+      <data key="d13">average</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533dedb7532c447c0f1b45a</data>
+      <data key="d16">269.444444444</data>
+      <data key="d17">http://abarrelfull.wikidot.com/buenos-aires-refinery</data>
+      <data key="d18">2015-04-19 19:59:07.347000+00:00</data>
+      <data key="d5">Argentina</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533def47532c447c0f1b488">
+      <data key="d1">2015-04-19</data>
+      <data key="d25">-1.5</data>
+      <data key="d2">Shell</data>
+      <data key="d3">Cologne-Godorf and Wesseling in the south of Cologne</data>
+      <data key="d4">5533def47532c447c0f1b488</data>
+      <data key="d5">Germany</data>
+      <data key="d6">340.0</data>
+      <data key="d7">Rheinland Werk Godorf Cologne Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:30.888959</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533def47532c447c0f1b488</data>
+      <data key="d16">53.8955223881</data>
+      <data key="d27">-1.9</data>
+      <data key="d17">http://abarrelfull.wikidot.com/rheinland-werk-godorf-cologne-refinery</data>
+      <data key="d18">2015-04-19 19:59:32.734000+00:00</data>
+      <data key="d19">Rheinland Werk Godorf Cologne Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533def57532c447bed0c4a5">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Shell</data>
+      <data key="d3">Hamburg</data>
+      <data key="d4">5533def57532c447bed0c4a5</data>
+      <data key="d19">Elbe Mineraloelwerke Hamburg Harburg Refinery</data>
+      <data key="d6">110.0</data>
+      <data key="d7">Elbe Mineraloelwerke Hamburg Harburg Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:30.667036</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533def57532c447bed0c4a5</data>
+      <data key="d16">53.8955223881</data>
+      <data key="d17">http://abarrelfull.wikidot.com/elbe-mineraloelwerke-hamburg-harburg-refinery</data>
+      <data key="d18">2015-04-19 19:59:32.966000+00:00</data>
+      <data key="d5">Germany</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df287532c447c0f1b4e4">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">GS-Caltex (50% Chevron/ 50%GS Holdings)</data>
+      <data key="d4">5533df287532c447c0f1b4e4</data>
+      <data key="d19">Gs Caltex Yeosu Refinery</data>
+      <data key="d6">790000.0</data>
+      <data key="d7">Gs Caltex Yeosu Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d31">14000.0</data>
+      <data key="d11">2015-04-27T20:52:26.697002</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df287532c447c0f1b4e4</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/gs-caltex-yeosu-refinery</data>
+      <data key="d18">2015-04-19 20:00:24.028000+00:00</data>
+      <data key="d5">South Korea</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df167532c447bed0c4dd">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Attock Oil</data>
+      <data key="d3">Karachi, Pakistan</data>
+      <data key="d4">5533df167532c447bed0c4dd</data>
+      <data key="d19">National Refinery Limited</data>
+      <data key="d6">54.0</data>
+      <data key="d7">National Refinery Limited</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:27.846326</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df167532c447bed0c4dd</data>
+      <data key="d16">53.8955223881</data>
+      <data key="d17">http://abarrelfull.wikidot.com/national-refinery-limited</data>
+      <data key="d18">2015-04-19 20:00:05.861000+00:00</data>
+      <data key="d5">Pakistan</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df477532c447c0f1b524">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Statoil 79%, Shell 21%</data>
+      <data key="d3">Mongstad in western Norway</data>
+      <data key="d4">5533df477532c447c0f1b524</data>
+      <data key="d19">Mongstad Refinery</data>
+      <data key="d6">200000.0</data>
+      <data key="d7">Mongstad Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:24.032072</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df477532c447c0f1b524</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/mongstad-refinery</data>
+      <data key="d18">2015-04-19 20:00:55.683000+00:00</data>
+      <data key="d5">Norway</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df067532c447bed0c4c1">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Repsol</data>
+      <data key="d3">The refinery is situated in the Bens Valley, about 3 km from the city and 5.5 from A Coruña port.</data>
+      <data key="d4">5533df067532c447bed0c4c1</data>
+      <data key="d19">La Coruna Refinery</data>
+      <data key="d6">120000.0</data>
+      <data key="d7">La Coruna Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:29.234585</data>
+      <data key="d12">True</data>
+      <data key="d13">average</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df067532c447bed0c4c1</data>
+      <data key="d16">271.470588235</data>
+      <data key="d17">http://abarrelfull.wikidot.com/la-coruna-refinery</data>
+      <data key="d18">2015-04-19 19:59:49.829000+00:00</data>
+      <data key="d5">Spain</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df167532c447bed0c4e2">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">PARCO</data>
+      <data key="d3">Mehmood Kot area of Multan</data>
+      <data key="d4">5533df167532c447bed0c4e2</data>
+      <data key="d19">Pak Arab Refinery</data>
+      <data key="d6">100000.0</data>
+      <data key="d7">Pak Arab Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:27.830414</data>
+      <data key="d12">True</data>
+      <data key="d13">average</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df167532c447bed0c4e2</data>
+      <data key="d16">269.444444444</data>
+      <data key="d17">http://abarrelfull.wikidot.com/pak-arab-refinery</data>
+      <data key="d18">2015-04-19 20:00:06.669000+00:00</data>
+      <data key="d5">Pakistan</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533dee07532c447bd2d19ba">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">YPF (Repsol)</data>
+      <data key="d26">weak</data>
+      <data key="d3">Neuquen, Argentina</data>
+      <data key="d4">5533dee07532c447bd2d19ba</data>
+      <data key="d5">Argentina</data>
+      <data key="d6">25000.0</data>
+      <data key="d7">Plaza Huincul Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:32.573352</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533dee07532c447bd2d19ba</data>
+      <data key="d16">146.012197715</data>
+      <data key="d17">http://abarrelfull.wikidot.com/plaza-huincul-refinery</data>
+      <data key="d28">1.9</data>
+      <data key="d18">2015-04-19 19:59:12.523000+00:00</data>
+      <data key="d19">Plaza Huincul Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df2d7532c447c0f1b4ea">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Tupras</data>
+      <data key="d26">weak</data>
+      <data key="d3">Kirikkale, Turkey</data>
+      <data key="d4">5533df2d7532c447c0f1b4ea</data>
+      <data key="d19">Kirikkale Refinery</data>
+      <data key="d7">Kirikkale Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:26.329934</data>
+      <data key="d12">True</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df2d7532c447c0f1b4ea</data>
+      <data key="d16">270.552946373</data>
+      <data key="d17">http://abarrelfull.wikidot.com/kirikkale-refinery</data>
+      <data key="d28">6.32</data>
+      <data key="d18">2015-04-19 20:00:29.280000+00:00</data>
+      <data key="d5">Turkey</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533dee17532c447bd2d19c0">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Petrobras</data>
+      <data key="d3">Santa Fé Province, Argentina</data>
+      <data key="d4">5533dee17532c447bd2d19c0</data>
+      <data key="d19">San Lorenzo Refinery</data>
+      <data key="d6">48000.0</data>
+      <data key="d7">San Lorenzo Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:32.375426</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533dee17532c447bd2d19c0</data>
+      <data key="d16">218.115184047</data>
+      <data key="d17">http://abarrelfull.wikidot.com/san-lorenzo-refinery</data>
+      <data key="d18">2015-04-19 19:59:13.299000+00:00</data>
+      <data key="d5">Argentina</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df357532c447c0f1b4fb">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Shell</data>
+      <data key="d3">West of Sydney, Australia</data>
+      <data key="d4">5533df357532c447c0f1b4fb</data>
+      <data key="d19">Clyde Refinery</data>
+      <data key="d6">75000.0</data>
+      <data key="d7">Clyde Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:25.803508</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df357532c447c0f1b4fb</data>
+      <data key="d16">241.310647098</data>
+      <data key="d17">http://abarrelfull.wikidot.com/clyde-refinery</data>
+      <data key="d18">2015-04-19 20:00:36.907000+00:00</data>
+      <data key="d5">Australian Refineries</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df3a7532c447bd2d1a60">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Total</data>
+      <data key="d3">Feyzin, France</data>
+      <data key="d4">5533df3a7532c447bd2d1a60</data>
+      <data key="d19">Feyzin Refinery</data>
+      <data key="d6">120000.0</data>
+      <data key="d7">Feyzin Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:25.248367</data>
+      <data key="d12">True</data>
+      <data key="d13">average</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df3a7532c447bd2d1a60</data>
+      <data key="d16">271.470588235</data>
+      <data key="d17">http://abarrelfull.wikidot.com/feyzin-refinery</data>
+      <data key="d18">2015-04-19 20:00:42.667000+00:00</data>
+      <data key="d5">France</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533dede7532c447bd2d19b4">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Repsol - YPF</data>
+      <data key="d3">Buenos Aires, Argentina</data>
+      <data key="d4">5533dede7532c447bd2d19b4</data>
+      <data key="d19">La Plata Refinery</data>
+      <data key="d6">189000.0</data>
+      <data key="d7">La Plata Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:32.698302</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533dede7532c447bd2d19b4</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/la-plata-refinery</data>
+      <data key="d18">2015-04-19 19:59:10.323000+00:00</data>
+      <data key="d5">Argentina</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533def87532c447bd2d19e7">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Bayernoil (OMV, BP, Rosneft, ENI)</data>
+      <data key="d26">weak</data>
+      <data key="d3">Bavaria, Germany</data>
+      <data key="d4">5533def87532c447bd2d19e7</data>
+      <data key="d5">Germany</data>
+      <data key="d6">120000.0</data>
+      <data key="d7">Vohburg Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:30.545139</data>
+      <data key="d12">True</data>
+      <data key="d13">average</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533def87532c447bd2d19e7</data>
+      <data key="d16">269.75857614</data>
+      <data key="d17">http://abarrelfull.wikidot.com/vohburg-refinery</data>
+      <data key="d28">6.8</data>
+      <data key="d18">2015-04-19 19:59:35.854000+00:00</data>
+      <data key="d19">Vohburg Refinery</data>
+      <data key="d20">-6.0</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df1d7532c447c0f1b4d2">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Sharjah Oil Refining Company</data>
+      <data key="d3">Sharjah, UAE</data>
+      <data key="d4">5533df1d7532c447c0f1b4d2</data>
+      <data key="d19">Hamriyah Sharjah Refinery</data>
+      <data key="d6">75000.0</data>
+      <data key="d7">Hamriyah Sharjah Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:27.169210</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df1d7532c447c0f1b4d2</data>
+      <data key="d16">241.310647098</data>
+      <data key="d17">http://abarrelfull.wikidot.com/hamriyah-sharjah-refinery</data>
+      <data key="d18">2015-04-19 20:00:13.840000+00:00</data>
+      <data key="d5">United Arab Emirates</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533defe7532c447c0f1b499">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Tamoil</data>
+      <data key="d3">Hamburg, Germany</data>
+      <data key="d4">5533defe7532c447c0f1b499</data>
+      <data key="d5">Germany</data>
+      <data key="d6">105000.0</data>
+      <data key="d7">Hamburg Holburn Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:30.093869</data>
+      <data key="d12">True</data>
+      <data key="d13">average</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533defe7532c447c0f1b499</data>
+      <data key="d16">269.918980228</data>
+      <data key="d27">0.96</data>
+      <data key="d17">http://abarrelfull.wikidot.com/hamburg-holburn-refinery</data>
+      <data key="d18">2015-04-19 19:59:42.773000+00:00</data>
+      <data key="d19">Hamburg Holburn Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d24">-1030.0</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df1a7532c447bed0c4e8">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Takreer</data>
+      <data key="d3">240 kilometers west of Abu Dhabi City</data>
+      <data key="d4">5533df1a7532c447bed0c4e8</data>
+      <data key="d19">Al Ruwais Refinery</data>
+      <data key="d6">400000.0</data>
+      <data key="d7">Al Ruwais Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:27.358887</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df1a7532c447bed0c4e8</data>
+      <data key="d16">0.0</data>
+      <data key="d27">19150.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/al-ruwais-refinery</data>
+      <data key="d18">2015-04-19 20:00:10.800000+00:00</data>
+      <data key="d5">United Arab Emirates</data>
+      <data key="d20">-120000.0</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533deeb7532c447c0f1b47d">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Saudi Aramco</data>
+      <data key="d3">Jiddah, Saudi Arabia</data>
+      <data key="d4">5533deeb7532c447c0f1b47d</data>
+      <data key="d19">Jiddah Refinery</data>
+      <data key="d6">100000.0</data>
+      <data key="d7">Jiddah Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:31.599616</data>
+      <data key="d12">True</data>
+      <data key="d13">average</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533deeb7532c447c0f1b47d</data>
+      <data key="d16">269.444444444</data>
+      <data key="d17">http://abarrelfull.wikidot.com/jiddah-refinery</data>
+      <data key="d18">2015-04-19 19:59:22.890000+00:00</data>
+      <data key="d5">Saudi Arabia</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df3b7532c447bed0c50f">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Total</data>
+      <data key="d3">Normandy, France</data>
+      <data key="d4">5533df3b7532c447bed0c50f</data>
+      <data key="d19">Gonfreville L Orcher Refinery</data>
+      <data key="d6">240000.0</data>
+      <data key="d7">Gonfreville L Orcher Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:25.233289</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df3b7532c447bed0c50f</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/gonfreville-l-orcher-refinery</data>
+      <data key="d18">2015-04-19 20:00:43.823000+00:00</data>
+      <data key="d5">France</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df0f7532c447c0f1b4b5">
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d11">2015-04-27T20:52:28.730660</data>
+      <data key="d12">True</data>
+      <data key="d4">5533df0f7532c447c0f1b4b5</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d19">Mina Al Fahal Refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df0f7532c447c0f1b4b5</data>
+      <data key="d1">2015-04-19</data>
+      <data key="d18">2015-04-19 19:59:59.109000+00:00</data>
+      <data key="d21">0</data>
+      <data key="d7">Mina Al Fahal Refinery</data>
+      <data key="d2">ORPC</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d6">106000.0</data>
+      <data key="d13">average</data>
+      <data key="d16">270.017094017</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d5">Oman</data>
+      <data key="d17">http://abarrelfull.wikidot.com/mina-al-fahal-refinery</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533deef7532c447bd2d19db">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Samir</data>
+      <data key="d3">Morocco</data>
+      <data key="d4">5533deef7532c447bd2d19db</data>
+      <data key="d19">Samir Mohammedia Refinery</data>
+      <data key="d6">165000.0</data>
+      <data key="d7">Samir Mohammedia Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:31.225242</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533deef7532c447bd2d19db</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/samir-mohammedia-refinery</data>
+      <data key="d18">2015-04-19 19:59:27.222000+00:00</data>
+      <data key="d5">Morroco</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df117532c447bd2d1a1a">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Total, Shell, Aquitane</data>
+      <data key="d3">Port Gentil, Gabon</data>
+      <data key="d4">5533df117532c447bd2d1a1a</data>
+      <data key="d19">Sogara Refinery</data>
+      <data key="d6">21000.0</data>
+      <data key="d7">Sogara Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:28.622495</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df117532c447bd2d1a1a</data>
+      <data key="d16">81.6113272189</data>
+      <data key="d17">http://abarrelfull.wikidot.com/sogara-refinery</data>
+      <data key="d18">2015-04-19 20:00:00.941000+00:00</data>
+      <data key="d5">Gabon</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df1c7532c447bd2d1a31">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Emirates National Oil Co (ENOC)</data>
+      <data key="d3">Jebel Ali, Dubai</data>
+      <data key="d4">5533df1c7532c447bd2d1a31</data>
+      <data key="d5">United Arab Emirates</data>
+      <data key="d6">120000.0</data>
+      <data key="d7">Jebel Ali Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:27.237482</data>
+      <data key="d12">True</data>
+      <data key="d13">average</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df1c7532c447bd2d1a31</data>
+      <data key="d16">271.470588235</data>
+      <data key="d17">http://abarrelfull.wikidot.com/jebel-ali-refinery</data>
+      <data key="d18">2015-04-19 20:00:12.700000+00:00</data>
+      <data key="d19">Jebel Ali Refinery</data>
+      <data key="d20">2.0</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533deed7532c447bd2d19d5">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Saudi Aramco, Exxon</data>
+      <data key="d3">Yanbu, Saudi Arabia</data>
+      <data key="d4">5533deed7532c447bd2d19d5</data>
+      <data key="d19">Yanbu JV Refinery</data>
+      <data key="d6">400.0</data>
+      <data key="d7">Yanbu JV Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:31.520355</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533deed7532c447bd2d19d5</data>
+      <data key="d16">53.8955223881</data>
+      <data key="d17">http://abarrelfull.wikidot.com/yanbu-jv-refinery</data>
+      <data key="d18">2015-04-19 19:59:25.358000+00:00</data>
+      <data key="d5">Saudi Arabia</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df477532c447bd2d1a76">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Exxon</data>
+      <data key="d3">Slagentangen, Vestfold, Oslo Fjord, Norway</data>
+      <data key="d4">5533df477532c447bd2d1a76</data>
+      <data key="d19">Slagen Refinery</data>
+      <data key="d6">110.0</data>
+      <data key="d7">Slagen Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:24.045311</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df477532c447bd2d1a76</data>
+      <data key="d16">53.8955223881</data>
+      <data key="d17">http://abarrelfull.wikidot.com/slagen-refinery</data>
+      <data key="d18">2015-04-19 20:00:54.947000+00:00</data>
+      <data key="d5">Norway</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df3e7532c447bd2d1a65">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Total</data>
+      <data key="d3">Provence, France</data>
+      <data key="d4">5533df3e7532c447bd2d1a65</data>
+      <data key="d19">Provence Refinery</data>
+      <data key="d6">155000.0</data>
+      <data key="d7">Provence Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:25.052793</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df3e7532c447bd2d1a65</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/provence-refinery</data>
+      <data key="d18">2015-04-19 20:00:45.971000+00:00</data>
+      <data key="d5">France</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533dea77532c447bed0c478">
+      <data key="d1">2015-04-19</data>
+      <data key="d25">-42000.0</data>
+      <data key="d2">Valero</data>
+      <data key="d3">San Nicolas, Aruba</data>
+      <data key="d4">5533dea77532c447bed0c478</data>
+      <data key="d5">Aruba</data>
+      <data key="d6">235000.0</data>
+      <data key="d7">Aruba Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:33.793653</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533dea77532c447bed0c478</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/aruba-refinery</data>
+      <data key="d18">2015-04-19 19:58:15.045000+00:00</data>
+      <data key="d19">Aruba Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d24">-160000.0</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df0a7532c447c0f1b4aa">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">BP</data>
+      <data key="d26">average</data>
+      <data key="d3">Valencia, Spain</data>
+      <data key="d4">5533df0a7532c447c0f1b4aa</data>
+      <data key="d5">Spain</data>
+      <data key="d6">110000.0</data>
+      <data key="d7">Castellon Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d31">-4000.0</data>
+      <data key="d11">2015-04-27T20:52:28.976279</data>
+      <data key="d12">True</data>
+      <data key="d13">average</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df0a7532c447c0f1b4aa</data>
+      <data key="d16">266.732786132</data>
+      <data key="d27">-17000.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/castellon-refinery</data>
+      <data key="d28">9.61</data>
+      <data key="d18">2015-04-19 19:59:54.041000+00:00</data>
+      <data key="d19">Castellon Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533dee87532c447c0f1b477">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Petro Rabigh (Saudi Aramco &amp; Sumitomo)</data>
+      <data key="d3">on the Red Sea Coast, Saudi Arabia</data>
+      <data key="d4">5533dee87532c447c0f1b477</data>
+      <data key="d5">Saudi Arabia</data>
+      <data key="d6">400000.0</data>
+      <data key="d7">Rabigh Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:31.868577</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533dee87532c447c0f1b477</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/rabigh-refinery</data>
+      <data key="d18">2015-04-19 19:59:20.634000+00:00</data>
+      <data key="d19">Rabigh Refinery</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d24">204000.0</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df127532c447bed0c4d7">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Attock Oil</data>
+      <data key="d3">Morgah, Pakistan</data>
+      <data key="d4">5533df127532c447bed0c4d7</data>
+      <data key="d19">Attock Refinery Limited</data>
+      <data key="d6">43.0</data>
+      <data key="d7">Attock Refinery Limited</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:28.555989</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df127532c447bed0c4d7</data>
+      <data key="d16">53.8955223881</data>
+      <data key="d17">http://abarrelfull.wikidot.com/attock-refinery-limited</data>
+      <data key="d18">2015-04-19 20:00:02.133000+00:00</data>
+      <data key="d5">Pakistan</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df057532c447bed0c4bc">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Repsol</data>
+      <data key="d3">Cartagena, Murcia, Spain</data>
+      <data key="d4">5533df057532c447bed0c4bc</data>
+      <data key="d19">Cartagena Refinery</data>
+      <data key="d6">220000.0</data>
+      <data key="d7">Cartagena Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:29.286040</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df057532c447bed0c4bc</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/cartagena-refinery</data>
+      <data key="d18">2015-04-19 19:59:48.877000+00:00</data>
+      <data key="d5">Spain</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df0d7532c447bed0c4d1">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Petrojam</data>
+      <data key="d3">Kingston, Jamaica</data>
+      <data key="d4">5533df0d7532c447bed0c4d1</data>
+      <data key="d5">Jamaica</data>
+      <data key="d6">35500.0</data>
+      <data key="d7">Petrojam Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:28.797090</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df0d7532c447bed0c4d1</data>
+      <data key="d16">200.887587036</data>
+      <data key="d17">http://abarrelfull.wikidot.com/petrojam-refinery</data>
+      <data key="d18">2015-04-19 19:59:57.733000+00:00</data>
+      <data key="d19">Petrojam Refinery</data>
+      <data key="d20">35500.0</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d24">1350.0</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df1e7532c447bed0c4ee">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Vitol</data>
+      <data key="d3">Gulf of Oman, Fujairah, UAE</data>
+      <data key="d4">5533df1e7532c447bed0c4ee</data>
+      <data key="d19">Fujairah Refinery</data>
+      <data key="d6">80000.0</data>
+      <data key="d7">Fujairah Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:27.121697</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df1e7532c447bed0c4ee</data>
+      <data key="d16">246.979910797</data>
+      <data key="d17">http://abarrelfull.wikidot.com/fujairah-refinery</data>
+      <data key="d18">2015-04-19 20:00:14.636000+00:00</data>
+      <data key="d5">United Arab Emirates</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df207532c447c0f1b4d8">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Aden Refinery Company</data>
+      <data key="d3">Aden, Yemen</data>
+      <data key="d4">5533df207532c447c0f1b4d8</data>
+      <data key="d19">Aden Refinery</data>
+      <data key="d6">150000.0</data>
+      <data key="d7">Aden Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:26.921062</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df207532c447c0f1b4d8</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/aden-refinery</data>
+      <data key="d18">2015-04-19 20:00:15.968000+00:00</data>
+      <data key="d5">United Arab Emirates</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533deeb7532c447bed0c49a">
+      <data key="d1">2015-04-19</data>
+      <data key="d25">-60000.0</data>
+      <data key="d2">Saudi Aramco</data>
+      <data key="d3">Ras Tanura, Eastern Province of Saudi Arabia</data>
+      <data key="d4">5533deeb7532c447bed0c49a</data>
+      <data key="d5">Saudi Arabia</data>
+      <data key="d6">550000.0</data>
+      <data key="d7">Ras Tanura Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:31.545716</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533deeb7532c447bed0c49a</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/ras-tanura-refinery</data>
+      <data key="d18">2015-04-19 19:59:23.654000+00:00</data>
+      <data key="d19">Ras Tanura Refinery</data>
+      <data key="d20">-325000.0</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df427532c447c0f1b51a">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Exxon Mobil</data>
+      <data key="d3">Port Jerome, Seine River, France</data>
+      <data key="d4">5533df427532c447c0f1b51a</data>
+      <data key="d5">France</data>
+      <data key="d6">260000.0</data>
+      <data key="d7">Port Jerome Gravenchon Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:24.367993</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df427532c447c0f1b51a</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/port-jerome-gravenchon-refinery</data>
+      <data key="d18">2015-04-19 20:00:50.671000+00:00</data>
+      <data key="d19">Port Jerome Gravenchon Refinery</data>
+      <data key="d20">260000.0</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df427532c447bd2d1a6a">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Petroplus</data>
+      <data key="d3">About 130 kilometres northwest of Paris on the River Seine</data>
+      <data key="d4">5533df427532c447bd2d1a6a</data>
+      <data key="d19">Petit Couronne Refinery</data>
+      <data key="d6">162000.0</data>
+      <data key="d7">Petit Couronne Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:24.609257</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df427532c447bd2d1a6a</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/petit-couronne-refinery</data>
+      <data key="d18">2015-04-19 20:00:49.991000+00:00</data>
+      <data key="d5">France</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df2c7532c447bd2d1a48">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">S Oil (Saudi Aramco and Hanjin Group)</data>
+      <data key="d3">Ulsan, South Korea</data>
+      <data key="d4">5533df2c7532c447bd2d1a48</data>
+      <data key="d5">South Korea</data>
+      <data key="d6">669000.0</data>
+      <data key="d7">S Oil Ulsan Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d31">-9200.0</data>
+      <data key="d11">2015-04-27T20:52:26.399579</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df2c7532c447bd2d1a48</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/s-oil-ulsan-refinery</data>
+      <data key="d18">2015-04-19 20:00:27.864000+00:00</data>
+      <data key="d19">S Oil Ulsan Refinery</data>
+      <data key="d20">1.90000224e+19</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df137532c447c0f1b4bb">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Bosicor Pakistan Limited</data>
+      <data key="d3">Mouza Kund, Sub-Tehsil Gadani, District Hub, Lasbela, Balouchistan.</data>
+      <data key="d4">5533df137532c447c0f1b4bb</data>
+      <data key="d19">Bosicor Balouchistan Refinery</data>
+      <data key="d6">35000.0</data>
+      <data key="d7">Bosicor Balouchistan Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:28.302022</data>
+      <data key="d12">True</data>
+      <data key="d13">weak</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df137532c447c0f1b4bb</data>
+      <data key="d16">199.668281432</data>
+      <data key="d17">http://abarrelfull.wikidot.com/bosicor-balouchistan-refinery</data>
+      <data key="d18">2015-04-19 20:00:02.905000+00:00</data>
+      <data key="d5">Pakistan</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+    <node id="5533df3a7532c447bd2d1a5b">
+      <data key="d1">2015-04-19</data>
+      <data key="d2">Total</data>
+      <data key="d3">Loire Estuary, Donges, France</data>
+      <data key="d4">5533df3a7532c447bd2d1a5b</data>
+      <data key="d19">Donges Refinery</data>
+      <data key="d6">230000.0</data>
+      <data key="d7">Donges Refinery</data>
+      <data key="d8">abarrelfull.wikidot.com</data>
+      <data key="d9">abarrelfull</data>
+      <data key="d10">infrastructure/refinery</data>
+      <data key="d11">2015-04-27T20:52:25.259020</data>
+      <data key="d12">True</data>
+      <data key="d13">huge</data>
+      <data key="d14">infrastructure/refinery</data>
+      <data key="d15">http://10.0.10.151:80/client2/#document/5533df3a7532c447bd2d1a5b</data>
+      <data key="d16">0.0</data>
+      <data key="d17">http://abarrelfull.wikidot.com/donges-refinery</data>
+      <data key="d18">2015-04-19 20:00:41.891000+00:00</data>
+      <data key="d5">France</data>
+      <data key="d21">0</data>
+      <data key="d22">webpage
+refinery
+plant
+vvt
+geo</data>
+      <data key="d23">2015</data>
+    </node>
+  </graph>
+</graphml>

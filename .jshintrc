@@ -1,7 +1,4 @@
 {
-    // JSHint Default Configuration File (as on JSHint website)
-    // See http://jshint.com/docs/ for more details
-
     "maxerr"        : 50,       // {int} Maximum error before stopping
 
     // Enforcing
@@ -43,7 +40,7 @@
     "boss"          : false,     // true: Tolerate assignments where comparisons would be expected
     "debug"         : true,     // true: Allow debugger statements e.g. browser breakpoints.
     "eqnull"        : true,     // true: Tolerate use of `== null`
-    "es5"           : true,     // true: Allow ES5 syntax (ex: getters and setters)
+    "es5"           : false,     // true: Allow ES5 syntax (ex: getters and setters)
     "esnext"        : true,     // true: Allow ES.next (ES6) syntax (ex: `const`)
     "moz"           : false,     // true: Allow Mozilla specific syntax (extends and overrides esnext features)
                                  // (ex: `for each`, multiple try/catch, function expression…)
@@ -89,5 +86,5 @@
     "yui"           : false,    // Yahoo User Interface
 
     // Custom Globals
-    "globals"       : { "module" }        // additional predefined global variables
+    "globals"       : [ "module" ]        // additional predefined global variables
 }
