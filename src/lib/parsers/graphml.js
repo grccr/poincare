@@ -1,10 +1,10 @@
 'use strict';
 
-let graphlib = require('graphlib');
-let merge = require('lodash/object/merge');
-let d3 = require('d3');
+import graphlib from 'graphlib';
+import merge from 'lodash/object/merge';
+import d3 from 'd3';
 
-module.exports = class GraphMLParser {
+export default class GraphMLParser {
   constructor(doc, options={}) {
     // Prepare type converters
     // According to http://graphml.graphdrawing.org/xmlns/1.1/graphml.xsd
@@ -136,10 +136,10 @@ module.exports = class GraphMLParser {
   static parse(doc, opts={}) {
     return new GraphMLParser(doc, opts).toGraph();
   }
-};
+}
 
 // GraphML parser helper
-exports.parseGraphML = function (doc) {
+export let parseGraphML = function (doc) {
   var graph = exports.GraphMLParser(doc);
   return graph.toGraph();
 };

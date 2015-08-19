@@ -1,11 +1,17 @@
-'use strict';
+// 'use strict';
 
-let Ashberry = require('./lib/ashberry').Ashberry;
-let request = require('superagent-promise')(require('superagent'), Promise);
-let GraphMLParser = require('./lib/parsers/graphml');
+// import 'babel/polyfill';
+
+import graphlib from 'graphlib';
+import superagent from 'superagent';
+import superagentPromise from 'superagent-promise';
+const request = superagentPromise(superagent, Promise);
+
+import Ashberry from './lib/ashberry';
+import GraphMLParser from './lib/parsers/graphml';
 
 // Some expositions for testing purposes only
-window.graphlib = require('graphlib');
+window.graphlib = graphlib;
 
 if (document !== undefined)
   window.addEventListener('load', () => {
@@ -13,11 +19,11 @@ if (document !== undefined)
       element: document.body
     });
 
-    request.get('/data/test.graphml')
-      .then(res => {
-        if (res.ok) {
-          console.log('Doc received', res.text !== '');
-          let graph = GraphMLParser.parse(res.text);
+    request.get('/data/estoniia.graphml')
+      .then(({ok, text}) => {
+        if (ok) {
+          console.log('Doc received', text !== '');
+          let graph = GraphMLParser.parse(text);
           ash.load(graph);
           ash.render();
         }
