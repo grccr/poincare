@@ -9,7 +9,7 @@ import DagreLayout from './layouts/dagre';
 export default class Ashberry {
   constructor(options) {
     this._options = merge({
-      element: document.body,
+      element: document.getElementById('ashberry'),
     }, options);
 
     let two = this._two = new Two({
@@ -61,8 +61,9 @@ export default class Ashberry {
       let data = this._graph.node(id);
       let [x, y, r, o] = [two.width, two.height, 10, 1].map(v => Math.random() * v);
       let c = two.makeCircle(x, y, 5);
-      data.width = data.height = 5 * 2;
+      data.width = data.height = 5 * 2 - 1;
       // c.opacity = r / 10;
+      c.fill = 'white';
       nodes.set(id, c);
     });
   }
