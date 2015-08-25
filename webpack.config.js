@@ -14,7 +14,7 @@ module.exports = {
     filename: 'ashberry.js'
   },
   devServer: {
-    contentBase: "./test",
+    contentBase: './test',
     historyApiFallback: true,
     hot: true,
     inline: true,
@@ -31,6 +31,11 @@ module.exports = {
             optional: 'runtime',
             cacheDirectory: true
         }
+      },
+      {
+        test: /\.json$/,
+        include: join(__dirname, 'node_modules', 'ngraph.pixi', 'node_modules', 'pixi.js'),
+        loader: 'json',
       }
     ],
   },
@@ -42,6 +47,7 @@ module.exports = {
   },
   node: {
     __dirname: true,
+    fs: 'empty'
   },
   plugins: [
     new webpack.DefinePlugin({ 'global.GENTLY': false }),
