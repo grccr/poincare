@@ -16,17 +16,40 @@ module.exports = {
     publicPath: '/assets/',
     filename: 'poincare.js'
   },
+<<<<<<< HEAD
   babel: {
     cacheDirectory: true,
     presets: ['es2015', 'stage-0'],
     plugins: ['transform-runtime']
+=======
+  devServer: {
+    contentBase: './test',
+    historyApiFallback: true,
+    hot: true,
+    inline: true,
+    noInfo: true,
+    progress: true
+>>>>>>> d687be9444b7656b7490c308d12c5252424e05c2
   },
   module: {
     loaders: [
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
+<<<<<<< HEAD
         loader: 'babel'
+=======
+        loader: 'babel',
+        query: {
+            optional: 'runtime',
+            cacheDirectory: true
+        }
+      },
+      {
+        test: /\.json$/,
+        include: join(__dirname, 'node_modules', 'ngraph.pixi', 'node_modules', 'pixi.js'),
+        loader: 'json',
+>>>>>>> d687be9444b7656b7490c308d12c5252424e05c2
       }
     ],
   },
@@ -40,6 +63,7 @@ module.exports = {
   node: {
     fs: 'empty',
     __dirname: true,
+    fs: 'empty'
   },
   plugins: [
     new webpack.DefinePlugin({ 'global.GENTLY': false }),

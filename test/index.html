@@ -2,10 +2,40 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
+<<<<<<< HEAD
   <title>Poincare</title>
 </head>
 <body>
   <div id="ashberry" style="width: 100%; height: 100%; position: absolute;"></div>
   <script src="/assets/poincare.js"></script>
+=======
+  <title>Graph</title>
+  <style type="text/css">
+    html, body {
+      padding: 0;
+      margin: 0;
+    }
+    a {
+      position: absolute;
+      top: 50px;
+      left: 50px;
+      display: inline-block;
+      color: white;
+      background-color: black;
+      border: 2px solid white;
+      padding: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div id="ashberry" style="width: 100%; height: 100%; position: absolute;"></div>
+  <a href="#" onclick="stop()">STOP</a>
+  <script src="/assets/ashberry.js"></script>
+  <script>
+  function stop() {
+    PIXI.stop();
+  }
+  </script>
+>>>>>>> d687be9444b7656b7490c308d12c5252424e05c2
 </body>
 </html>
