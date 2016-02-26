@@ -3,12 +3,10 @@
 // import 'babel/polyfill';
 
 // import graphlib from 'graphlib';
-import superagent from 'superagent';
-import superagentPromise from 'superagent-promise';
-const request = superagentPromise(superagent, Promise);
-import merge from 'lodash/object/merge';
+import merge from 'lodash/merge';
 import sigma from 'sigma';
 import dagre from 'dagre';
+import axios from 'axios';
 
 
 // import Ashberry from './lib/ashberry';
@@ -20,10 +18,9 @@ import GraphMLParser from './lib/parsers/graphml';
 // window.graphlib = graphlib;
 
 function getGraph() {
-  return request.get('/data/belgiia.graphml')
-    .then(({ok, text}) => {
-      if (ok)
-        return GraphMLParser.parse(text);
+  return axios.get('/data/belgiia.graphml')
+    .then(({ data }) => {
+      return GraphMLParser.parse(data);
     });
 }
 

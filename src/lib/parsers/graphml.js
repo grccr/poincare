@@ -1,7 +1,7 @@
 'use strict';
 
 import graphlib from 'graphlib';
-import merge from 'lodash/object/merge';
+import merge from 'lodash/merge';
 import d3 from 'd3';
 
 export default class GraphMLParser {

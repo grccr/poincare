@@ -2,45 +2,43 @@
 var webpack = require('webpack');
 var join = require('path').join;
 
+var appPath = join(__dirname, 'src');
+var distPath = join(__dirname, 'dist');
+
 module.exports = {
   devtool: '#source-map',
-  context: join(__dirname, 'src'),
+  context: appPath,
   entry: {
-    app: ['webpack/hot/dev-server', './index.js']
+    app: ['./index.js']
   },
   output: {
-    path: __dirname + '/dist',
+    path: distPath,
     publicPath: '/assets/',
-    filename: 'ashberry.js'
+    filename: 'poincare.js'
   },
-  devServer: {
-    contentBase: "./test",
-    historyApiFallback: true,
-    hot: true,
-    inline: true,
-    noInfo: true,
-    progress: true
+  babel: {
+    cacheDirectory: true,
+    presets: ['es2015', 'stage-0'],
+    plugins: ['transform-runtime']
   },
   module: {
     loaders: [
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel',
-        query: {
-            optional: 'runtime',
-            cacheDirectory: true
-        }
+        loader: 'babel'
       }
     ],
   },
   resolve: {
+    root: [appPath],
     modulesDirectories: ['node_modules', 'bower_components'],
   },
   externals: {
     'two.clean': 'Two'
   },
   node: {
+    fs: 'empty',
     __dirname: true,
   },
   plugins: [
