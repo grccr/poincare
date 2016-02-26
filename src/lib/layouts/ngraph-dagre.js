@@ -1,6 +1,6 @@
 import nGraph from 'ngraph.graph';
 import dagre from 'dagre';
-import merge from 'lodash/object/merge';
+import merge from 'lodash/merge';
 
 
 export default class NGraphDagreLayout {

@@ -2,7 +2,7 @@
 
 import Two from 'two.js/build/two.clean';
 import graphlib from 'graphlib';
-import merge from 'lodash/object/merge';
+import merge from 'lodash/merge';
 
 import DagreLayout from './layouts/dagre';
 

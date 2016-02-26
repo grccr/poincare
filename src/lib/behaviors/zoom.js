@@ -1,9 +1,9 @@
 import Two from 'two.js/build/two.clean';
-import toArray from 'lodash/lang/toArray';
-import toPlainObject from 'lodash/lang/toPlainObject';
-import clone from 'lodash/lang/clone';
-import extend from 'lodash/object/extend';
-import merge from 'lodash/object/merge';
+import toArray from 'lodash/toArray';
+import toPlainObject from 'lodash/toPlainObject';
+import clone from 'lodash/clone';
+import extend from 'lodash/extend';
+import merge from 'lodash/merge';
 
 
 export class Surface {
