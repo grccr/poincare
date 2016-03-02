@@ -9,7 +9,7 @@ module.exports = {
   devtool: '#source-map',
   context: appPath,
   entry: {
-    app: ['./index.js']
+    app: ['babel-polyfill', './index.js']
   },
   output: {
     path: distPath,
