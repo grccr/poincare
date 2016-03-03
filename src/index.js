@@ -1,29 +1,32 @@
 'use strict';
-// // 'use strict';
+
+import axios from 'axios';
 
 import Poincare from './poincare';
+import GraphMLParser from './poincare/parsers/graphml';
+import graphlib2ngraph from './poincare/parsers/ngraph';
+
 
 const debug = require('debug')('poincare:app');
 
-const pn = new Poincare({
+const pn = window.PN = new Poincare({
   container: '.graph',
-  iconPrefix: '/images/icons/',
-  icons(node) {
-    if (node.value.item === 'company')
-      return 'company.png';
-    return 'hithere.png';
-  },
-  iconSize(node) {
-    if (node.value.item === 'company')
-      return 32;
-    return 16;
-  },
-  renderer(node) {
-    return 'icon';
+  icons: {
+    source: require('../assets/icons/uxpin/uxpin-icon-set_world.png')
   }
 });
 
-debug('Poincare is', pn);
+debug('Poincare icons is', pn.options().icons);
+
+
+axios.get('/data/belgiia.graphml')
+  .then(({ data }) => {
+    return graphlib2ngraph(GraphMLParser.parse(data));
+  })
+  .then(graph => {
+    debug('Graph is loaded & converted', graph);
+    pn.graph(graph);
+  });
 
 
 // // import graphlib from 'graphlib';
@@ -41,9 +44,6 @@ debug('Poincare is', pn);
 // // import ZUI from './lib/behaviors/zoom';
 // import GraphMLParser from './lib/parsers/graphml';
 
-
-
-
 // // Some expositions for testing purposes only
 // // window.graphlib = graphlib;
 
@@ -56,32 +56,7 @@ debug('Poincare is', pn);
 
 // function useNgraph() {
 
-//   function adaptGraph(graph) {
-//     const newGraph = nGraph();
 
-//     graph.nodes().forEach(id => {
-//       const data = merge(graph.node(id), {
-//         id: id,
-//         // size: 0.1,
-//         // color: '#000',
-//       });
-//       newGraph.addNode(id, data);
-//     });
-
-//     graph.edges().forEach(({v, w}) => {
-//       let data = merge(graph.edge(v, w), {
-//         id: `${v}-${w}`,
-//         // color: 'black',
-//         // source: v,
-//         // target: w,
-//         // type: 'curve'
-//       });
-
-//       newGraph.addLink(v, w, data);
-//     });
-
-//     return newGraph;
-//   }
 
 //   getGraph().then(loadedGraph => {
 //     // let graph = adaptGraph(loadedGraph);

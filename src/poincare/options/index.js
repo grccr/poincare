@@ -1,5 +1,4 @@
 import merge from 'lodash/merge';
-// const worldIcon = require('url?./assets/icons/uxpin/uxpin-icon-set_world.png');
 const worldIcon = 'icon.png';
 
 function constant(val) {
@@ -8,7 +7,7 @@ function constant(val) {
 
 const Options = {
   defaults: {
-    container: '.graph',
+    container: 'body',
     layout: 'force',
 
     antialias: true,

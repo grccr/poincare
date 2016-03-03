@@ -30,34 +30,22 @@ module.exports = {
       },
       {
         test: /\.json$/,
-        // include: join(__dirname, 'node_modules', 'ngraph.pixi', 'node_modules', 'pixi.js'),
-        // loader: 'json-loader',
-        loader: require.resolve('json-loader'),
+        loader: require.resolve('json-loader')
+      },
+      {
+        test: /\.png$/,
+        loader: 'url-loader?mimetype=image/png'
       }
-    ],
+    ]
   },
   resolve: {
     root: [appPath],
-    modulesDirectories: ['node_modules', 'bower_components'],
-    fallback: join(__dirname, 'node_modules'),
-    alias: {
-      // 'ngraph.pixi': NODE_MODULES_DIR, '/ngraph.pixi',
-    }
-  },
-  externals: {
-    'two.clean': 'Two'
+    modulesDirectories: ['node_modules', 'bower_components']
   },
   node: {
     fs: 'empty',
-    __dirname: true,
-    fs: 'empty'
+    __dirname: true
   },
   plugins: [
-    new webpack.DefinePlugin({ 'global.GENTLY': false }),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.ProvidePlugin({
-      _: 'lodash',
-      'Backbone.Events': 'backbone-events-standalone'
-    })
   ]
 };
