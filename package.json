@@ -7,7 +7,8 @@
     "dev": "node ./node_modules/.bin/webpack-dev-server --content-base test --hot --inline --quiet",
     "test:node": "./node_modules/.bin/mocha --require babel-core/register --recursive",
     "test": "node ./node_modules/.bin/karma start --browsers PhantomJS --single-run true",
-    "test:watch": "node ./node_modules/.bin/karma start --browsers PhantomJS"
+    "test:watch": "node ./node_modules/.bin/karma start --browsers PhantomJS",
+    "lint": "node ./node_modules/.bin/eslint --color --ext .js src"
   },
   "author": "Nick Ts. <fbd@yawny.ru>",
   "license": "MIT",

@@ -6,9 +6,9 @@ import graphlib from 'graphlib';
 import nGraph from 'ngraph.graph';
 import createForceLayout from 'ngraph.forcelayout';
 import d3 from 'd3';
-import pixi from 'pixi.js';
 
 import Options from './options';
+import Core from './core';
 // import DagreLayout from './layouts/dagre';
 
 const debug = require('debug')('poincare:anri');
@@ -29,7 +29,7 @@ export default class Poincare {
     this._initContainer();
     this.updateDimensions();
     this._initLayout();
-    this._initPixi();
+    this._initCore();
   }
 
   _initLayout() {
@@ -61,8 +61,8 @@ export default class Poincare {
     return this._dims.slice();
   }
 
-  _initPixi() {
-
+  _initCore() {
+    this._core = new Core(this._options, this._container, this._dims);
   }
 
   options(opts) {

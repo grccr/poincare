@@ -6,7 +6,6 @@ import Poincare from './poincare';
 import GraphMLParser from './poincare/parsers/graphml';
 import graphlib2ngraph from './poincare/parsers/ngraph';
 
-
 const debug = require('debug')('poincare:app');
 
 const pn = window.PN = new Poincare({

@@ -105,6 +105,10 @@ module.exports = function (config) {
     // config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     logLevel: config.LOG_ERROR,
 
+    client: {
+      captureConsole: false
+    },
+
 
     // enable / disable watching file and executing tests whenever
     // any file changes
