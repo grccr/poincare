@@ -15,7 +15,7 @@ const Options = {
     background: 'white',
     transparent: false,
 
-    nodeView: 'icon',
+    nodeView: 'icons',
 
     icons: {
       source: worldIcon,
@@ -52,8 +52,8 @@ const Options = {
     const check = Options.check;
     const css2pixi = Options.css2pixi;
     const convertable = {
+      background: css2pixi(opts.background),
       icons: {
-        background: css2pixi(opts.background),
         source: check(opts.icons.source),
         size: check(opts.icons.size)
       },

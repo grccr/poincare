@@ -62,7 +62,12 @@ export default class Poincare {
   }
 
   _initCore() {
-    this._core = new Core(this._options, this._container, this._dims);
+    this._core = new Core({
+      options: this._options,
+      container: this._container,
+      dims: this._dims,
+      layout: this._layout
+    });
   }
 
   options(opts) {
@@ -79,6 +84,6 @@ export default class Poincare {
   graph(g) {
     if (g != null)
       this._graph = g;
-    return this._graph;
+    return this._core.initGraph(this._graph);
   }
 }

@@ -10,6 +10,8 @@ const debug = require('debug')('poincare:app');
 
 const pn = window.PN = new Poincare({
   container: '.graph',
+  background: 'black',
+  transparent: true,
   icons: {
     source: require('../assets/icons/uxpin/uxpin-icon-set_world.png')
   }

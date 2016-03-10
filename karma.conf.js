@@ -1,7 +1,7 @@
 var join = require('path').join;
 var appPath = join(__dirname, 'src');
 
-module.exports = function (config) {
+module.exports = function setConfig(config) {
   config.set({
     // base path, that will be used to resolve files and exclude
     basePath: '',
@@ -109,7 +109,6 @@ module.exports = function (config) {
       captureConsole: false
     },
 
-
     // enable / disable watching file and executing tests whenever
     // any file changes
     autoWatch: true,
@@ -144,7 +143,7 @@ module.exports = function (config) {
       require('karma-mocha'),
       require('karma-spec-reporter'),
       require('karma-chrome-launcher'),
-      require('karma-phantomjs-launcher'),
+      require('karma-phantomjs-launcher')
     ]
   });
 };

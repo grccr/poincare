@@ -21,6 +21,13 @@ describe('Poincare options', () => {
     expect(options.icons.source()).to.equal('cocoo.png');
   });
 
+  it('converts colors from html to number', () => {
+    const pn = new Poincare({ background: 'black' });
+    expect(pn.options().background).to.equal(0x000000);
+    pn.options({ background: 'red' });
+    expect(pn.options().background).to.equal(0xFF0000);
+  });
+
   it('supports passing functions as getters', () => {
     const pn = new Poincare({ nodeView: node => node * 2 });
     const nodeView = pn.options().nodeView;
