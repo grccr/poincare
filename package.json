@@ -8,6 +8,7 @@
     "test:node": "./node_modules/.bin/mocha --require babel-core/register --recursive",
     "test": "node ./node_modules/.bin/karma start --browsers PhantomJS --single-run true",
     "test:watch": "node ./node_modules/.bin/karma start --browsers PhantomJS",
+    "test:chrome": "node ./node_modules/.bin/karma start --browsers Chrome",
     "lint": "node ./node_modules/.bin/eslint --color --ext .js src"
   },
   "author": "Nick Ts. <fbd@yawny.ru>",
@@ -33,6 +34,7 @@
     "karma-chrome-launcher": "^0.2.2",
     "karma-mocha": "^0.2.2",
     "karma-phantomjs-launcher": "^1.0.0",
+    "karma-sourcemap-loader": "^0.3.7",
     "karma-spec-reporter": "0.0.24",
     "karma-webpack": "^1.7.0",
     "mocha": "^2.4.5",

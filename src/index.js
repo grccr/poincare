@@ -8,12 +8,18 @@ import graphlib2ngraph from './poincare/parsers/ngraph';
 
 const debug = require('debug')('poincare:app');
 
+const icon = require('../assets/icons/uxpin/uxpin-icon-set_star.png');
+const icon2 = require('../assets/icons/uxpin/uxpin-icon-set_world.png');
+
 const pn = window.PN = new Poincare({
   container: '.graph',
-  background: 'black',
+  background: 'red',
   transparent: true,
   icons: {
-    source: require('../assets/icons/uxpin/uxpin-icon-set_world.png')
+    source: (d) => {
+      return d.data.type === 'infrastructure/powersubstation' ? icon : icon2;
+    },
+    size: 24
   }
 });
 
@@ -27,6 +33,7 @@ axios.get('/data/belgiia.graphml')
   .then(graph => {
     debug('Graph is loaded & converted', graph);
     pn.graph(graph);
+    pn.run();
   });
 
 

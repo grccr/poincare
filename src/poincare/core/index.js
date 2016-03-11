@@ -8,7 +8,7 @@ const debug = require('debug')('poincare:core');
 
 export function PoincareCoreError(message) {
   this.message = message;
-  Error.captureStackTrace(this, PoincareCoreError);
+  // Error.captureStackTrace(this, PoincareCoreError);
 }
 util.inherits(PoincareCoreError, Error);
 PoincareCoreError.prototype.name = 'PoincareCoreError';
@@ -20,12 +20,14 @@ export const IconSpriteGenerator = (options) => {
     const size = options.size(node);
     const sprite = PIXI.Sprite.fromImage(icon);
     sprite.width = sprite.height = size;
+    // sprite.mipmap = true;
     return [md5.hex(`${icon}${size}`), sprite];
   };
 };
 
 export class SpriteManager {
   constructor(parentContainer, opts) {
+    PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.LINEAR;
     this._getName = opts.nodeView;
     this._options = opts;
     this._generator = memoize(this._getGenerator.bind(this));
@@ -44,7 +46,7 @@ export class SpriteManager {
   _getGenerator(name) {
     if (name === 'icons')
       return IconSpriteGenerator(this._options[name]);
-    throw PoincareCoreError(`No available views with name "${name}"`);
+    throw new PoincareCoreError(`No available views with name "${name}"`);
   }
 
   _getNewContainer(id) {
@@ -54,6 +56,7 @@ export class SpriteManager {
       rotation: true,
       alpha: true
     });
+    // const container = new PIXI.Container();
     this._parent.addChild(container);
     return container;
   }
@@ -67,8 +70,8 @@ export default class Core {
     this._stage = new PIXI.Container();
     this._layout = layout;
     this._dataViews = {
-      node: () => {},
-      link: () => {}
+      node: (node) => node,
+      link: () => ({})
     };
     this._data = {
       nodes: {},
@@ -96,6 +99,8 @@ export default class Core {
 
     this._stage = new PIXI.Container();
     this._group = new PIXI.Container();
+    this._group.scale.x = 0.5;
+    this._group.scale.y = 0.5;
     this._stage.addChild(this._group);
 
     // const graphics = new PIXI.Graphics();
@@ -106,7 +111,7 @@ export default class Core {
 
   _renderFrame() {
     // Object.keys(this._data.links).forEach(this._renderLink);
-    Object.keys(this._data.nodes).forEach(this._moveNode);
+    Object.keys(this._data.nodes).forEach(this._moveNode.bind(this));
     this._pixi.render(this._stage);
   }
 
@@ -117,9 +122,10 @@ export default class Core {
     this._renderFrame();
   }
 
-  initGraph(g) {
+  init(g, layout) {
     this._graph = g;
-    g.forEachNode(this._initNode);
+    this._layout = layout;
+    g.forEachNode(this._initNode.bind(this));
     // g.forEachLink(this._initLink);
     return g;
   }

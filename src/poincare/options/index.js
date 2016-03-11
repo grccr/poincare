@@ -44,7 +44,7 @@ const Options = {
   },
 
   merge(current, newOpts) {
-    const options = merge(current, newOpts);
+    const options = merge({}, current, newOpts);
     return Options._convertConstants(options);
   },
 

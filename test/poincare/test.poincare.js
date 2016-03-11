@@ -3,12 +3,15 @@
 import { expect } from 'chai';
 import nGraph from 'ngraph.graph';
 import Poincare from '../../src/poincare';
-import { IconSpriteGenerator } from '../../src/poincare/core';
-import PIXI from 'pixi.js';
+import { IconSpriteGenerator, SpriteManager } from '../../src/poincare/core';
+// import PIXI from 'pixi.js';
 import sinon from 'sinon';
 
+const ICON = require('../../assets/icons/uxpin/uxpin-icon-set_world.png');
+const ICON_TWO = require('../../assets/icons/uxpin/uxpin-icon-set_star.png');
+
 describe('Poincare options', () => {
-  it('convert constants to getters', () => {
+  it('converts constants to getters', () => {
     const pn = new Poincare({
       nodeView: 'cucumber',
       icons: {
@@ -87,7 +90,7 @@ describe('Poincare layouts', () => {
 describe('Icon sprite generator', () => {
   it('can generate sprites and hashes', () => {
     const icon = IconSpriteGenerator({
-      source: () => require('../../assets/icons/uxpin/uxpin-icon-set_world.png'),
+      source: () => ICON,
       size: () => 16
     });
     const i = icon();
@@ -103,7 +106,7 @@ describe('Icon sprite generator', () => {
 
   it('generates different sprites for different nodes', () => {
     const icon = IconSpriteGenerator({
-      source: () => require('../../assets/icons/uxpin/uxpin-icon-set_world.png'),
+      source: () => ICON,
       size: (n) => n === 'x' ? 16 : 32
     });
 
@@ -118,13 +121,86 @@ describe('Icon sprite generator', () => {
   });
 });
 
-describe('SpriteManager', () => {
+describe('Sprite manager', () => {
   it('creates sprites', () => {
-    const mock = sinon.mock({
-      addChild() { }
+    const parent = { addChild: sinon.spy() };
+    const sm = new SpriteManager(parent, {
+      nodeView: () => 'icons',
+      icons: {
+        source: () => ICON,
+        size: () => 16
+      }
     });
-    // const sm = new SpriteManager(mock, {
+    const sprite = sm.create('data');
+    expect(sprite).to.be.an('object');
+    expect(parent.addChild.called).to.be.true;
+  });
 
-    // });
+  it('throws error if view is not supported', () => {
+    const parent = { addChild: sinon.spy() };
+    const sm = new SpriteManager(parent, {
+      nodeView: () => 'heh'
+    });
+    const pn = () => sm.create('data');
+    expect(pn).to.throw(Error);
+  });
+
+  it('creates identical containers for identical icons', () => {
+    const parent = { addChild: sinon.spy() };
+    const sm = new SpriteManager(parent, {
+      nodeView: () => 'icons',
+      icons: {
+        source: () => ICON,
+        size: () => 16
+      }
+    });
+    const spriteA = sm.create();
+    const spriteB = sm.create();
+    expect(spriteA).not.to.be.empty;
+    expect(spriteB).not.to.be.empty;
+    expect(spriteA).to.not.equal(spriteB);
+    expect(spriteA.parent).to.equal(spriteB.parent);
+    expect(spriteA._texture).to.equal(spriteB._texture);
+  });
+
+  it('creates different containers for different icons', () => {
+    const parent = { addChild: sinon.spy() };
+    const sm = new SpriteManager(parent, {
+      nodeView: () => 'icons',
+      icons: {
+        source: (d) => d === 'x' ? ICON_TWO : ICON,
+        size: () => 16
+      }
+    });
+    const spriteA = sm.create('x');
+    const spriteB = sm.create();
+    const spriteC = sm.create();
+    expect(spriteA).not.to.be.empty;
+    expect(spriteB).not.to.be.empty;
+    expect(spriteA).to.not.equal(spriteB);
+    expect(spriteA.parent).to.not.equal(spriteB.parent);
+    expect(spriteA._texture).to.not.equal(spriteB._texture);
+    expect(spriteB._texture).to.equal(spriteC._texture);
+  });
+});
+
+describe('Poincare real usage', () => {
+  it('works with nodes', () => {
+    const pn = new Poincare({
+      container: 'body',
+      background: 'black',
+      transparent: true,
+      nodeView: 'icons',
+      icons: {
+        source: ICON,
+        size: 16
+      }
+    });
+
+    const ng = new nGraph();
+    ng.addNode('a', { x: 'A' });
+    ng.addNode('b', { x: 'B' });
+
+    pn.graph(ng);
   });
 });

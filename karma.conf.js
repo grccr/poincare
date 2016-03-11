@@ -16,10 +16,11 @@ module.exports = function setConfig(config) {
 
     // list of preprocessors
     preprocessors: {
-      'test/**/*.js': ['webpack']
+      'test/**/test.*.js': ['webpack']
     },
 
     webpack: {
+      // devtool: 'cheap-module-source-map',
       resolve: {
         extensions: ['', '.js'],
         root: [appPath],
@@ -124,7 +125,7 @@ module.exports = function setConfig(config) {
     // - PhantomJS
     // - IE (only Windows; has to be installed
     // with `npm install karma-ie-launcher`)
-    browsers: ['PhantomJS'],
+    browsers: ['Chrome'],
 
 
     // If browser does not capture in given timeout [ms], kill it

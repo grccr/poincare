@@ -16,7 +16,7 @@ const debug = require('debug')('poincare:anri');
 
 function PoincareError(message) {
   this.message = message;
-  Error.captureStackTrace(this, PoincareError);
+  // Error.captureStackTrace(this, PoincareError);
 }
 util.inherits(PoincareError, Error);
 PoincareError.prototype.name = 'PoincareError';
@@ -38,7 +38,7 @@ export default class Poincare {
       return;
     }
     throw new PoincareError('No such layout supported: ' +
-                            `${this._options._layout}`);
+                            `${this._options.layout}`);
 
   }
 
@@ -81,9 +81,15 @@ export default class Poincare {
     return this._layout;
   }
 
+  run() {
+    this._core.run();
+  }
+
   graph(g) {
     if (g != null)
       this._graph = g;
-    return this._core.initGraph(this._graph);
+    this._initLayout();
+    this._core.init(this._graph, this._layout);
+    return this._graph;
   }
 }
