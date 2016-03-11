@@ -3,6 +3,9 @@
 import { expect } from 'chai';
 import nGraph from 'ngraph.graph';
 import Poincare from '../../src/poincare';
+import { IconSpriteGenerator } from '../../src/poincare/core';
+import PIXI from 'pixi.js';
+import sinon from 'sinon';
 
 describe('Poincare options', () => {
   it('convert constants to getters', () => {
@@ -78,5 +81,50 @@ describe('Poincare layouts', () => {
   it('does not create unknown layout', () => {
     const pn = () => new Poincare({ layout: 'boo' });
     expect(pn).to.throw(Error);
+  });
+});
+
+describe('Icon sprite generator', () => {
+  it('can generate sprites and hashes', () => {
+    const icon = IconSpriteGenerator({
+      source: () => require('../../assets/icons/uxpin/uxpin-icon-set_world.png'),
+      size: () => 16
+    });
+    const i = icon();
+    expect(i).to.be.an('array');
+    expect(i).to.have.length(2);
+    const [hash, sprite] = i;
+    expect(hash).to.equal('21ba74630df86998038878947906e096');
+    // console.log(sprite);
+    // console.log(PIXI.Sprite);
+    expect(sprite).to.be.an('object');
+    expect(sprite).to.contain.all.keys('position');
+  });
+
+  it('generates different sprites for different nodes', () => {
+    const icon = IconSpriteGenerator({
+      source: () => require('../../assets/icons/uxpin/uxpin-icon-set_world.png'),
+      size: (n) => n === 'x' ? 16 : 32
+    });
+
+    const y = icon();
+    const x = icon('x');
+
+    expect(x).to.have.length(2);
+    expect(y).to.have.length(2);
+    expect(x[0]).not.to.be.empty;
+    expect(y[0]).not.to.be.empty;
+    expect(y[0]).to.not.equal(x[0]);
+  });
+});
+
+describe('SpriteManager', () => {
+  it('creates sprites', () => {
+    const mock = sinon.mock({
+      addChild() { }
+    });
+    // const sm = new SpriteManager(mock, {
+
+    // });
   });
 });

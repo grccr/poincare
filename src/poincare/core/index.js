@@ -6,24 +6,25 @@ import PIXI from 'pixi.js';
 
 const debug = require('debug')('poincare:core');
 
-function PoincareCoreError(message) {
+export function PoincareCoreError(message) {
   this.message = message;
   Error.captureStackTrace(this, PoincareCoreError);
 }
 util.inherits(PoincareCoreError, Error);
 PoincareCoreError.prototype.name = 'PoincareCoreError';
 
-const IconSpriteGenerator = (options) => {
+export const IconSpriteGenerator = (options) => {
+  const md5 = new MD5();
   return (node) => {
     const icon = options.source(node);
     const size = options.size(node);
     const sprite = PIXI.Sprite.fromImage(icon);
     sprite.width = sprite.height = size;
-    return [MD5.hex(`${icon}${size}`), sprite];
+    return [md5.hex(`${icon}${size}`), sprite];
   };
 };
 
-class SpriteManager {
+export class SpriteManager {
   constructor(parentContainer, opts) {
     this._getName = opts.nodeView;
     this._options = opts;
@@ -54,6 +55,7 @@ class SpriteManager {
       alpha: true
     });
     this._parent.addChild(container);
+    return container;
   }
 }
 

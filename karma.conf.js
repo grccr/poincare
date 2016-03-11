@@ -106,7 +106,7 @@ module.exports = function setConfig(config) {
     logLevel: config.LOG_ERROR,
 
     client: {
-      captureConsole: false
+      captureConsole: true
     },
 
     // enable / disable watching file and executing tests whenever
