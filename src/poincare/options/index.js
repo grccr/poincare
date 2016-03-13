@@ -1,5 +1,8 @@
 import d3 from 'd3';
 import merge from 'lodash/merge';
+
+import Zoom from '../plugins/zoom';
+
 const worldIcon = 'icon.png';
 
 function constant(val) {
@@ -28,7 +31,9 @@ const Options = {
       dragCoeff: 0.01,
       gravity: -1.2,
       theta: 1
-    }
+    },
+
+    plugins: [Zoom]
   },
 
   check(v) {
@@ -45,10 +50,16 @@ const Options = {
 
   merge(current, newOpts) {
     const options = merge({}, current, newOpts);
-    return Options._convertConstants(options);
+    options.plugins = Options._mergePlugins(current.plugins,
+                                            newOpts.plugins || []);
+    return Options._convert(options);
   },
 
-  _convertConstants(opts) {
+  _mergePlugins(current, newPlugins) {
+    return new Set([...current, ...newPlugins]);
+  },
+
+  _convert(opts) {
     const check = Options.check;
     const css2pixi = Options.css2pixi;
     const convertable = {

@@ -8,18 +8,38 @@ import graphlib2ngraph from './poincare/parsers/ngraph';
 
 const debug = require('debug')('poincare:app');
 
-const icon = require('../assets/icons/uxpin/uxpin-icon-set_star.png');
-const icon2 = require('../assets/icons/uxpin/uxpin-icon-set_world.png');
+const stationIcon = require('../assets/icons/electric-icon.png');
+const poleIcon = require('../assets/icons/pole-icon.png');
+const plantIcon = require('../assets/icons/powerplant-icon.png');
+const homeIcon = require('../assets/icons/home-icon.png');
+
+const types = {
+  'infrastructure/powersubstation': stationIcon,
+  'infrastructure/powerline': poleIcon,
+  'infrastructure/powerplant': plantIcon
+};
+
+const sizes = {
+  'infrastructure/powersubstation': stationIcon,
+  'infrastructure/powerline': poleIcon,
+  'infrastructure/powerplant': plantIcon
+};
 
 const pn = window.PN = new Poincare({
   container: '.graph',
   background: 'red',
+  zoom: {
+    min: 0.2,
+    max: 2
+  },
   transparent: true,
   icons: {
     source: (d) => {
-      return d.data.type === 'infrastructure/powersubstation' ? icon : icon2;
+      if (d.data.type in types)
+        return types[d.data.type];
+      return homeIcon;
     },
-    size: 24
+    size: 16
   }
 });
 

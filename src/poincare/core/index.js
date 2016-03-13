@@ -3,6 +3,7 @@ import { MD5 } from 'jshashes';
 
 import memoize from 'lodash/memoize';
 import PIXI from 'pixi.js';
+import d3 from 'd3';
 
 const debug = require('debug')('poincare:core');
 
@@ -19,7 +20,7 @@ export const IconSpriteGenerator = (options) => {
     const icon = options.source(node);
     const size = options.size(node);
     const sprite = PIXI.Sprite.fromImage(icon);
-    sprite.width = sprite.height = size;
+    // sprite.width = sprite.height = size;
     // sprite.mipmap = true;
     return [md5.hex(`${icon}${size}`), sprite];
   };
@@ -27,7 +28,8 @@ export const IconSpriteGenerator = (options) => {
 
 export class SpriteManager {
   constructor(parentContainer, opts) {
-    PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.LINEAR;
+    // PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.LINEAR;
+    PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
     this._getName = opts.nodeView;
     this._options = opts;
     this._generator = memoize(this._getGenerator.bind(this));
@@ -51,9 +53,9 @@ export class SpriteManager {
 
   _getNewContainer(id) {
     const container = new PIXI.ParticleContainer(3000, {
-      scale: true,
+      scale: false,
       position: true,
-      rotation: true,
+      rotation: false,
       alpha: true
     });
     // const container = new PIXI.Container();
@@ -99,14 +101,16 @@ export default class Core {
 
     this._stage = new PIXI.Container();
     this._group = new PIXI.Container();
-    this._group.scale.x = 0.5;
-    this._group.scale.y = 0.5;
+    // this._group.scale.x = 0.5;
+    // this._group.scale.y = 0.5;
     this._stage.addChild(this._group);
 
     // const graphics = new PIXI.Graphics();
     // group.addChild(graphics);
 
     this._spriteManager = new SpriteManager(this._group, options);
+    this._xScale = d3.scale.linear();
+    this._yScale = d3.scale.linear();
   }
 
   _renderFrame() {
@@ -130,10 +134,19 @@ export default class Core {
     return g;
   }
 
+  switchScales() {
+    const x = this._xScale;
+    const y = this._yScale;
+    this._xScale = this._oldxScale || d3.scale.linear();
+    this._yScale = this._oldyScale || d3.scale.linear();
+    this._oldxScale = x;
+    this._oldyScale = y;
+  }
+
   _moveNode(id) {
     const { pos } = this._data.nodes[id];
-    this._sprites.nodes[id].position.x = pos.x - 10 / 2;
-    this._sprites.nodes[id].position.y = pos.y - 10 / 2;
+    this._sprites.nodes[id].position.x = this._xScale(pos.x - 10 / 2);
+    this._sprites.nodes[id].position.y = this._yScale(pos.y - 10 / 2);
   }
 
   _addNodeSprite(node, data) {

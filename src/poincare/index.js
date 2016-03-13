@@ -30,6 +30,7 @@ export default class Poincare {
     this.updateDimensions();
     this._initLayout();
     this._initCore();
+    this._installPlugins();
   }
 
   _initLayout() {
@@ -39,6 +40,18 @@ export default class Poincare {
     }
     throw new PoincareError('No such layout supported: ' +
                             `${this._options.layout}`);
+
+  }
+
+  _installPlugins() {
+    for (let plugin of this._options.plugins) {
+      const nm = plugin.name.toLowerCase();
+      this[nm] = new plugin(this, this._options[nm]);
+      debug('Plugin "%s" installed', nm);
+    }
+  }
+
+  _uninstallPlugins() {
 
   }
 
@@ -83,6 +96,10 @@ export default class Poincare {
 
   run() {
     this._core.run();
+  }
+
+  stop() {
+    this._core.stop();
   }
 
   graph(g) {
