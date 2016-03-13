@@ -16,12 +16,24 @@ PoincareCoreError.prototype.name = 'PoincareCoreError';
 
 export const IconSpriteGenerator = (options) => {
   const md5 = new MD5();
+  const c = d3.rgb('red');
+  const matrix = [
+    1, 0, 0, 0, c.r,
+    0, 1, 0, 0, c.g,
+    0, 0, 1, 0, c.b,
+    0, 0, 0, 1, 0
+  ];
+  const colorMatrix = new PIXI.filters.ColorMatrixFilter();
+  colorMatrix.matrix = matrix;
   return (node) => {
     const icon = options.source(node);
     const size = options.size(node);
     const sprite = PIXI.Sprite.fromImage(icon);
     // sprite.width = sprite.height = size;
     // sprite.mipmap = true;
+    sprite.anchor.x = sprite.anchor.y = 0.5;
+    sprite.filters = [colorMatrix];
+    // sprite.tint = 0xFF0000;
     return [md5.hex(`${icon}${size}`), sprite];
   };
 };
@@ -52,13 +64,13 @@ export class SpriteManager {
   }
 
   _getNewContainer(id) {
-    const container = new PIXI.ParticleContainer(3000, {
-      scale: false,
-      position: true,
-      rotation: false,
-      alpha: true
-    });
-    // const container = new PIXI.Container();
+    // const container = new PIXI.ParticleContainer(3000, {
+    //   scale: false,
+    //   position: true,
+    //   rotation: false,
+    //   alpha: true
+    // });
+    const container = new PIXI.Container();
     this._parent.addChild(container);
     return container;
   }
@@ -145,8 +157,8 @@ export default class Core {
 
   _moveNode(id) {
     const { pos } = this._data.nodes[id];
-    this._sprites.nodes[id].position.x = this._xScale(pos.x - 10 / 2);
-    this._sprites.nodes[id].position.y = this._yScale(pos.y - 10 / 2);
+    this._sprites.nodes[id].position.x = this._xScale(pos.x);
+    this._sprites.nodes[id].position.y = this._yScale(pos.y);
   }
 
   _addNodeSprite(node, data) {

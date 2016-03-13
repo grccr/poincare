@@ -1,6 +1,7 @@
 
 var webpack = require('webpack');
 var join = require('path').join;
+var resolve = require('path').resolve;
 
 var appPath = join(__dirname, 'src');
 var distPath = join(__dirname, 'dist');
@@ -36,6 +37,12 @@ module.exports = {
         test: /\.png$/,
         loader: 'url-loader?mimetype=image/png'
       }
+    ],
+    postLoaders: [
+      {
+        include: resolve(__dirname, 'node_modules/pixi.js'),
+        loader: 'transform?brfs'
+      }
     ]
   },
   resolve: {
@@ -43,7 +50,7 @@ module.exports = {
     modulesDirectories: ['node_modules', 'bower_components']
   },
   node: {
-    fs: 'empty',
+    // fs: 'empty',
     __dirname: true
   },
   plugins: [
