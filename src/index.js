@@ -35,6 +35,8 @@ const pn = window.PN = new Poincare({
   transparent: true,
   icons: {
     source: (d) => {
+      if (d.data.type === 'infrastructure/powerline' && d.links.length < 2)
+        return homeIcon;
       if (d.data.type in types)
         return types[d.data.type];
       return homeIcon;
