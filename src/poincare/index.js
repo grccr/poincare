@@ -105,10 +105,13 @@ export default class Poincare {
   }
 
   graph(g) {
-    if (g != null)
+    if (g != null) {
       this._graph = g;
-    this._initLayout();
-    this._core.init(this._graph, this._layout);
+      debug('Attempting to display graph [%o, %o]', g.getNodesCount(),
+            g.getLinksCount());
+      this._initLayout();
+      this._core.init(this._graph, this._layout);
+    }
     return this._graph;
   }
 }

@@ -1,6 +1,7 @@
 'use strict';
 
 import axios from 'axios';
+import { balancedBinTree } from 'ngraph.generators';
 
 import Poincare from './poincare';
 import GraphMLParser from './poincare/parsers/graphml';
@@ -50,15 +51,19 @@ pn.zoom.alignToCenter();
 debug('Poincare icons is', pn.options().icons);
 
 
-axios.get('/data/belgiia-big.graphml')
+axios.get('/data/belgiia.graphml')
   .then(({ data }) => {
     return graphlib2ngraph(GraphMLParser.parse(data));
   })
   .then(graph => {
-    debug('Graph is loaded & converted', graph);
     pn.graph(graph);
     pn.run();
   });
+//
+// let graph = balancedBinTree(11.3);
+// let graph = balancedBinTree(14);
+// pn.graph(graph);
+// pn.run()
 
 
 // // import graphlib from 'graphlib';
