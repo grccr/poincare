@@ -29,8 +29,8 @@ const pn = window.PN = new Poincare({
   container: '.graph',
   background: 'red',
   zoom: {
-    min: 0.2,
-    max: 2
+    min: 0.1,
+    max: 10
   },
   transparent: true,
   icons: {
@@ -44,6 +44,8 @@ const pn = window.PN = new Poincare({
     size: 16
   }
 });
+
+pn.zoom.alignToCenter();
 
 debug('Poincare icons is', pn.options().icons);
 

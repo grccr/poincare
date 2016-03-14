@@ -14,38 +14,60 @@ export function PoincareCoreError(message) {
 util.inherits(PoincareCoreError, Error);
 PoincareCoreError.prototype.name = 'PoincareCoreError';
 
-export const IconSpriteGenerator = (options) => {
+export const IconSpriteGenerator = (renderer, options) => {
   const md5 = new MD5();
-  const c = d3.rgb('red');
-  const matrix = [
-    1, 0, 0, 0, c.r,
-    0, 1, 0, 0, c.g,
-    0, 0, 1, 0, c.b,
-    0, 0, 0, 1, 0
-  ];
-  const colorMatrix = new PIXI.filters.ColorMatrixFilter();
-  colorMatrix.matrix = matrix;
+  // const c = d3.rgb('red');
+  // const matrix = [
+  //   1, 0, 0, 0, c.r,
+  //   0, 1, 0, 0, c.g,
+  //   0, 0, 1, 0, c.b,
+  //   0, 0, 0, 1, 0
+  // ];
+  // const colorMatrix = new PIXI.filters.ColorMatrixFilter();
+  // colorMatrix.matrix = matrix;
+  // const textures = {};
+
+  // const genTexture = (icon) => {
+  //   // const size = options.size(node);
+  //   const sprite = PIXI.Sprite.fromImage(icon);
+  //   // sprite.filters = [colorMatrix];
+  //   sprite.position.x = sprite.position.y = 0;
+  //   debug('Original sprite', sprite);
+  //   const renderTexture = new PIXI.RenderTexture(renderer, 16, 16);
+  //   renderTexture.render(sprite);
+  //   return renderTexture;
+  // };
+
+  // const getTexture = (hash, icon) => {
+  //   if (hash in textures)
+  //     return textures[hash];
+  //   const txt = genTexture(icon);
+  //   debug('Texture generated for hash "%s"', hash, txt);
+  //   textures[hash] = txt;
+  //   return txt;
+  // };
+
   return (node) => {
     const icon = options.source(node);
-    const size = options.size(node);
+    const hash = md5.hex(`${icon}`);
+    // const txt = getTexture(hash, icon);
     const sprite = PIXI.Sprite.fromImage(icon);
-    // sprite.width = sprite.height = size;
-    // sprite.mipmap = true;
     sprite.anchor.x = sprite.anchor.y = 0.5;
-    sprite.filters = [colorMatrix];
+    // sprite.cacheAsBitmap = true;
     // sprite.tint = 0xFF0000;
-    return [md5.hex(`${icon}${size}`), sprite];
+    return [hash, sprite];
   };
 };
 
 export class SpriteManager {
-  constructor(parentContainer, opts) {
+  constructor(parentContainer, renderer, opts) {
     // PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.LINEAR;
     PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
     this._getName = opts.nodeView;
     this._options = opts;
     this._generator = memoize(this._getGenerator.bind(this));
     this._container = memoize(this._getNewContainer.bind(this));
+    this._renderer = renderer;
     this._parent = parentContainer;
   }
 
@@ -59,18 +81,18 @@ export class SpriteManager {
 
   _getGenerator(name) {
     if (name === 'icons')
-      return IconSpriteGenerator(this._options[name]);
+      return IconSpriteGenerator(this._renderer, this._options[name]);
     throw new PoincareCoreError(`No available views with name "${name}"`);
   }
 
   _getNewContainer(id) {
-    // const container = new PIXI.ParticleContainer(3000, {
-    //   scale: false,
-    //   position: true,
-    //   rotation: false,
-    //   alpha: true
-    // });
-    const container = new PIXI.Container();
+    const container = new PIXI.ParticleContainer(3000, {
+      scale: true,
+      position: true,
+      rotation: false,
+      alpha: true
+    });
+    // const container = new PIXI.Container();
     this._parent.addChild(container);
     return container;
   }
@@ -78,7 +100,7 @@ export class SpriteManager {
 
 export default class Core {
   constructor(opts) {
-    const { options, dims, container, layout } = opts;
+    const { options, dims, container, layout, pn } = opts;
 
     this._stop = false;
     this._stage = new PIXI.Container();
@@ -95,6 +117,8 @@ export default class Core {
       nodes: {},
       links: {}
     };
+
+    this._pn = pn;
     // const group = new PIXI.Container();
 
     // stage.addChild(group);
@@ -120,14 +144,26 @@ export default class Core {
     // const graphics = new PIXI.Graphics();
     // group.addChild(graphics);
 
-    this._spriteManager = new SpriteManager(this._group, options);
+    this._spriteManager = new SpriteManager(this._group, this._pixi, options);
     this._xScale = d3.scale.linear();
     this._yScale = d3.scale.linear();
   }
 
   _renderFrame() {
     // Object.keys(this._data.links).forEach(this._renderLink);
+
+    // zoom plugin is here :)
+
+    if (this._pn.zoom && this._pn.zoom.scale() < 1 && !this._zoomedOut) {
+      this._zoomedOut = true;
+    }
+    else if (this._pn.zoom && this._pn.zoom.scale() >= 1 && this._zoomedOut) {
+      this._zoomedOut = false;
+      this._zoomSwitch = true;
+    }
     Object.keys(this._data.nodes).forEach(this._moveNode.bind(this));
+    this._zoomSwitch = false;
+
     this._pixi.render(this._stage);
   }
 
@@ -157,8 +193,13 @@ export default class Core {
 
   _moveNode(id) {
     const { pos } = this._data.nodes[id];
-    this._sprites.nodes[id].position.x = this._xScale(pos.x);
-    this._sprites.nodes[id].position.y = this._yScale(pos.y);
+    const s = this._sprites.nodes[id];
+    s.position.x = this._xScale(pos.x);
+    s.position.y = this._yScale(pos.y);
+    if (this._zoomedOut)
+      s.scale.x = s.scale.y = this._pn.zoom.scale();
+    else if (!this._zoomedOut && this._zoomSwitch)
+      s.scale.x = s.scale.y = 1;
   }
 
   _addNodeSprite(node, data) {

@@ -79,7 +79,9 @@ export default class Poincare {
       options: this._options,
       container: this._container,
       dims: this._dims,
-      layout: this._layout
+      layout: this._layout,
+      zoom: this.zoom,
+      pn: this
     });
   }
 

@@ -8,7 +8,7 @@ class Zoom {
     }, opts || {});
     const zoom = this._zoom = d3.behavior.zoom();
     const $container = this._$container = d3.select(pn._container);
-    const group = pn._core._group;
+    const group = this._group = pn._core._group;
 
     this._pn = pn;
 
@@ -19,13 +19,16 @@ class Zoom {
     zoom.x(pn._core._xScale);
     zoom.y(pn._core._yScale);
 
-    // zoom.on('zoom', () => {
-    //   group.scale.x = d3.event.scale;
-    //   group.scale.y = d3.event.scale;
+    this._scaleFactor = 1;
 
-    //   group.position.x = d3.event.translate[0];
-    //   group.position.y = d3.event.translate[1];
-    // });
+    zoom.on('zoom', () => {
+      // group.scale.x = d3.event.scale;
+      // group.scale.y = d3.event.scale;
+
+      // group.position.x = d3.event.translate[0];
+      // group.position.y = d3.event.translate[1];
+      this._scaleFactor = d3.event.scale;
+    });
 
     // zoom.on('zoom', this._zoomHandler.bind(this, group));
     this._wasSwitch = false;
@@ -48,6 +51,19 @@ class Zoom {
       this._zoom.y(this._pn._core._yScale);
     }
     this._toggle = toggle;
+  }
+
+  scale() {
+    return this._scaleFactor;
+  }
+
+  alignToCenter() {
+    const dims = this._pn._dims;
+    this._zoom.translate(dims.map(d => d / 2));
+    this._zoom.x(this._pn._core._xScale);
+    this._zoom.y(this._pn._core._yScale);
+    // this._group.position.x = dims[0] / 2;
+    // this._group.position.y = dims[1] / 2;
   }
 
   _zoomHandler(group) {
