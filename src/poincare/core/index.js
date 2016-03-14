@@ -14,6 +14,20 @@ export function PoincareCoreError(message) {
 util.inherits(PoincareCoreError, Error);
 PoincareCoreError.prototype.name = 'PoincareCoreError';
 
+const DEFAULT_LINE_LENGTH = 50;
+
+export const LinkSpriteGenerator = (renderer, options) => {
+  const gfx = new PIXI.Graphics();
+  gfx.lineStyle(1, 0xcccccc, 1);
+  gfx.moveTo(0, 0);
+  gfx.lineTo(DEFAULT_LINE_LENGTH, 0);
+  const texture = gfx.generateTexture(1, PIXI.SCALE_MODES.DEFAULT);
+
+  return (link) => {
+    return new PIXI.Sprite(texture);
+  };
+};
+
 export const IconSpriteGenerator = (renderer, options) => {
   const md5 = new MD5();
   // const c = d3.rgb('red');
@@ -62,13 +76,20 @@ export const IconSpriteGenerator = (renderer, options) => {
 export class SpriteManager {
   constructor(parentContainer, renderer, opts) {
     // PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.LINEAR;
-    PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
+    // PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
     this._getName = opts.nodeView;
     this._options = opts;
     this._generator = memoize(this._getGenerator.bind(this));
     this._container = memoize(this._getNewContainer.bind(this));
     this._renderer = renderer;
     this._parent = parentContainer;
+
+    this._nodeCount = 5000;
+    this._linkCount = 5000;
+
+    // Links container must created first
+    // Because order of creation is important
+    // this._container('links')
   }
 
   create(data) {
@@ -79,18 +100,32 @@ export class SpriteManager {
     return sprite;
   }
 
+  createLink(data) {
+    const container = this._container('links', this._linkCount * 2);
+    const sprite = this._generator('links')(data)
+    container.addChild(sprite);
+    return sprite;
+  }
+
+  setSizes(nodeCount, linkCount) {
+    this._nodeCount = nodeCount;
+    this._linkCount = linkCount;
+  }
+
   _getGenerator(name) {
     if (name === 'icons')
       return IconSpriteGenerator(this._renderer, this._options[name]);
+    if (name === 'links')
+      return LinkSpriteGenerator(this._renderer, this._options[name]);
     throw new PoincareCoreError(`No available views with name "${name}"`);
   }
 
-  _getNewContainer(id) {
-    const container = new PIXI.ParticleContainer(3000, {
+  _getNewContainer(id, sz) {
+    const container = new PIXI.ParticleContainer(this._nodeCount * 2 || sz, {
       scale: true,
       position: true,
-      rotation: false,
-      alpha: true
+      rotation: true,
+      alpha: false
     });
     // const container = new PIXI.Container();
     this._parent.addChild(container);
@@ -107,7 +142,7 @@ export default class Core {
     this._layout = layout;
     this._dataViews = {
       node: (node) => node,
-      link: () => ({})
+      link: (link) => link
     };
     this._data = {
       nodes: {},
@@ -123,7 +158,7 @@ export default class Core {
 
     // stage.addChild(group);
 
-    debug('opts is %o, dims is %o, container is %o', options, dims, container);
+    // debug('opts is %o, dims is %o, container is %o', options, dims, container);
 
     this._pixi = PIXI.autoDetectRenderer(dims[0], dims[1], {
       antialias: options.antialias,
@@ -162,6 +197,7 @@ export default class Core {
       this._zoomSwitch = true;
     }
     Object.keys(this._data.nodes).forEach(this._moveNode.bind(this));
+    Object.keys(this._data.links).forEach(this._moveLine.bind(this));
     this._zoomSwitch = false;
 
     this._pixi.render(this._stage);
@@ -177,8 +213,9 @@ export default class Core {
   init(g, layout) {
     this._graph = g;
     this._layout = layout;
+    this._spriteManager.setSizes(g.getNodesCount(), g.getLinksCount());
+    g.forEachLink(this._initLink.bind(this));
     g.forEachNode(this._initNode.bind(this));
-    // g.forEachLink(this._initLink);
     return g;
   }
 
@@ -202,6 +239,20 @@ export default class Core {
       s.scale.x = s.scale.y = 1;
   }
 
+  _moveLine(id) {
+    const link = this._data.links[id];
+    const dy = this._yScale(link.to.y) - this._yScale(link.from.y);
+    const dx = this._xScale(link.to.x) - this._xScale(link.from.x);
+    const angle = Math.atan2(dy, dx);
+    const dist = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+    const s = this._sprites.links[id];
+    s.scale.x = dist / DEFAULT_LINE_LENGTH;
+    s.scale.y = 1.0;
+    s.rotation = angle;
+    s.position.x = this._xScale(link.from.x);
+    s.position.y = this._yScale(link.from.y);
+  }
+
   _addNodeSprite(node, data) {
     const sprite = this._spriteManager.create(data);
     this._sprites.nodes[node.id] = sprite;
@@ -214,9 +265,27 @@ export default class Core {
     return data;
   }
 
+  _addLinkSprite(link, data) {
+    const sprite = this._spriteManager.createLink(data);
+    this._sprites.links[`${link.id}`] = sprite;
+  }
+
+  _addLinkData(link) {
+    const data = this._dataViews.link(link);
+    data.from = this._layout.getNodePosition(link.fromId);
+    data.to = this._layout.getNodePosition(link.toId);
+    this._data.links[`${link.id}`] = data;
+    return data;
+  }
+
   _initNode(node) {
     const data = this._addNodeData(node);
     this._addNodeSprite(node, data);
+  }
+
+  _initLink(link) {
+    const data = this._addLinkData(link);
+    this._addLinkSprite(link, data)
   }
 
   stop() {

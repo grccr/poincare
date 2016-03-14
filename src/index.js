@@ -50,7 +50,7 @@ pn.zoom.alignToCenter();
 debug('Poincare icons is', pn.options().icons);
 
 
-axios.get('/data/belgiia.graphml')
+axios.get('/data/belgiia-big.graphml')
   .then(({ data }) => {
     return graphlib2ngraph(GraphMLParser.parse(data));
   })
