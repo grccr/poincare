@@ -14,7 +14,7 @@ export function PoincareCoreError(message) {
 util.inherits(PoincareCoreError, Error);
 PoincareCoreError.prototype.name = 'PoincareCoreError';
 
-const DEFAULT_LINE_LENGTH = 50;
+const DEFAULT_LINE_LENGTH = 1000;
 
 export const LinkSpriteGenerator = (renderer, options) => {
   const gfx = new PIXI.Graphics();
@@ -137,7 +137,8 @@ export default class Core {
   constructor(opts) {
     const { options, dims, container, layout, pn } = opts;
 
-    this._stop = false;
+    this._stopped = true;
+    this._layoutStopped = false;
     this._stage = new PIXI.Container();
     this._layout = layout;
     this._dataViews = {
@@ -168,7 +169,7 @@ export default class Core {
 
     container.appendChild(this._pixi.view);
 
-    this._bindedRun = this.run.bind(this);
+    this._bindedRun = this._run.bind(this);
 
     this._stage = new PIXI.Container();
     this._group = new PIXI.Container();
@@ -180,15 +181,15 @@ export default class Core {
     // group.addChild(graphics);
 
     this._spriteManager = new SpriteManager(this._group, this._pixi, options);
-    this._xScale = d3.scale.linear();
-    this._yScale = d3.scale.linear();
+    this.xScale = d3.scale.linear();
+    this.yScale = d3.scale.linear();
   }
 
   _renderFrame() {
     // Object.keys(this._data.links).forEach(this._renderLink);
 
     // zoom plugin is here :)
-
+    this._pn.emit('frame');
     if (this._pn.zoom && this._pn.zoom.scale() < 1 && !this._zoomedOut) {
       this._zoomedOut = true;
     }
@@ -203,11 +204,29 @@ export default class Core {
     this._pixi.render(this._stage);
   }
 
-  run() {
-    requestAnimationFrame(this._bindedRun);
-    if (!this._stop)
-      this._stop = this._layout.step();
+  _run() {
+    if (this._stopped)
+      return;
+    this._frame = requestAnimationFrame(this._bindedRun);
+    if (!this._layoutStopped) {
+      this._layoutStopped = this._layout.step();
+      if (this._layoutStopped)
+        this.stopLayout();
+    }
     this._renderFrame();
+  }
+
+  run(layout = false) {
+    this._stopped = false;
+    if (layout)
+      this._layoutStopped = true;
+    this._run();
+  }
+
+  stop() {
+    this._stopped = true;
+    if (this._frame)
+      cancelAnimationFrame(this._frame);
   }
 
   init(g, layout) {
@@ -216,41 +235,56 @@ export default class Core {
     this._spriteManager.setSizes(g.getNodesCount(), g.getLinksCount());
     g.forEachLink(this._initLink.bind(this));
     g.forEachNode(this._initNode.bind(this));
+    this._pn.emit('viewreset');
     return g;
   }
 
   switchScales() {
-    const x = this._xScale;
-    const y = this._yScale;
-    this._xScale = this._oldxScale || d3.scale.linear();
-    this._yScale = this._oldyScale || d3.scale.linear();
+    const x = this.xScale;
+    const y = this.yScale;
+    this.xScale = this._oldxScale || d3.scale.linear();
+    this.yScale = this._oldyScale || d3.scale.linear();
     this._oldxScale = x;
     this._oldyScale = y;
   }
 
   _moveNode(id) {
-    const { pos } = this._data.nodes[id];
+    const node = this._data.nodes[id];
     const s = this._sprites.nodes[id];
-    s.position.x = this._xScale(pos.x);
-    s.position.y = this._yScale(pos.y);
+    s.position.x = this.xScale(node.pos.x);
+    s.position.y = this.yScale(node.pos.y);
     if (this._zoomedOut)
       s.scale.x = s.scale.y = this._pn.zoom.scale();
     else if (!this._zoomedOut && this._zoomSwitch)
       s.scale.x = s.scale.y = 1;
+    this._pn.emit('movenode', node);
+  }
+
+  nodeData(id) {
+    return this._data.nodes[id];
+  }
+
+  nodeSprite(id) {
+    return this._sprites.nodes[id];
+  }
+
+  groupContainer() {
+    return this._group;
   }
 
   _moveLine(id) {
     const link = this._data.links[id];
-    const dy = this._yScale(link.to.y) - this._yScale(link.from.y);
-    const dx = this._xScale(link.to.x) - this._xScale(link.from.x);
+    const dy = this.yScale(link.to.y) - this.yScale(link.from.y);
+    const dx = this.xScale(link.to.x) - this.xScale(link.from.x);
     const angle = Math.atan2(dy, dx);
     const dist = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
     const s = this._sprites.links[id];
     s.scale.x = dist / DEFAULT_LINE_LENGTH;
     s.scale.y = 1.0;
     s.rotation = angle;
-    s.position.x = this._xScale(link.from.x);
-    s.position.y = this._yScale(link.from.y);
+    s.position.x = this.xScale(link.from.x);
+    s.position.y = this.yScale(link.from.y);
+    this._pn.emit('moveline', link);
   }
 
   _addNodeSprite(node, data) {
@@ -288,7 +322,8 @@ export default class Core {
     this._addLinkSprite(link, data)
   }
 
-  stop() {
-    this._stop = true;
+  stopLayout() {
+    this._layoutStopped = true;
+    this._pn.emit('layoutstop');
   }
 }

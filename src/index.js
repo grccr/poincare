@@ -6,6 +6,7 @@ import { balancedBinTree } from 'ngraph.generators';
 import Poincare from './poincare';
 import GraphMLParser from './poincare/parsers/graphml';
 import graphlib2ngraph from './poincare/parsers/ngraph';
+import Lighter from './poincare/plugins/lighter';
 
 const debug = require('debug')('poincare:app');
 
@@ -40,28 +41,41 @@ const pn = window.PN = new Poincare({
         return homeIcon;
       if (d.data.type in types)
         return types[d.data.type];
-      return homeIcon;
+      return stationIcon;
     },
     size: 16
-  }
+  },
+  physics: {
+    // stableThreshold: 0.001
+    stableThreshold: 100
+  },
+  plugins: [Lighter]
 });
+
+pn.on('zoomstart', () => debug('zoomstart'));
+pn.on('zoomend', () => debug('zoomend'));
+pn.on('viewreset', () => debug('viewreset'));
+pn.on('run', () => debug('run'));
+pn.on('layoutstop', () => debug('layoutstop'));
 
 pn.zoom.alignToCenter();
 
 debug('Poincare icons is', pn.options().icons);
 
 
-axios.get('/data/belgiia.graphml')
+axios.get('/data/belgiia-big.graphml')
   .then(({ data }) => {
     return graphlib2ngraph(GraphMLParser.parse(data));
   })
   .then(graph => {
     pn.graph(graph);
     pn.run();
+    pn.lighter.high(['552f7ccb8a432b148143e681', '552f7ccb8a432b148143e63e']);
   });
 //
 // let graph = balancedBinTree(11.3);
 // let graph = balancedBinTree(14);
+// let graph = balancedBinTree(4);
 // pn.graph(graph);
 // pn.run()
 

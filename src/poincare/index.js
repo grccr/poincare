@@ -2,6 +2,7 @@
 
 import util from 'util';
 
+import EventEmitter from 'eventemitter3';
 import graphlib from 'graphlib';
 import nGraph from 'ngraph.graph';
 import createForceLayout from 'ngraph.forcelayout';
@@ -26,11 +27,21 @@ export default class Poincare {
     this._options = Options.defaults;
     this._graph = new nGraph();
     this.options(opts);
+    this._initEmitter();
     this._initContainer();
     this.updateDimensions();
     this._initLayout();
     this._initCore();
     this._installPlugins();
+    this.emit('init');
+  }
+
+  _initEmitter() {
+    this._events = new EventEmitter();
+    this.on = this._events.on.bind(this._events);
+    this.off = this._events.off.bind(this._events);
+    this.once = this._events.once.bind(this._events);
+    this.emit = this._events.emit.bind(this._events);
   }
 
   _initLayout() {
@@ -68,6 +79,7 @@ export default class Poincare {
   updateDimensions() {
     const bbox = this._container.getBoundingClientRect();
     this._dims = [bbox.width, bbox.height];
+    this.emit('dimensions', this._dims);
   }
 
   size() {
@@ -98,10 +110,11 @@ export default class Poincare {
 
   run() {
     this._core.run();
+    this.emit('run');
   }
 
   stop() {
-    this._core.stop();
+    this._core.stopLayout();
   }
 
   graph(g) {

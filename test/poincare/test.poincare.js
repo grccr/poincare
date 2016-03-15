@@ -89,7 +89,7 @@ describe('Poincare layouts', () => {
 
 describe('Icon sprite generator', () => {
   it('can generate sprites and hashes', () => {
-    const icon = IconSpriteGenerator({
+    const icon = IconSpriteGenerator(null, {
       source: () => ICON,
       size: () => 16
     });
@@ -97,7 +97,7 @@ describe('Icon sprite generator', () => {
     expect(i).to.be.an('array');
     expect(i).to.have.length(2);
     const [hash, sprite] = i;
-    expect(hash).to.equal('21ba74630df86998038878947906e096');
+    expect(hash).to.equal('8f92d76767ef1e930a455d66a54377aa');
     // console.log(sprite);
     // console.log(PIXI.Sprite);
     expect(sprite).to.be.an('object');
@@ -105,7 +105,7 @@ describe('Icon sprite generator', () => {
   });
 
   it('generates different sprites for different nodes', () => {
-    const icon = IconSpriteGenerator({
+    const icon = IconSpriteGenerator(null, {
       source: () => ICON,
       size: (n) => n === 'x' ? 16 : 32
     });
@@ -124,7 +124,7 @@ describe('Icon sprite generator', () => {
 describe('Sprite manager', () => {
   it('creates sprites', () => {
     const parent = { addChild: sinon.spy() };
-    const sm = new SpriteManager(parent, {
+    const sm = new SpriteManager(parent, null, {
       nodeView: () => 'icons',
       icons: {
         source: () => ICON,
@@ -138,7 +138,7 @@ describe('Sprite manager', () => {
 
   it('throws error if view is not supported', () => {
     const parent = { addChild: sinon.spy() };
-    const sm = new SpriteManager(parent, {
+    const sm = new SpriteManager(parent, null, {
       nodeView: () => 'heh'
     });
     const pn = () => sm.create('data');
@@ -147,7 +147,7 @@ describe('Sprite manager', () => {
 
   it('creates identical containers for identical icons', () => {
     const parent = { addChild: sinon.spy() };
-    const sm = new SpriteManager(parent, {
+    const sm = new SpriteManager(parent, null, {
       nodeView: () => 'icons',
       icons: {
         source: () => ICON,
@@ -165,7 +165,7 @@ describe('Sprite manager', () => {
 
   it('creates different containers for different icons', () => {
     const parent = { addChild: sinon.spy() };
-    const sm = new SpriteManager(parent, {
+    const sm = new SpriteManager(parent, null, {
       nodeView: () => 'icons',
       icons: {
         source: (d) => d === 'x' ? ICON_TWO : ICON,

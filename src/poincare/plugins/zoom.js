@@ -1,4 +1,7 @@
 import d3 from 'd3';
+import debounce from 'lodash/debounce';
+
+const debug = require('debug')('poincare:zoom');
 
 class Zoom {
   constructor(pn, opts) {
@@ -16,10 +19,41 @@ class Zoom {
     zoom.scaleExtent([this._options.min, this._options.max]);
     zoom.size(pn._dims);
 
-    zoom.x(pn._core._xScale);
-    zoom.y(pn._core._yScale);
+    zoom.x(pn._core.xScale);
+    zoom.y(pn._core.yScale);
 
     this._scaleFactor = 1;
+
+    let timer;
+
+    const cancelViewReset = () => {
+      if (timer == null)
+        return;
+      clearTimeout(timer);
+      timer = null;
+    };
+
+    const viewReset = () => {
+      cancelViewReset();
+      timer = setTimeout(() => {
+        pn.emit('viewreset', zoom.translate(), zoom.scale());
+        timer = null;
+      }, 800);
+    };
+
+    const zoomStart = debounce(() => {
+      pn.emit('zoomstart', zoom.translate(), zoom.scale());
+    }, 150);
+
+    zoom.on('zoomstart', () => {
+      cancelViewReset();
+      zoomStart();
+    });
+
+    zoom.on('zoomend', debounce(() => {
+      pn.emit('zoomend', zoom.translate(), zoom.scale());
+      viewReset();
+    }, 360));
 
     zoom.on('zoom', () => {
       // group.scale.x = d3.event.scale;
@@ -34,50 +68,107 @@ class Zoom {
     this._wasSwitch = false;
   }
 
-  _toggleScale(toggle) {
-    if (toggle === this._toggle)
-      return;
-    if (toggle) {
-      this._zoom.x(this._pn._core._xScale);
-      this._zoom.y(this._pn._core._yScale);
-    } else {
-      this._pn._core._xScale
-        .range([0, 1])
-        .domain([0, 1]);
-      this._pn._core._yScale
-        .range([0, 1])
-        .domain([0, 1]);
-      this._zoom.x(this._pn._core._xScale);
-      this._zoom.y(this._pn._core._yScale);
-    }
-    this._toggle = toggle;
-  }
+  // _toggleScale(toggle) {
+  //   if (toggle === this._toggle)
+  //     return;
+  //   if (toggle) {
+  //     this._zoom.x(this._pn._core.xScale);
+  //     this._zoom.y(this._pn._core.yScale);
+  //   } else {
+  //     this._pn._core.xScale
+  //       .range([0, 1])
+  //       .domain([0, 1]);
+  //     this._pn._core.yScale
+  //       .range([0, 1])
+  //       .domain([0, 1]);
+  //     this._zoom.x(this._pn._core.xScale);
+  //     this._zoom.y(this._pn._core.yScale);
+  //   }
+  //   this._toggle = toggle;
+  // }
 
   scale() {
     return this._scaleFactor;
   }
 
-  alignToCenter() {
-    const dims = this._pn._dims;
-    this._zoom.translate(dims.map(d => d / 2));
-    this._zoom.x(this._pn._core._xScale);
-    this._zoom.y(this._pn._core._yScale);
+  truncatedScale() {
+    return Math.min(this._scaleFactor, 1);
+  }
+
+  alignToCenter(animated = false) {
+    // const dims = this._pn._dims;
+    // this.transform(dims.map(d => d / 2), null, animated);
+    // this._zoom.x(this._pn._core.xScale);
+    // this._zoom.y(this._pn._core.yScale);
     // this._group.position.x = dims[0] / 2;
     // this._group.position.y = dims[1] / 2;
   }
 
-  _zoomHandler(group) {
-    if (d3.event.scale > 1) {
-      return this._toggleScale(true);
-    } else {
-      this._toggleScale(false);
-    }
-    group.scale.x = d3.event.scale;
-    group.scale.y = d3.event.scale;
-
-    group.position.x = d3.event.translate[0];
-    group.position.y = d3.event.translate[1];
+  transform(tr, sc, animated = true) {
+    if (tr == null && sc == null)
+      return;
+    debug('Transforming to %o / %o', tr, sc);
+    this._pn._core.stop();
+    if (tr != null)
+      this._zoom.translate(tr);
+    if (sc != null)
+      this._zoom.scale(sc);
+    if (animated)
+      this._zoom.event(d3.transition().duration(1000));
+    else
+      this._$container.call(this._zoom.event);
+    this._pn._core.run();
+    // this._zoom.x(this._pn._core.xScale);
+    // this._zoom.y(this._pn._core.yScale);
   }
+
+  fitBounds(bbox, padding = 100, maxZoom = 3) {
+    const dims = this._pn._dims;
+    const pDims = dims.map(d => (d - padding * 2));
+    const center = dims.map(d => d / 2);
+    const { width: w, height: h, x, y } = bbox;
+    const calcScale = (pA, pB, a, b) => {
+      let sc = pA / a;
+      if (b * sc >= pB)
+        sc = pB / b * sc * sc;
+      return sc;
+    };
+
+    let sc = (w > h) ? calcScale(pDims[0], pDims[1], w, h) :
+                       calcScale(pDims[1], pDims[0], h, w);
+    sc = Math.min(sc, maxZoom);
+
+    const bboxCenter = [(x + w / 2) * sc, (y + h / 2) * sc];
+    const tr = center.map((d, i) => (d - bboxCenter[i]));
+
+    this.transform(tr, sc);
+  }
+
+  zoomNodes(ids) {
+    const pdd = 8;
+    const positions = ids.map(id => this._pn._core.nodeData(id).pos);
+    const x = d3.extent(positions, p => p.x);
+    const y = d3.extent(positions, p => p.y);
+    const bbox = {
+      x: x[0] - pdd,
+      y: y[0] - pdd,
+      width: x[1] - x[0] + pdd * 2,
+      height: y[1] - y[0] + pdd * 2 };
+    this.fitBounds(bbox);
+  }
+
+  // _zoomHandler(group) {
+  //   if (d3.event.scale > 1) {
+  //     return this._toggleScale(true);
+  //   } else {
+  //     this._toggleScale(false);
+  //   }
+  //   group.scale.x = d3.event.scale;
+  //   group.scale.y = d3.event.scale;
+
+  //   group.position.x = d3.event.translate[0];
+  //   group.position.y = d3.event.translate[1];
+  // }
 
   unplug() {
     this._zoom.on('zoom', null);

@@ -2,6 +2,7 @@ import d3 from 'd3';
 import merge from 'lodash/merge';
 
 import Zoom from '../plugins/zoom';
+import { css2pixi } from '../helpers';
 
 const worldIcon = 'icon.png';
 
@@ -40,14 +41,6 @@ const Options = {
     return typeof v !== 'function' ? constant(v) : v;
   },
 
-  css2pixi(color) {
-    if (typeof color === 'number')
-      return color;
-    const clr = d3.rgb(color);
-    const hp = x => Math.pow(16, x);
-    return clr.r * hp(4) + clr.g * hp(2) + clr.b;
-  },
-
   merge(current, newOpts) {
     const options = merge({}, current, newOpts);
     options.plugins = Options._mergePlugins(current.plugins,
@@ -61,7 +54,6 @@ const Options = {
 
   _convert(opts) {
     const check = Options.check;
-    const css2pixi = Options.css2pixi;
     const convertable = {
       background: css2pixi(opts.background),
       icons: {
