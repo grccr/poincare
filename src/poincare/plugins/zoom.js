@@ -22,7 +22,7 @@ class Zoom {
     zoom.x(pn._core.xScale);
     zoom.y(pn._core.yScale);
 
-    this._scaleFactor = 1;
+    // this._scaleFactor = 1;
 
     let timer;
 
@@ -38,31 +38,31 @@ class Zoom {
       timer = setTimeout(() => {
         pn.emit('viewreset', zoom.translate(), zoom.scale());
         timer = null;
-      }, 800);
+      }, 40);
     };
 
-    const zoomStart = debounce(() => {
-      pn.emit('zoomstart', zoom.translate(), zoom.scale());
-    }, 150);
+    // const zoomStart = () => {
+      // pn.emit('zoomstart', zoom.translate(), zoom.scale());
+    // });
 
     zoom.on('zoomstart', () => {
       cancelViewReset();
-      zoomStart();
+      // zoomStart();
     });
 
-    zoom.on('zoomend', debounce(() => {
-      pn.emit('zoomend', zoom.translate(), zoom.scale());
+    zoom.on('zoomend', () => {
+      // pn.emit('zoomend', zoom.translate(), zoom.scale());
       viewReset();
-    }, 360));
-
-    zoom.on('zoom', () => {
-      // group.scale.x = d3.event.scale;
-      // group.scale.y = d3.event.scale;
-
-      // group.position.x = d3.event.translate[0];
-      // group.position.y = d3.event.translate[1];
-      this._scaleFactor = d3.event.scale;
     });
+
+    // zoom.on('zoom', () => {
+    //   // group.scale.x = d3.event.scale;
+    //   // group.scale.y = d3.event.scale;
+
+    //   // group.position.x = d3.event.translate[0];
+    //   // group.position.y = d3.event.translate[1];
+    //   this._scaleFactor = d3.event.scale;
+    // });
 
     // zoom.on('zoom', this._zoomHandler.bind(this, group));
     this._wasSwitch = false;
@@ -88,11 +88,23 @@ class Zoom {
   // }
 
   scale() {
-    return this._scaleFactor;
+    return this._zoom.scale();
+  }
+
+  bbox() {
+    const tr = this._zoom.translate();
+    const sc = this._zoom.scale();
+    const sz = this._pn.size();
+    return {
+      x: -tr[0] / sc,
+      y: -tr[1] / sc,
+      w: sz[0] / sc,
+      h: sz[1] / sc
+    };
   }
 
   truncatedScale() {
-    return Math.min(this._scaleFactor, 1);
+    return Math.min(this._zoom.scale(), 1);
   }
 
   alignToCenter(animated = false) {

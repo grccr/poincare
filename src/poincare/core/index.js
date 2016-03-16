@@ -2,6 +2,7 @@ import util from 'util';
 import { MD5 } from 'jshashes';
 
 import memoize from 'lodash/memoize';
+import map from 'lodash/map';
 import PIXI from 'pixi.js';
 import d3 from 'd3';
 
@@ -121,13 +122,14 @@ export class SpriteManager {
   }
 
   _getNewContainer(id, sz) {
-    const container = new PIXI.ParticleContainer(this._nodeCount * 2 || sz, {
-      scale: true,
-      position: true,
-      rotation: true,
-      alpha: false
-    });
-    // const container = new PIXI.Container();
+    // const container = new PIXI.ParticleContainer(this._nodeCount * 2 || sz, {
+    //   scale: true,
+    //   position: true,
+    //   rotation: true,
+    //   alpha: false
+    // });
+    // container.interactiveChildren = true;
+    const container = new PIXI.Container();
     this._parent.addChild(container);
     return container;
   }
@@ -260,7 +262,15 @@ export default class Core {
     this._pn.emit('movenode', node);
   }
 
-  nodeData(id) {
+  mapNodes(fn) {
+    return map(this._data.nodes, fn);
+  }
+
+  mapLinks(fn) {
+    return map(this._data.links, fn);
+  }
+
+  node(id) {
     return this._data.nodes[id];
   }
 
@@ -277,7 +287,8 @@ export default class Core {
     const dy = this.yScale(link.to.y) - this.yScale(link.from.y);
     const dx = this.xScale(link.to.x) - this.xScale(link.from.x);
     const angle = Math.atan2(dy, dx);
-    const dist = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+    // const dist = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+    const dist = Math.hypot(dx, dy);
     const s = this._sprites.links[id];
     s.scale.x = dist / DEFAULT_LINE_LENGTH;
     s.scale.y = 1.0;
@@ -287,8 +298,15 @@ export default class Core {
     this._pn.emit('moveline', link);
   }
 
+  _attachMouseEvents(sprite, id) {
+    sprite.interactive = true;
+    sprite._id = id;
+    sprite.on('mouseover', data => debug('CLICK!!!!', data));
+  }
+
   _addNodeSprite(node, data) {
     const sprite = this._spriteManager.create(data);
+    this._attachMouseEvents(sprite, node.id);
     this._sprites.nodes[node.id] = sprite;
   }
 

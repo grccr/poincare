@@ -7,6 +7,7 @@ import Poincare from './poincare';
 import GraphMLParser from './poincare/parsers/graphml';
 import graphlib2ngraph from './poincare/parsers/ngraph';
 import Lighter from './poincare/plugins/lighter';
+import Radius from './poincare/plugins/radius';
 
 const debug = require('debug')('poincare:app');
 
@@ -49,7 +50,7 @@ const pn = window.PN = new Poincare({
     // stableThreshold: 0.001
     stableThreshold: 100
   },
-  plugins: [Lighter]
+  plugins: [Lighter, Radius]
 });
 
 pn.on('zoomstart', () => debug('zoomstart'));
@@ -57,13 +58,19 @@ pn.on('zoomend', () => debug('zoomend'));
 pn.on('viewreset', () => debug('viewreset'));
 pn.on('run', () => debug('run'));
 pn.on('layoutstop', () => debug('layoutstop'));
+pn.on('visiblenodes', (nodes, r) => {
+  if (nodes.length < 128)
+    pn.lighter.high(nodes);
+  debug('Median radius is %o [%o]', r, nodes.length);
+});
+pn.on('nodeclick', (e) => debug('Node clicked', e));
 
 pn.zoom.alignToCenter();
 
 debug('Poincare icons is', pn.options().icons);
 
 
-axios.get('/data/belgiia-big.graphml')
+axios.get('/data/belgiia.graphml')
   .then(({ data }) => {
     return graphlib2ngraph(GraphMLParser.parse(data));
   })

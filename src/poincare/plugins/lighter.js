@@ -12,10 +12,8 @@ export default class Lighter {
     }, opts || {});
     this._pn = pn;
     this._options.color = css2pixi(this._options.color);
-    const gfx = this._gfx = new PIXI.Graphics();
+    this._gfx = new PIXI.Graphics();
     this._nodeIds = [];
-
-    pn.on('frame', () => gfx.clear());
   }
 
   high(nodeIds) {
@@ -31,7 +29,7 @@ export default class Lighter {
     this._gfx.beginFill(this._options.color);
     const core = this._pn._core;
     this._nodeIds.forEach(id => {
-      const node = core.nodeData(id);
+      const node = core.node(id);
       const x = core.xScale(node.pos.x);
       const y = core.yScale(node.pos.y);
       this._gfx.drawCircle(
