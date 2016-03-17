@@ -187,11 +187,11 @@ export default class Core {
     this.yScale = d3.scale.linear();
   }
 
-  _renderFrame() {
+  _renderFrame(t) {
     // Object.keys(this._data.links).forEach(this._renderLink);
 
     // zoom plugin is here :)
-    this._pn.emit('frame');
+    this._pn.emit('frame', t);
     if (this._pn.zoom && this._pn.zoom.scale() < 1 && !this._zoomedOut) {
       this._zoomedOut = true;
     }
@@ -206,7 +206,7 @@ export default class Core {
     this._pixi.render(this._stage);
   }
 
-  _run() {
+  _run(t) {
     if (this._stopped)
       return;
     this._frame = requestAnimationFrame(this._bindedRun);
@@ -215,7 +215,7 @@ export default class Core {
       if (this._layoutStopped)
         this.stopLayout();
     }
-    this._renderFrame();
+    this._renderFrame(t);
   }
 
   run(layout = false) {
@@ -306,7 +306,7 @@ export default class Core {
 
   _addNodeSprite(node, data) {
     const sprite = this._spriteManager.create(data);
-    this._attachMouseEvents(sprite, node.id);
+    // this._attachMouseEvents(sprite, node.id);
     this._sprites.nodes[node.id] = sprite;
   }
 

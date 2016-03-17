@@ -108,8 +108,7 @@ class Zoom {
   }
 
   alignToCenter(animated = false) {
-    // const dims = this._pn._dims;
-    // this.transform(dims.map(d => d / 2), null, animated);
+    this.transform(this._pn.size().map(d => d / 2), null, animated);
     // this._zoom.x(this._pn._core.xScale);
     // this._zoom.y(this._pn._core.yScale);
     // this._group.position.x = dims[0] / 2;
@@ -119,17 +118,27 @@ class Zoom {
   transform(tr, sc, animated = true) {
     if (tr == null && sc == null)
       return;
-    debug('Transforming to %o / %o', tr, sc);
-    this._pn._core.stop();
-    if (tr != null)
-      this._zoom.translate(tr);
-    if (sc != null)
-      this._zoom.scale(sc);
-    if (animated)
+    debug('Transforming to %o / %o', tr || this._zoom.translate(), sc || this._zoom.scale());
+
+    if (animated) {
+      this._pn._core.stop();
+      if (tr != null)
+        this._zoom.translate(tr);
+      if (sc != null)
+        this._zoom.scale(sc);
       this._zoom.event(d3.transition().duration(1000));
-    else
-      this._$container.call(this._zoom.event);
-    this._pn._core.run();
+      this._pn._core.run();
+    }
+    else {
+      if (tr != null)
+        this._zoom.translate(tr);
+      if (sc != null)
+        this._zoom.scale(sc);
+      // this._$container.call(this._zoom.event);
+      // this._zoom.event(this._$container);
+      // this._zoom.event(this._$container);
+      this._zoom.event(d3.transition().duration(0));
+    }
     // this._zoom.x(this._pn._core.xScale);
     // this._zoom.y(this._pn._core.yScale);
   }
@@ -158,7 +167,7 @@ class Zoom {
 
   zoomNodes(ids) {
     const pdd = 8;
-    const positions = ids.map(id => this._pn._core.nodeData(id).pos);
+    const positions = ids.map(id => this._pn._core.node(id).pos);
     const x = d3.extent(positions, p => p.x);
     const y = d3.extent(positions, p => p.y);
     const bbox = {

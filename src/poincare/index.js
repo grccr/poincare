@@ -55,7 +55,7 @@ export default class Poincare {
   }
 
   _installPlugins() {
-    for (let plugin of this._options.plugins) {
+    for (const plugin of this._options.plugins) {
       const nm = plugin.name.toLowerCase();
       this[nm] = new plugin(this, this._options[nm]);
       debug('Plugin "%s" installed', nm);

@@ -1,4 +1,5 @@
 import PIXI from 'pixi.js';
+import TWEEN from 'tween.js';
 
 import { css2pixi } from '../helpers';
 
@@ -16,10 +17,21 @@ export default class Lighter {
     this._nodeIds = [];
   }
 
-  high(nodeIds) {
+  light(nodeIds) {
     if (nodeIds == null || nodeIds.length < 1)
       return;
+    // const ids = new Set(nodeIds);
+    // const newIds = = new Set([...this._nodeIds].filter(x => !ids.has(x)));
     this._nodeIds = nodeIds;
+    const radiuses = this._radiuses = nodeIds.map(n => ({ r: 1 }));
+    const defRadius = this._options.radius;
+    nodeIds.forEach((id, i) => {
+      const tween = new TWEEN.Tween(radiuses[i])
+        .to({ r: defRadius }, 250)
+        .easing(TWEEN.Easing.Sinusoidal.InOut)
+        .start();
+    });
+    // console.log(this._radiuses);
     this._pn._core.groupContainer().addChildAt(this._gfx, 0);
     this._pn.on('frame', this._renderCircles, this);
   }
@@ -28,12 +40,15 @@ export default class Lighter {
     this._gfx.clear();
     this._gfx.beginFill(this._options.color);
     const core = this._pn._core;
-    this._nodeIds.forEach(id => {
+    const zm = this._pn.zoom;
+    const radiuses = this._radiuses;
+    // console.log(this._radiuses);
+    this._nodeIds.forEach((id, i) => {
       const node = core.node(id);
       const x = core.xScale(node.pos.x);
       const y = core.yScale(node.pos.y);
       this._gfx.drawCircle(
-        x, y, this._options.radius * this._pn.zoom.truncatedScale()
+        x, y, radiuses[i].r * zm.truncatedScale()
       );
     });
   }

@@ -6,8 +6,11 @@ import { balancedBinTree } from 'ngraph.generators';
 import Poincare from './poincare';
 import GraphMLParser from './poincare/parsers/graphml';
 import graphlib2ngraph from './poincare/parsers/ngraph';
+
+import Tween from './poincare/plugins/tween';
 import Lighter from './poincare/plugins/lighter';
 import Radius from './poincare/plugins/radius';
+import Labels from './poincare/plugins/labels';
 
 const debug = require('debug')('poincare:app');
 
@@ -50,7 +53,7 @@ const pn = window.PN = new Poincare({
     // stableThreshold: 0.001
     stableThreshold: 100
   },
-  plugins: [Lighter, Radius]
+  plugins: [Tween, Lighter, Radius, Labels]
 });
 
 pn.on('zoomstart', () => debug('zoomstart'));
@@ -59,8 +62,8 @@ pn.on('viewreset', () => debug('viewreset'));
 pn.on('run', () => debug('run'));
 pn.on('layoutstop', () => debug('layoutstop'));
 pn.on('visiblenodes', (nodes, r) => {
-  if (nodes.length < 128)
-    pn.lighter.high(nodes);
+  // if (nodes.length < 32)
+    // pn.lighter.light(nodes);
   debug('Median radius is %o [%o]', r, nodes.length);
 });
 pn.on('nodeclick', (e) => debug('Node clicked', e));
@@ -77,7 +80,7 @@ axios.get('/data/belgiia.graphml')
   .then(graph => {
     pn.graph(graph);
     pn.run();
-    pn.lighter.high(['552f7ccb8a432b148143e681', '552f7ccb8a432b148143e63e']);
+    pn.lighter.light(['552f7ccb8a432b148143e681', '552f7ccb8a432b148143e63e']);
   });
 //
 // let graph = balancedBinTree(11.3);

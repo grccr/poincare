@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import nGraph from 'ngraph.graph';
 import Poincare from '../../src/poincare';
 import { IconSpriteGenerator, SpriteManager } from '../../src/poincare/core';
+import { venn } from '../../src/poincare/helpers';
 // import PIXI from 'pixi.js';
 import sinon from 'sinon';
 
@@ -202,5 +203,16 @@ describe('Poincare real usage', () => {
     ng.addNode('b', { x: 'B' });
 
     pn.graph(ng);
+  });
+});
+
+describe('Venn', () => {
+  it('works', () => {
+    const info = venn([1, 2, 3], [4, 5, 6, 3]);
+
+    expect(info).to.contain.all.keys('total', 'addition', 'common');
+    expect(info.total).to.deep.equal([1, 2, 3, 4, 5, 6]);
+    expect(info.addition).to.deep.equal([4, 5, 6]);
+    expect(info.common).to.deep.equal([3]);
   });
 });
