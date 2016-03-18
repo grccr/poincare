@@ -3,6 +3,9 @@
 import axios from 'axios';
 import { balancedBinTree } from 'ngraph.generators';
 
+import d3 from 'd3';
+import debounce from 'lodash/debounce';
+
 import Poincare from './poincare';
 import GraphMLParser from './poincare/parsers/graphml';
 import graphlib2ngraph from './poincare/parsers/ngraph';
@@ -36,7 +39,7 @@ const pn = window.PN = new Poincare({
   background: 'red',
   zoom: {
     min: 0.1,
-    max: 10
+    max: 60
   },
   transparent: true,
   icons: {
@@ -54,6 +57,7 @@ const pn = window.PN = new Poincare({
     stableThreshold: 100
   },
   plugins: [Tween, Lighter, Radius, Labels]
+  // plugins: [Tween, Radius]
 });
 
 pn.on('zoomstart', () => debug('zoomstart'));
@@ -82,6 +86,10 @@ axios.get('/data/belgiia.graphml')
     pn.run();
     pn.lighter.light(['552f7ccb8a432b148143e681', '552f7ccb8a432b148143e63e']);
   });
+
+d3.select(window).on('resize', debounce(() => {
+  pn.updateDimensions();
+}, 100));
 //
 // let graph = balancedBinTree(11.3);
 // let graph = balancedBinTree(14);

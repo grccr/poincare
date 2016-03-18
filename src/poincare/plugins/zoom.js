@@ -17,7 +17,12 @@ class Zoom {
 
     zoom($container);
     zoom.scaleExtent([this._options.min, this._options.max]);
-    zoom.size(pn._dims);
+    zoom.size([200, 200]);
+
+    pn.on('dimensions', (dims) => {
+      zoom.size(dims);
+      pn.emit('viewreset', zoom.translate(), zoom.scale());
+    });
 
     zoom.x(pn._core.xScale);
     zoom.y(pn._core.yScale);
@@ -173,8 +178,8 @@ class Zoom {
     const bbox = {
       x: x[0] - pdd,
       y: y[0] - pdd,
-      width: x[1] - x[0] + pdd * 2,
-      height: y[1] - y[0] + pdd * 2 };
+      width: (x[1] - x[0]) + pdd * 2,
+      height: (y[1] - y[0]) + pdd * 2 };
     this.fitBounds(bbox);
   }
 

@@ -30,7 +30,7 @@ export function fieldGetter(path) {
       return pv;
     }, [])
     .filter(Boolean)
-    .map(p => `[${p}]`)
+    .map(p => `['${p}']`)
     .join('');
   // return new Function('obj', 'try { return obj' + compiled + '; } catch(e) { return null; }');
   return new Function('obj', `return obj${compiled};`);
