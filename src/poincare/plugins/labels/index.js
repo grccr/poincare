@@ -27,16 +27,33 @@ export default class Labels {
     const x = xx => this._pn._core.xScale(xx) + this._options.offset[0];
     const y = yy => this._pn._core.yScale(yy) + this._options.offset[1];
 
+    const THRESHOLD = 70;
+
+    const hide = () => {
+      this._labels && this._labels
+        .transition()
+          .duration(1000)
+          .style('opacity', 0)
+          .remove();
+      this._labels = null;
+      // this._hidden = true;
+    };
+    let prevRadius = 0;
+
+    // pn.on('zoom', (tr, sc) => {
+    //   if (this._hidden)
+    //     return;
+    //   const r = pn.radius.lastRadiusForScale(sc);
+    //   debug('Last median radius', r);
+    //   if (r < THRESHOLD)
+    //     return hide();
+    // });
+
     pn.on('visiblenodes', (ids, r) => {
-      if (r < 70) {
-        this._labels && this._labels
-          .transition()
-            .duration(1000)
-            .style('opacity', 0)
-            .remove();
-        this._labels = null;
-        return;
-      }
+      prevRadius = r;
+      if (r < THRESHOLD)
+        return hide();
+      // this._hidden = false;
       const data = this._pn._core.selectNodes(ids);
       const labels = this._labels = this._layer.selectAll('.label')
         .data(data, d => d.id);

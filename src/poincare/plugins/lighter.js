@@ -59,3 +59,11 @@ export default class Lighter {
     this._pn._core.groupContainer().removeChild(this._gfx);
   }
 }
+
+if (typeof window !== 'undefined') {
+  if (window.poincare == null)
+    window.poincare = {};
+  if (window.poincare.plugins == null)
+    window.poincare.plugins = {};
+  window.poincare.plugins.Lighter = Lighter;
+}

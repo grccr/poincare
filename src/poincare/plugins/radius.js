@@ -11,6 +11,7 @@ export default class Radius {
     }, opts || {});
     this._pn = pn;
     this._tree = null;
+    this._lastRadius = 0;
 
     pn.on('layoutstop', () => {
       this._createIndex();
@@ -41,10 +42,15 @@ export default class Radius {
     debug('current viewport is', bbox);
     const nodes = this._pickNodes(bbox);
     // debug('found these nodes in current viewport', nodes);
-    const r = this._radiusFor(nodes) * scale;
-    this._pn.emit('visiblenodes', nodes, r);
+    const r = this._radiusFor(nodes);
+    this._lastRadius = r;
+    this._pn.emit('visiblenodes', nodes, r * scale);
     // if (nodes.length < 30)
     //   this._pn.lighter.high(nodes);
+  }
+
+  lastRadiusForScale(sc) {
+    return this._lastRadius * sc;
   }
 
   _radiusFor(ids) {
@@ -61,4 +67,12 @@ export default class Radius {
     });
     return sum / ids.length;
   }
+}
+
+if (typeof window !== 'undefined') {
+  if (window.poincare == null)
+    window.poincare = {};
+  if (window.poincare.plugins == null)
+    window.poincare.plugins = {};
+  window.poincare.plugins.Radius = Radius;
 }

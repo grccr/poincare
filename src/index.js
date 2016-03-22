@@ -28,12 +28,6 @@ const types = {
   'infrastructure/powerplant': plantIcon
 };
 
-const sizes = {
-  'infrastructure/powersubstation': stationIcon,
-  'infrastructure/powerline': poleIcon,
-  'infrastructure/powerplant': plantIcon
-};
-
 const pn = window.PN = new Poincare({
   container: '.graph',
   background: 'red',
@@ -65,6 +59,7 @@ pn.on('zoomend', () => debug('zoomend'));
 pn.on('viewreset', () => debug('viewreset'));
 pn.on('run', () => debug('run'));
 pn.on('layoutstop', () => debug('layoutstop'));
+pn.on('zoom', () => debug('zoom'));
 pn.on('visiblenodes', (nodes, r) => {
   // if (nodes.length < 32)
     // pn.lighter.light(nodes);

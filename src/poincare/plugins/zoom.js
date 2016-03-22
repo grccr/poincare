@@ -1,5 +1,6 @@
 import d3 from 'd3';
 import debounce from 'lodash/debounce';
+import throttle from 'lodash/throttle';
 
 const debug = require('debug')('poincare:zoom');
 
@@ -60,14 +61,9 @@ class Zoom {
       viewReset();
     });
 
-    // zoom.on('zoom', () => {
-    //   // group.scale.x = d3.event.scale;
-    //   // group.scale.y = d3.event.scale;
-
-    //   // group.position.x = d3.event.translate[0];
-    //   // group.position.y = d3.event.translate[1];
-    //   this._scaleFactor = d3.event.scale;
-    // });
+    // zoom.on('zoom', throttle(() => {
+    //   pn.emit('zoom', zoom.translate(), zoom.scale());
+    // }, 100));
 
     // zoom.on('zoom', this._zoomHandler.bind(this, group));
     this._wasSwitch = false;
@@ -200,6 +196,14 @@ class Zoom {
     this._zoom.on('zoom', null);
     this._$container.on('.zoom', null);
   }
+}
+
+if (typeof window !== 'undefined') {
+  if (window.poincare == null)
+    window.poincare = {};
+  if (window.poincare.plugins == null)
+    window.poincare.plugins = {};
+  window.poincare.plugins.Zoom = Zoom;
 }
 
 export default Zoom;
