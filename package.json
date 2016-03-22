@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "node ./node_modules/.bin/webpack-dev-server --content-base test --hot --inline --quiet",
     "test:node": "./node_modules/.bin/mocha --require babel-core/register --recursive",
+    "build": "NODE_ENV=production node ./node_modules/.bin/webpack --config webpack.config.js --progress",
     "test": "node ./node_modules/.bin/karma start --browsers PhantomJS --single-run true",
     "test:watch": "node ./node_modules/.bin/karma start --browsers PhantomJS",
     "test:chrome": "node ./node_modules/.bin/karma start --browsers Chrome",

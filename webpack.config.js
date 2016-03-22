@@ -7,7 +7,6 @@ var appPath = join(__dirname, 'src');
 var distPath = join(__dirname, 'dist');
 
 module.exports = {
-  devtool: '#source-map',
   context: appPath,
   entry: {
     app: ['babel-polyfill', './index.js']
@@ -64,3 +63,20 @@ module.exports = {
   plugins: [
   ]
 };
+
+if (process.env.NODE_ENV === 'production') {
+  var DefinePlugin = require('webpack/lib/DefinePlugin');
+  var UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
+  var OccurenceOrderPlugin = require('webpack/lib/optimize/OccurenceOrderPlugin');
+  module.exports.plugins = module.exports.plugins.concat([
+    new DefinePlugin({
+      'process.env': { NODE_ENV: '"production"' }
+    }),
+    new UglifyJsPlugin({
+      compress: { warnings: false }
+    }),
+    new OccurenceOrderPlugin()
+  ]);
+} else {
+  module.exports.devtool = '#source-map';
+}
