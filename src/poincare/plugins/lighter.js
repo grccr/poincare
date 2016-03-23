@@ -23,7 +23,7 @@ export default class Lighter {
     // const ids = new Set(nodeIds);
     // const newIds = = new Set([...this._nodeIds].filter(x => !ids.has(x)));
     this._nodeIds = nodeIds;
-    const radiuses = this._radiuses = nodeIds.map(n => ({ r: 1 }));
+    const radiuses = this._radiuses = nodeIds.map(n => ({ r: 10 }));
     const defRadius = this._options.radius;
     nodeIds.forEach((id, i) => {
       const tween = new TWEEN.Tween(radiuses[i])

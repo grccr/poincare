@@ -166,6 +166,13 @@ class Zoom {
     this.transform(tr, sc);
   }
 
+  containerToGraphPoint(pos) {
+    return [
+      this._pn._core.xScale.invert(pos[0]),
+      this._pn._core.yScale.invert(pos[1])
+    ];
+  }
+
   zoomNodes(ids) {
     const pdd = 8;
     const positions = ids.map(id => this._pn._core.node(id).pos);

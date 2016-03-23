@@ -10,10 +10,13 @@ import Poincare from './poincare';
 import GraphMLParser from './poincare/parsers/graphml';
 import graphlib2ngraph from './poincare/parsers/ngraph';
 
-import Tween from './poincare/plugins/tween';
-import Lighter from './poincare/plugins/lighter';
-import Radius from './poincare/plugins/radius';
-import Labels from './poincare/plugins/labels';
+// import Tween from './poincare/plugins/tween';
+// import Lighter from './poincare/plugins/lighter';
+// import Radius from './poincare/plugins/radius';
+// import Labels from './poincare/plugins/labels';
+// import Events from './poincare/plugins/events';
+
+import { Tween, Lighter, Radius, Labels, Events } from './poincare/plugins';
 
 const debug = require('debug')('poincare:app');
 
@@ -50,7 +53,7 @@ const pn = window.PN = new Poincare({
     // stableThreshold: 0.001
     stableThreshold: 100
   },
-  plugins: [Tween, Lighter, Radius, Labels]
+  plugins: [Tween, Lighter, Radius, Labels, Events]
   // plugins: [Tween, Radius]
 });
 

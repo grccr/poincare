@@ -53,6 +53,18 @@ export default class Radius {
     return this._lastRadius * sc;
   }
 
+  nearest(pos, radius = 30) {
+    if (this._tree == null)
+      return null;
+    const [nearest] = knn(this._tree, pos, 1);
+    if (nearest) {
+      const dist = Math.hypot(nearest.x - pos[0], nearest.y - pos[1]);
+      if (dist <= radius)
+        return nearest.id;
+    }
+    return null;
+  }
+
   _radiusFor(ids) {
     let sum = 0;
     const dist = (pos1, pos2) => {
