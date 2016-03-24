@@ -15,6 +15,7 @@
   "author": "Nick Ts. <fbd@yawny.ru>",
   "license": "MIT",
   "devDependencies": {
+    "autoprefixer": "^6.3.4",
     "babel-cli": "^6.6.0",
     "babel-core": "^6.5.2",
     "babel-eslint": "^6.0.0-beta.6",
@@ -43,6 +44,7 @@
     "less-loader": "^2.2.2",
     "mocha": "^2.4.5",
     "phantomjs-prebuilt": "^2.1.4",
+    "postcss-loader": "^0.8.2",
     "sinon": "^2.0.0-pre",
     "style-loader": "^0.13.0",
     "transform-loader": "^0.2.3",

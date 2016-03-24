@@ -10,13 +10,8 @@ import Poincare from './poincare';
 import GraphMLParser from './poincare/parsers/graphml';
 import graphlib2ngraph from './poincare/parsers/ngraph';
 
-// import Tween from './poincare/plugins/tween';
-// import Lighter from './poincare/plugins/lighter';
-// import Radius from './poincare/plugins/radius';
-// import Labels from './poincare/plugins/labels';
-// import Events from './poincare/plugins/events';
-
-import { Tween, Lighter, Radius, Labels, Events } from './poincare/plugins';
+import { Tween, Lighter, Radius, Labels, Events,
+         Zoom, Cursors } from './poincare/plugins';
 
 const debug = require('debug')('poincare:app');
 
@@ -53,7 +48,7 @@ const pn = window.PN = new Poincare({
     // stableThreshold: 0.001
     stableThreshold: 100
   },
-  plugins: [Tween, Lighter, Radius, Labels, Events]
+  plugins: [Tween, Events, Zoom, Lighter, Radius, Labels, Cursors]
   // plugins: [Tween, Radius]
 });
 
@@ -63,12 +58,17 @@ pn.on('viewreset', () => debug('viewreset'));
 pn.on('run', () => debug('run'));
 pn.on('layoutstop', () => debug('layoutstop'));
 pn.on('zoom', () => debug('zoom'));
-pn.on('visiblenodes', (nodes, r) => {
-  // if (nodes.length < 32)
-    // pn.lighter.light(nodes);
-  debug('Median radius is %o [%o]', r, nodes.length);
+// pn.on('visiblenodes', (nodes, r) => {
+//   // if (nodes.length < 32)
+//     // pn.lighter.light(nodes);
+//   debug('Median radius is %o [%o]', r, nodes.length);
+// });
+pn.on('nodeclick', (id) => {
+  debug('Node clicked', id);
+  pn.lighter.light([id]);
 });
-pn.on('nodeclick', (e) => debug('Node clicked', e));
+pn.on('nodeover', (id) => debug('Node over', id));
+pn.on('nodeout', (id) => debug('Node out', id));
 
 pn.zoom.alignToCenter();
 

@@ -1,5 +1,7 @@
 
 var webpack = require('webpack');
+var autoprefixer = require('autoprefixer');
+
 var join = require('path').join;
 var resolve = require('path').resolve;
 
@@ -38,11 +40,11 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader'
+        loader: 'style-loader!css-loader!postcss-loader'
       },
       {
         test: /\.less$/,
-        loader: 'style-loader!css-loader!less-loader'
+        loader: 'style-loader!css-loader!postcss-loader!less-loader'
       }
     ],
     postLoaders: [
@@ -51,6 +53,9 @@ module.exports = {
         loader: 'transform?brfs'
       }
     ]
+  },
+  postcss: function () {
+    return [autoprefixer];
   },
   resolve: {
     root: [appPath],

@@ -2,10 +2,13 @@ import d3 from 'd3';
 import debounce from 'lodash/debounce';
 import throttle from 'lodash/throttle';
 
+import Plugin from './base';
+
 const debug = require('debug')('poincare:zoom');
 
-class Zoom {
+class Zoom extends Plugin {
   constructor(pn, opts) {
+    super();
     this._options = Object.assign({
       min: 0,
       max: Infinity

@@ -55,7 +55,9 @@ export default class Poincare {
   }
 
   _installPlugins() {
-    for (const plugin of this._options.plugins) {
+    const plugins = Array.from(this._options.plugins);
+    plugins.sort((a, b) => a.priority - b.priority);
+    for (const plugin of plugins) {
       const nm = plugin.name.toLowerCase();
       this[nm] = new plugin(this, this._options[nm]);
       debug('Plugin "%s" installed', nm);
@@ -74,6 +76,9 @@ export default class Poincare {
     if (this._container == null)
       throw new PoincareError(`No container '${this._options.container}'` +
                               ' is found');
+
+    d3.select(this._container)
+      .classed('poincare-graph', true);
   }
 
   container() {

@@ -2,11 +2,13 @@
 import rbush from 'rbush';
 import knn from 'rbush-knn';
 // import { css2pixi } from '../helpers';
+import Plugin from './base';
 
 const debug = require('debug')('poincare:radius');
 
-export default class Radius {
+export default class Radius extends Plugin {
   constructor(pn, opts) {
+    super();
     this._options = Object.assign({
     }, opts || {});
     this._pn = pn;

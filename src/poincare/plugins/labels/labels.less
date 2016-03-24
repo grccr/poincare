@@ -3,6 +3,10 @@
 @bgcolor: #F3F3F3;
 // @bgcolor: red;
 
+.poincare-labels {
+  pointer-events: none;
+}
+
 .label {
   position: absolute;
   width: 100px;
@@ -14,6 +18,8 @@
   height: 3.4rem;
   // height: 10rem;
   // line-height: 1.25em;
+  cursor: default;
+  user-select: none;
 }
 
 .label-inner {

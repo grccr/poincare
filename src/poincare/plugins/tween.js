@@ -1,7 +1,9 @@
 import TWEEN from 'tween.js';
+import Plugin from './base';
 
-export default class Tween {
+export default class Tween extends Plugin {
   constructor(pn, opts) {
+    super();
     pn.on('frame', TWEEN.update.bind(TWEEN));
   }
 }

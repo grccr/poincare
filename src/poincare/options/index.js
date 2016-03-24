@@ -1,7 +1,9 @@
 import d3 from 'd3';
 import merge from 'lodash/merge';
 
-import Zoom from '../plugins/zoom';
+import Events from '../plugins/zoom';
+import Zoom from '../plugins/events';
+
 import { css2pixi } from '../helpers';
 
 const worldIcon = 'icon.png';
@@ -34,7 +36,7 @@ const Options = {
       theta: 1
     },
 
-    plugins: [Zoom]
+    plugins: [Events, Zoom]
   },
 
   check(v) {

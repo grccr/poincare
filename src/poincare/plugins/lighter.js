@@ -2,11 +2,13 @@ import PIXI from 'pixi.js';
 import TWEEN from 'tween.js';
 
 import { css2pixi } from '../helpers';
+import Plugin from './base';
 
 const debug = require('debug')('poincare:lighter');
 
-export default class Lighter {
+export default class Lighter extends Plugin {
   constructor(pn, opts) {
+    super();
     this._options = Object.assign({
       color: '#F2EF42',
       radius: 13
@@ -23,7 +25,7 @@ export default class Lighter {
     // const ids = new Set(nodeIds);
     // const newIds = = new Set([...this._nodeIds].filter(x => !ids.has(x)));
     this._nodeIds = nodeIds;
-    const radiuses = this._radiuses = nodeIds.map(n => ({ r: 10 }));
+    const radiuses = this._radiuses = nodeIds.map(n => ({ r: 1 }));
     const defRadius = this._options.radius;
     nodeIds.forEach((id, i) => {
       const tween = new TWEEN.Tween(radiuses[i])

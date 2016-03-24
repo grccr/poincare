@@ -1,13 +1,15 @@
 import d3 from 'd3';
 import { fieldGetter } from '../../helpers';
+import Plugin from '../base';
 import template from 'lodash/template';
 import './labels.less';
 
 const debug = require('debug')('poincare:labels');
 
 
-export default class Labels {
+export default class Labels extends Plugin {
   constructor(pn, opts) {
+    super();
     this._options = Object.assign({
       template: '<b><%- label %></b>',
       getter: 'label',
