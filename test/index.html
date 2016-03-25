@@ -23,10 +23,50 @@
 <body>
   <div class="graph" id="ashberry" style="width: 100%; height: 100%; position: absolute;"></div>
   <a href="#" onclick="stop()">STOP</a>
-  <script src="/assets/poincare.js"></script>
+  <script src="/dist/poincare.js"></script>
   <script>
   function stop() {
     PN.stop();
+  }
+
+  if (poincare.env == 'production') {
+    var pn = new poincare.Poincare({
+      container: '.graph',
+      icons: {
+        source: '/assets/icons/electric-icon.png',
+        size: 16
+      },
+      physics: { stableThreshold: 100 },
+      plugins: [
+        poincare.plugins.Tween, poincare.plugins.Events,
+        poincare.plugins.Zoom, poincare.plugins.Lighter,
+        poincare.plugins.Radius, poincare.plugins.Labels,
+        poincare.plugins.Cursors,
+        poincare.plugins.AutoResize
+      ]
+    });
+
+
+    pn.on('nodeclick', (id) => {
+      pn.lighter.light([id]);
+      const node = pn.graph().getNode(id);
+      console.log('Node clicked', id, node);
+    });
+
+    var myGraph = {
+      nodes: [
+        { v: '1', value: { label: 'Капуста' } },
+        { v: '2', value: { label: 'Морковка' } }
+      ],
+      edges: [
+        { v: '1', w: '2', value: { label: 3 } }
+      ],
+      options: { directed: true }
+    };
+
+    pn.graph(poincare.parsers.NGraph.fromJSON(myGraph));
+    pn.zoom.alignToCenter();
+    pn.run();
   }
   </script>
 </body>

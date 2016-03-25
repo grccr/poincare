@@ -79,7 +79,7 @@ export default class GraphMLParser {
     const data = this._parseDataFields($elem, 'edge');
 
     return {
-      [this._options.idLabel]: $elem.attr('id'),
+      // [this._options.idLabel]: $elem.attr('id'),
       [this._options.sourceLabel]: $elem.attr('source'),
       [this._options.targetLabel]: $elem.attr('target'),
       value: data

@@ -56,7 +56,13 @@ export default class Labels extends Plugin {
       if (r < THRESHOLD)
         return hide();
       // this._hidden = false;
-      const data = this._pn._core.selectNodes(ids);
+      const data = this._pn._core.selectNodes(ids)
+        .filter(d => {
+          try {
+            return this._options.getter(d.data);
+          } catch (e) {}
+          return false;
+        });
       const labels = this._labels = this._layer.selectAll('.label')
         .data(data, d => d.id);
 
@@ -102,4 +108,12 @@ export default class Labels extends Plugin {
       })
       .classed('poincare-labels', true);
   }
+}
+
+if (typeof window !== 'undefined') {
+  if (window.poincare == null)
+    window.poincare = {};
+  if (window.poincare.plugins == null)
+    window.poincare.plugins = {};
+  window.poincare.plugins.Labels = Labels;
 }

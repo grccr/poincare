@@ -1,3 +1,4 @@
+var DefinePlugin = require('webpack/lib/DefinePlugin');
 
 var webpack = require('webpack');
 var autoprefixer = require('autoprefixer');
@@ -8,14 +9,19 @@ var resolve = require('path').resolve;
 var appPath = join(__dirname, 'src');
 var distPath = join(__dirname, 'dist');
 
+var ENV = process.env.NODE_ENV || 'development';
+
+console.log('Node ENV is', ENV);
+
 module.exports = {
   context: appPath,
   entry: {
-    app: ['babel-polyfill', './index.js']
+    app: ['babel-polyfill', ENV === 'production' ? './browser.js'
+                                                 : './test.js']
   },
   output: {
     path: distPath,
-    publicPath: '/assets/',
+    publicPath: '/dist/',
     filename: 'poincare.js'
   },
   babel: {
@@ -66,19 +72,22 @@ module.exports = {
     __dirname: true
   },
   plugins: [
+    new DefinePlugin({
+      'process.env': { NODE_ENV: '"' + ENV + '"' }
+    })
   ]
 };
 
-if (process.env.NODE_ENV === 'production') {
-  var DefinePlugin = require('webpack/lib/DefinePlugin');
+if (ENV === 'production') {
   var UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
   var OccurenceOrderPlugin = require('webpack/lib/optimize/OccurenceOrderPlugin');
   module.exports.plugins = module.exports.plugins.concat([
-    new DefinePlugin({
-      'process.env': { NODE_ENV: '"production"' }
-    }),
     new UglifyJsPlugin({
-      compress: { warnings: false }
+      compress: { warnings: false },
+      mangle: {
+        except: ['Lighter', 'Events', 'Plugin', 'Radius', 'Zoom',
+                 'Tween', 'Cursors', 'Labels', 'AutoResize']
+      }
     }),
     new OccurenceOrderPlugin()
   ]);

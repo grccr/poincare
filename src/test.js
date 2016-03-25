@@ -7,8 +7,7 @@ import d3 from 'd3';
 import debounce from 'lodash/debounce';
 
 import Poincare from './poincare';
-import GraphMLParser from './poincare/parsers/graphml';
-import graphlib2ngraph from './poincare/parsers/ngraph';
+import * as nGraphParse from './poincare/parsers/ngraph';
 
 import { Tween, Lighter, Radius, Labels, Events,
          Zoom, Cursors } from './poincare/plugins';
@@ -20,6 +19,20 @@ const poleIcon = require('../assets/icons/pole-icon.png');
 const plantIcon = require('../assets/icons/powerplant-icon.png');
 const homeIcon = require('../assets/icons/home-icon.png');
 
+
+const myGraph = {
+  nodes: [
+    { v: '1', value: { label: 'Капуста' } },
+    { v: '2', value: { label: null } }
+  ],
+
+  edges: [
+    { v: '1', w: '2', value: { label: 3 } }
+  ],
+
+  options: { directed: true }
+};
+
 const types = {
   'infrastructure/powersubstation': stationIcon,
   'infrastructure/powerline': poleIcon,
@@ -28,7 +41,6 @@ const types = {
 
 const pn = window.PN = new Poincare({
   container: '.graph',
-  background: 'red',
   zoom: {
     min: 0.1,
     max: 60
@@ -36,10 +48,10 @@ const pn = window.PN = new Poincare({
   transparent: true,
   icons: {
     source: (d) => {
-      if (d.data.type === 'infrastructure/powerline' && d.links.length < 2)
-        return homeIcon;
-      if (d.data.type in types)
-        return types[d.data.type];
+      // if (d.data.type === 'infrastructure/powerline' && d.links.length < 2)
+      //   return homeIcon;
+      // if (d.data.type in types)
+      //   return types[d.data.type];
       return stationIcon;
     },
     size: 16
@@ -64,8 +76,9 @@ pn.on('zoom', () => debug('zoom'));
 //   debug('Median radius is %o [%o]', r, nodes.length);
 // });
 pn.on('nodeclick', (id) => {
-  debug('Node clicked', id);
   pn.lighter.light([id]);
+  const node = pn.graph().getNode(id);
+  debug('Node clicked', id, node);
 });
 pn.on('nodeover', (id) => debug('Node over', id));
 pn.on('nodeout', (id) => debug('Node out', id));
@@ -76,13 +89,15 @@ debug('Poincare icons is', pn.options().icons);
 
 
 axios.get('/data/belgiia.graphml')
-  .then(({ data }) => {
-    return graphlib2ngraph(GraphMLParser.parse(data));
+  .then(({ data: doc }) => {
+    // return nGraphParse.fromGraphML(doc);
+    // return balancedBinTree(4);
+    return nGraphParse.fromJSON(myGraph);
   })
   .then(graph => {
     pn.graph(graph);
     pn.run();
-    pn.lighter.light(['552f7ccb8a432b148143e681', '552f7ccb8a432b148143e63e']);
+    // pn.lighter.light(['552f7ccb8a432b148143e681', '552f7ccb8a432b148143e63e']);
   });
 
 d3.select(window).on('resize', debounce(() => {

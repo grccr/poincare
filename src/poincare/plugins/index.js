@@ -6,5 +6,7 @@ import Lighter from './lighter';
 import Radius from './radius';
 import Labels from './labels';
 import Cursors from './cursors';
+import AutoResize from './autoresize';
 
-export { Tween, Lighter, Radius, Labels, Events, Zoom, Plugin, Cursors };
+export { Tween, Lighter, Radius, Labels, Events, Zoom, Plugin,
+         Cursors, AutoResize };

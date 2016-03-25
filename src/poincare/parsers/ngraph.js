@@ -1,7 +1,8 @@
 import nGraph from 'ngraph.graph';
+import GraphMLParser from './graphml';
+import { read } from 'graphlib/lib/json';
 
-
-export default function graphlib2ngraph(graph) {
+export function fromGraphlib(graph) {
   const newGraph = nGraph();
 
   graph.nodes().forEach(id => {
@@ -27,3 +28,29 @@ export default function graphlib2ngraph(graph) {
 
   return newGraph;
 }
+
+export function fromGraphML(doc) {
+  return fromGraphlib(GraphMLParser.parse(doc));
+}
+
+export function fromJSON(doc) {
+  const d = typeof doc === 'string' ? JSON.parse(doc) : doc;
+  return fromGraphlib(read(d));
+}
+
+const NGraph = {
+  fromGraphlib,
+  fromGraphML,
+  fromJSON
+};
+
+export default NGraph;
+
+if (typeof window !== 'undefined') {
+  if (window.poincare == null)
+    window.poincare = {};
+  if (window.poincare.parsers == null)
+    window.poincare.parsers = {};
+  window.poincare.parsers.NGraph = NGraph;
+}
+
