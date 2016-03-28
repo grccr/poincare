@@ -1,0 +1,16 @@
+stages:
+  # - setup
+  - check
+
+before_script:
+  - npm-cache install npm 1> /dev/null
+
+test:
+  script:
+    - npm test --silent
+  stage: check
+
+# lint:
+#   script:
+#     - npm run linters --silent
+#   stage: check
