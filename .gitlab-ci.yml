@@ -7,10 +7,10 @@ before_script:
 
 test:
   script:
-    - npm test --silent
+    - npm test
   stage: check
 
-# lint:
-#   script:
-#     - npm run linters --silent
-#   stage: check
+lint:
+  script:
+    - npm run lint
+  stage: check
