@@ -3,6 +3,7 @@ import { MD5 } from 'jshashes';
 
 import memoize from 'lodash/memoize';
 import map from 'lodash/map';
+import flatMap from 'lodash/flatMap';
 import PIXI from 'pixi.js';
 import d3 from 'd3';
 
@@ -270,16 +271,22 @@ export default class Core {
     return ids.map(id => this._data.nodes[id]);
   }
 
-  mapNodes(fn) {
-    return map(this._data.nodes, fn);
+  mapNodes(fn, flat = false) {
+    return !flat ? map(this._data.nodes, fn) :
+                   flatMap(this._data.nodes, fn);
   }
 
-  mapLinks(fn) {
-    return map(this._data.links, fn);
+  mapLinks(fn, flat = false) {
+    return !flat ? map(this._data.links, fn) :
+                   flatMap(this._data.links, fn);
   }
 
   node(id) {
     return this._data.nodes[id];
+  }
+
+  link(id) {
+    return this._data.links[id];
   }
 
   nodeSprite(id) {

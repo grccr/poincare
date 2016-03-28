@@ -17,7 +17,8 @@ export default class Events extends Plugin {
       // debug('MOVE', pos, graphPos);
       const s = pn.zoom.scale();
       const r = s > 1 ? RADIUS / s : RADIUS * s;
-      const nearest = pn.radius.nearest(graphPos, r);
+      const n = pn.radius.nearest(graphPos, r);
+      const nearest = n && n.id;
       if (nearest == null && lastNearest != null) {
         // we're out of any node
         pn.emit('nodeout', lastNearest);

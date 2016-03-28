@@ -58,6 +58,7 @@ const pn = window.PN = new Poincare({
   },
   physics: {
     // stableThreshold: 0.001
+    springLength: 100,
     stableThreshold: 100
   },
   plugins: [Tween, Events, Zoom, Lighter, Radius, Labels, Cursors]
