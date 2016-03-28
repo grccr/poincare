@@ -10,7 +10,9 @@
     "test": "node ./node_modules/.bin/karma start --browsers PhantomJS --single-run true",
     "test:watch": "node ./node_modules/.bin/karma start --browsers PhantomJS",
     "test:chrome": "node ./node_modules/.bin/karma start --browsers Chrome",
-    "lint": "node ./node_modules/.bin/eslint --color --ext .js src"
+    "lint": "node ./node_modules/.bin/eslint --color --ext .js src",
+    "nibble": "node ./node_modules/.bin/eslint-nibble src",
+    "summary": "node ./node_modules/.bin/eslint --format ./node_modules/eslint-summary/summary.js src"
   },
   "author": "Nick Ts. <fbd@yawny.ru>",
   "license": "MIT",
@@ -30,6 +32,7 @@
     "css-loader": "^0.23.1",
     "debug": "^2.2.0",
     "eslint": "^2.2.0",
+    "eslint-nibble": "^2.0.0",
     "eslint-plugin-html": "^1.4.0",
     "file-loader": "^0.8.5",
     "json-loader": "^0.5.4",

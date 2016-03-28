@@ -107,8 +107,8 @@ describe('Icon sprite generator', () => {
 
   it('generates different sprites for different nodes', () => {
     const icon = IconSpriteGenerator(null, {
-      source: () => ICON,
-      size: (n) => n === 'x' ? 16 : 32
+      source: (n) => n === 'x' ? ICON : ICON_TWO,
+      size: () => 16
     });
 
     const y = icon();
