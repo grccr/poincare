@@ -6,11 +6,11 @@ export default class Cursors extends Plugin {
     super();
 
     const container = d3.select(pn.container());
-    pn.on('nodeover', () => {
-      container.classed('nodeover', true);
+    pn.on('itemfocus', () => {
+      container.classed('item-focused', true);
     });
-    pn.on('nodeout', () => {
-      container.classed('nodeover', false);
+    pn.on('itemblur', () => {
+      container.classed('item-focused', false);
     });
   }
 }

@@ -11,23 +11,6 @@ function dist(pos1, pos2) {
   return Math.hypot(pos1.x - pos2.x, pos1.y - pos2.y);
 }
 
-export function calcLinePoints(link, n = 30) {
-  const v1 = [link.from.x, link.from.y];
-  const v = [link.to.x - link.from.x,
-             link.to.y - link.from.y];
-  const d = Math.hypot(v[0], v[1]);
-  const k = parseInt(d / n, 10);
-  if (k <= 1)
-    return [v.map((vi, j) => v1[j] + vi / 2)];
-  const m = d % n;
-  const points =
-    (m === 0 ?
-      range(1, k - 1) :
-      range(1, k))
-        .map(i => v.map((vi, j) => v1[j] + vi * (i / k)));
-  return points;
-}
-
 export default class Radius extends Plugin {
   constructor(pn, opts) {
     super();
@@ -40,31 +23,15 @@ export default class Radius extends Plugin {
 
     pn.on('layoutstop', () => {
       this._createIndex();
-      this._createLinkIndex();
       this._calculateRadiusMedian();
     }, this);
     pn.on('viewreset', this._calculateRadiusMedian, this);
   }
 
-  _createLinkIndex() {
-    debug('Will create link index');
-    const data = this._pn._core.mapLinks(link =>
-      calcLinePoints(link)
-        .map(pt => ({ id: link.id,
-                      type: 'l',
-                      x: pt[0],
-                      y: pt[1] }))
-    , true);
-    this._tree.load(data);
-    debug('Link index created', data);
-  }
-
   _createIndex() {
     debug('Will create node index');
     const tree = this._tree = rbush(9, ['.x', '.y', '.x', '.y']);
-    const data = this._pn._core.mapNodes(node => ({ id: node.id,
-                                                 type: 'n',
-                                                 ...node.pos }));
+    const data = this._pn._core.mapNodes(node => ({ id: node.id, ...node.pos }));
     tree.load(data);
     debug('Index created', data);
   }
@@ -74,7 +41,7 @@ export default class Radius extends Plugin {
                               bbox.y,
                               bbox.x + bbox.w,
                               bbox.y + bbox.h])
-      .filter(n => n.type === 'n')
+      // .filter(n => n.type === 'n')
       .map(n => n.id);
   }
 
@@ -102,23 +69,32 @@ export default class Radius extends Plugin {
       return null;
     const [nearest] = knn(this._tree, pos, 1);
     if (nearest) {
-
-      if (nearest.type == 'n')
-        debug('NEAREST POINT', nearest);
-      else
-        debug('NEAREST LINE', nearest);
-      let distance;
-      if (nearest.type === 'n') {
+      // if (nearest.type == 'n')
+      //   debug('NEAREST POINT', nearest.id, this._pn._core.node(nearest.id));
+      // else
+      //   debug('NEAREST LINE', nearest.id);
+      // let distance;
+      // if (nearest.type === 'n') {
         // simple distance
-        distance = Math.hypot(nearest.x - pos[0], nearest.y - pos[1]);
-      } else {
-        // distance from point to vector
-        const ln = this._pn._core.link(nearest.id);
-        const v = [ln.to.x - ln.from.x, ln.to.y - ln.from.y];
-        distance = Math.abs(v[0] / v[1] * pos[0] - pos[1]) / Math.sqrt(1 + Math.pow(v[0] / v[1], 2));
-      }
+        const distance = Math.hypot(nearest.x - pos[0], nearest.y - pos[1]);
+      // } else {
+      //   // distance from point to vector
+      //   const ln = this._pn._core.link(nearest.id);
+      //   // const v = [ln.to.x - ln.from.x, ln.to.y - ln.from.y];
+      //   // const k = v[0] / v[1];
+      //   // distance = Math.abs(k * pos[0] - pos[1]) / Math.sqrt(1 + Math.pow(k, 2));
+      //   //
+      //   const sqr = (n) => Math.pow(n, 2);
+      //   const d = (x0, y0, x1, y1, x, y) =>
+      //     Math.abs((y0 - y1) * x + (x1 - x0) * y + (x0 * y1 - x1 * y0)) /
+      //     Math.sqrt(sqr(x1 - x0) + sqr(y1 - y0));
+      //   distance = d(ln.from.x, ln.from.y,
+      //                ln.to.x, ln.to.y,
+      //                pos[0], pos[1]);
+      //   debug('line distance', distance, ln);
+      // }
       if (distance <= radius) {
-        return nearest;
+        return nearest.id;
       }
     }
     return null;
@@ -128,8 +104,7 @@ export default class Radius extends Plugin {
     let sum = 0;
     ids.forEach(id => {
       const { pos } = this._pn._core.node(id);
-      const [neighbor1, neighbor2] = knn(this._tree, [pos.x, pos.y], 2,
-        item => item.type === 'n');
+      const [neighbor1, neighbor2] = knn(this._tree, [pos.x, pos.y], 2);
       // debug('neighbor for %o', node.id, neighbor2);
       // debug('radius for %o', node.id, dist(pos, neighbor2));
       sum += dist(pos, neighbor2);

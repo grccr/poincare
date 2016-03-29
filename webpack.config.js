@@ -86,7 +86,7 @@ if (ENV === 'production') {
       compress: { warnings: false },
       mangle: {
         except: ['Lighter', 'Events', 'Plugin', 'Radius', 'Zoom',
-                 'Tween', 'Cursors', 'Labels', 'AutoResize']
+                 'Tween', 'Cursors', 'Labels', 'AutoResize', 'LineIndex']
       }
     }),
     new OccurenceOrderPlugin()

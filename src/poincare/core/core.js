@@ -271,6 +271,10 @@ export default class Core {
     return ids.map(id => this._data.nodes[id]);
   }
 
+  selectLinks(ids) {
+    return ids.map(id => this._data.links[id]);
+  }
+
   mapNodes(fn, flat = false) {
     return !flat ? map(this._data.nodes, fn) :
                    flatMap(this._data.nodes, fn);

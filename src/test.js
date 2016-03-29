@@ -10,7 +10,7 @@ import Poincare from './poincare';
 import * as nGraphParse from './poincare/parsers/ngraph';
 
 import { Tween, Lighter, Radius, Labels, Events,
-         Zoom, Cursors } from './poincare/plugins';
+         Zoom, Cursors, LineIndex } from './poincare/plugins';
 
 const debug = require('debug')('poincare:app');
 
@@ -22,12 +22,14 @@ const homeIcon = require('../assets/icons/home-icon.png');
 
 const myGraph = {
   nodes: [
-    { v: '1', value: { label: 'Капуста' } },
-    { v: '2', value: { label: null } }
+    { v: '1', value: { label: '1' } },
+    { v: '2', value: { label: '2' } },
+    { v: '3', value: { label: '3' } }
   ],
 
   edges: [
-    { v: '1', w: '2', value: { label: 3 } }
+    { v: '1', w: '2', value: { label: 3 } },
+    { v: '1', w: '3', value: { label: 3 } }
   ],
 
   options: { directed: true }
@@ -61,7 +63,7 @@ const pn = window.PN = new Poincare({
     springLength: 100,
     stableThreshold: 100
   },
-  plugins: [Tween, Events, Zoom, Lighter, Radius, Labels, Cursors]
+  plugins: [Tween, Events, Zoom, Lighter, Radius, Labels, Cursors, LineIndex]
   // plugins: [Tween, Radius]
 });
 
@@ -78,11 +80,18 @@ pn.on('zoom', () => debug('zoom'));
 // });
 pn.on('nodeclick', (id) => {
   pn.lighter.light([id]);
-  const node = pn.graph().getNode(id);
-  debug('Node clicked', id, node);
+  const item = pn.graph().getNode(id);
+  debug('Node clicked', id, item);
+});
+pn.on('linkclick', (id) => {
+  const item = pn.graph().getLink(id);
+  debug('Link clicked', id, item);
 });
 pn.on('nodeover', (id) => debug('Node over', id));
 pn.on('nodeout', (id) => debug('Node out', id));
+
+pn.on('linkover', (id) => debug('Link over', id));
+pn.on('linkout', (id) => debug('Link out', id));
 
 pn.zoom.alignToCenter();
 
