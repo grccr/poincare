@@ -5,6 +5,7 @@ import nGraph from 'ngraph.graph';
 import Poincare from '../../src/poincare';
 import { IconSpriteGenerator, SpriteManager } from '../../src/poincare/core';
 import { venn, fieldGetter } from '../../src/poincare/helpers';
+import { calcLinePoints } from '../../src/poincare/plugins/radius';
 // import PIXI from 'pixi.js';
 import sinon from 'sinon';
 
@@ -232,5 +233,29 @@ describe('Helpers', () => {
     const data = { f: { z: 100, a: { b: 'x' } } };
     expect(fieldGetter('f.a.x')(data)).to.be.undefined;
     expect(() => fieldGetter('f.n.l')(data)).to.throw(TypeError);
+  });
+});
+
+describe('Radius plugin', () => {
+  it('calcLinePoints works as expected', () => {
+    const line = {
+      from: { x: 0,  y: 0 },
+      to:   { x: 90, y: 90 }
+    };
+    const points = calcLinePoints(line);
+    expect(points).to.be.an('array');
+    expect(points).not.to.be.empty;
+    expect(points).to.deep.equal([[22.5, 22.5], [45, 45], [67.5, 67.5]]);
+  });
+
+  it('calcLinePoints returns middle point if too small', () => {
+    const line = {
+      from: { x: 0,  y: 0 },
+      to:   { x: 10, y: 10 }
+    };
+    const points = calcLinePoints(line, 20);
+    expect(points).to.be.an('array');
+    expect(points).not.to.be.empty;
+    expect(points).to.deep.equal([[5, 5]]);
   });
 });

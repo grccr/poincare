@@ -16,12 +16,15 @@ export default class Lighter extends Plugin {
     this._pn = pn;
     this._options.color = css2pixi(this._options.color);
     this._gfx = new PIXI.Graphics();
+    this._pn._core.groupContainer().addChildAt(this._gfx, 0);
     this._nodeIds = [];
   }
 
   light(nodeIds) {
     if (nodeIds == null || nodeIds.length < 1)
       return;
+
+    this._pn.off('frame', this._renderCircles, this);
     // const ids = new Set(nodeIds);
     // const newIds = = new Set([...this._nodeIds].filter(x => !ids.has(x)));
     this._nodeIds = nodeIds;
@@ -34,7 +37,6 @@ export default class Lighter extends Plugin {
         .start();
     });
     // console.log(this._radiuses);
-    this._pn._core.groupContainer().addChildAt(this._gfx, 0);
     this._pn.on('frame', this._renderCircles, this);
   }
 
