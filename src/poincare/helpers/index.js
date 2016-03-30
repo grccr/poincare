@@ -11,10 +11,11 @@ export function css2pixi(color) {
 export function venn(_old, _new) {
   const a = new Set(_old);
   const b = new Set(_new);
-  const addition = _new.filter(x => !a.has(x));
-  const total = [...(new Set([..._old, ..._new]))];
-  const common = _old.filter(x => b.has(x));
-  return { addition, total, common };
+  const added = _new.filter(x => !a.has(x));
+  // const total = [...(new Set([..._old, ..._new]))];
+  // const common = _old.filter(x => b.has(x));
+  const removed = _old.filter(x => !b.has(x));
+  return { added, removed };
 }
 
 export function fieldGetter(path) {

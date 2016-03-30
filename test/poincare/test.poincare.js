@@ -211,10 +211,9 @@ describe('Helpers', () => {
   it('Venn works', () => {
     const info = venn([1, 2, 3], [4, 5, 6, 3]);
 
-    expect(info).to.contain.all.keys('total', 'addition', 'common');
-    expect(info.total).to.deep.equal([1, 2, 3, 4, 5, 6]);
-    expect(info.addition).to.deep.equal([4, 5, 6]);
-    expect(info.common).to.deep.equal([3]);
+    expect(info).to.contain.all.keys('added', 'removed');
+    expect(info.added).to.deep.equal([4, 5, 6]);
+    expect(info.removed).to.deep.equal([1, 2]);
   });
 
   it('fieldGetter just works', () => {
@@ -236,26 +235,26 @@ describe('Helpers', () => {
   });
 });
 
-describe('Radius plugin', () => {
-  it('calcLinePoints works as expected', () => {
-    const line = {
-      from: { x: 0,  y: 0 },
-      to:   { x: 90, y: 90 }
-    };
-    const points = calcLinePoints(line);
-    expect(points).to.be.an('array');
-    expect(points).not.to.be.empty;
-    expect(points).to.deep.equal([[22.5, 22.5], [45, 45], [67.5, 67.5]]);
-  });
+// describe('Radius plugin', () => {
+//   it('calcLinePoints works as expected', () => {
+//     const line = {
+//       from: { x: 0,  y: 0 },
+//       to:   { x: 90, y: 90 }
+//     };
+//     const points = calcLinePoints(line);
+//     expect(points).to.be.an('array');
+//     expect(points).not.to.be.empty;
+//     expect(points).to.deep.equal([[22.5, 22.5], [45, 45], [67.5, 67.5]]);
+//   });
 
-  it('calcLinePoints returns middle point if too small', () => {
-    const line = {
-      from: { x: 0,  y: 0 },
-      to:   { x: 10, y: 10 }
-    };
-    const points = calcLinePoints(line, 20);
-    expect(points).to.be.an('array');
-    expect(points).not.to.be.empty;
-    expect(points).to.deep.equal([[5, 5]]);
-  });
-});
+//   it('calcLinePoints returns middle point if too small', () => {
+//     const line = {
+//       from: { x: 0,  y: 0 },
+//       to:   { x: 10, y: 10 }
+//     };
+//     const points = calcLinePoints(line, 20);
+//     expect(points).to.be.an('array');
+//     expect(points).not.to.be.empty;
+//     expect(points).to.deep.equal([[5, 5]]);
+//   });
+// });

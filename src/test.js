@@ -79,7 +79,6 @@ pn.on('zoom', () => debug('zoom'));
 //   debug('Median radius is %o [%o]', r, nodes.length);
 // });
 pn.on('nodeclick', (id) => {
-  pn.lighter.light([id]);
   const item = pn.graph().getNode(id);
   debug('Node clicked', id, item);
 });
@@ -87,8 +86,14 @@ pn.on('linkclick', (id) => {
   const item = pn.graph().getLink(id);
   debug('Link clicked', id, item);
 });
-pn.on('nodeover', (id) => debug('Node over', id));
-pn.on('nodeout', (id) => debug('Node out', id));
+pn.on('nodeover', (id) => {
+  pn.lighter.light([id]);
+  debug('Node over', id)
+});
+pn.on('nodeout', (id) => {
+  pn.lighter.light([]);
+  debug('Node out', id)
+});
 
 pn.on('linkover', (id) => debug('Link over', id));
 pn.on('linkout', (id) => debug('Link out', id));
