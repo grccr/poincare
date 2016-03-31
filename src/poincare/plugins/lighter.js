@@ -13,32 +13,58 @@ export default class Lighter extends Plugin {
     super();
     this._options = Object.assign({
       color: '#F2EF42',
+      linkColor: '#F1D0F5',
       radius: 13
     }, opts || {});
     this._pn = pn;
     this._options.color = css2pixi(this._options.color);
+    this._options.linkColor = css2pixi(this._options.linkColor);
     this._gfx = new PIXI.Graphics();
+    this._linkGfx = new PIXI.Graphics();
     this._pn._core.groupContainer().addChildAt(this._gfx, 0);
+    this._pn._core.groupContainer().addChildAt(this._linkGfx, 0);
     this._initNodeTransitioner();
+    this._initLinkTransitioner();
   }
 
   _initNodeTransitioner() {
     const zm = this._pn.zoom;
 
     this._nodetrans = new Transitioner(this._pn)
-      .easing(TWEEN.Easing.Sinusoidal.InOut)
-      .duration(250, 1000)
-      .from(() => ({ r: 1 }))
-      .to(() => ({ r: this._options.radius }))
+      .easing(TWEEN.Easing.Sinusoidal.Out)
+      // .easing(TWEEN.Easing.Exponential.Out)
+      .duration(250, 750)
+      .from(() => ({ r: 26, opacity: 0 }))
+      .to(() => ({ r: this._options.radius, opacity: 1 }))
       .beforeRendering(() => {
         this._gfx.clear();
       })
       .render((id, prop, X, Y) => {
         const node = this._pn._core.node(id);
-        this._gfx.beginFill(this._options.color);
+        this._gfx.beginFill(this._options.color, prop.opacity);
         this._gfx.drawCircle(
           X(node.pos.x), Y(node.pos.y), prop.r * zm.truncatedScale()
         );
+      });
+  }
+
+  _initLinkTransitioner() {
+    const zm = this._pn.zoom;
+
+    this._linktrans = new Transitioner(this._pn)
+      .easing(TWEEN.Easing.Sinusoidal.Out)
+      // .easing(TWEEN.Easing.Exponential.Out)
+      .duration(250, 750)
+      .from(() => ({ opacity: 0, width: 21 }))
+      .to(() => ({ opacity: 1, width: 11 }))
+      .beforeRendering(() => {
+        this._linkGfx.clear();
+      })
+      .render((id, prop, X, Y) => {
+        const ln = this._pn._core.link(id);
+        this._linkGfx.lineStyle(prop.width * zm.truncatedScale(), this._options.linkColor, prop.opacity);
+        this._linkGfx.moveTo(X(ln.from.x), Y(ln.from.y));
+        this._linkGfx.lineTo(X(ln.to.x), Y(ln.to.y));
       });
   }
 
@@ -46,8 +72,13 @@ export default class Lighter extends Plugin {
     this._nodetrans.transition(nodeIds);
   }
 
+  lightLink(linkIds) {
+    this._linktrans.transition(linkIds);
+  }
+
   off() {
     this._pn._core.groupContainer().removeChild(this._gfx);
+    this._pn._core.groupContainer().removeChild(this._linkGfx);
   }
 }
 

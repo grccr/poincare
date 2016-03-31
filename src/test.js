@@ -50,10 +50,10 @@ const pn = window.PN = new Poincare({
   transparent: true,
   icons: {
     source: (d) => {
-      // if (d.data.type === 'infrastructure/powerline' && d.links.length < 2)
-      //   return homeIcon;
-      // if (d.data.type in types)
-      //   return types[d.data.type];
+      if (d.data.type === 'infrastructure/powerline' && d.links.length < 2)
+        return homeIcon;
+      if (d.data.type in types)
+        return types[d.data.type];
       return stationIcon;
     },
     size: 16
@@ -88,26 +88,32 @@ pn.on('linkclick', (id) => {
 });
 pn.on('nodeover', (id) => {
   pn.lighter.light([id]);
-  debug('Node over', id)
+  debug('Node over', id);
 });
 pn.on('nodeout', (id) => {
   pn.lighter.light([]);
-  debug('Node out', id)
+  debug('Node out', id);
 });
 
-pn.on('linkover', (id) => debug('Link over', id));
-pn.on('linkout', (id) => debug('Link out', id));
+pn.on('linkover', (id) => {
+  pn.lighter.lightLink([id]);
+  debug('Link over', id);
+});
+pn.on('linkout', (id) => {
+  pn.lighter.lightLink([]);
+  debug('Link out', id);
+});
 
 pn.zoom.alignToCenter();
 
 debug('Poincare icons is', pn.options().icons);
 
 
-axios.get('/data/belgiia.graphml')
+axios.get('/data/belgiia-big.graphml')
   .then(({ data: doc }) => {
-    // return nGraphParse.fromGraphML(doc);
+    return nGraphParse.fromGraphML(doc);
     // return balancedBinTree(4);
-    return nGraphParse.fromJSON(myGraph);
+    // return nGraphParse.fromJSON(myGraph);
   })
   .then(graph => {
     pn.graph(graph);

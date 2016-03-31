@@ -94,6 +94,7 @@ export default class Radius extends Plugin {
       //   debug('line distance', distance, ln);
       // }
       if (distance <= radius) {
+        // debug('nearest', nearest.id);
         return nearest.id;
       }
     }
