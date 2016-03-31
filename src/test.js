@@ -96,11 +96,14 @@ pn.on('nodeout', (id) => {
 });
 
 pn.on('linkover', (id) => {
+  const item = pn._core.link(id);
   pn.lighter.lightLink([id]);
+  pn.lighter.light([item.fromId, item.toId]);
   debug('Link over', id);
 });
 pn.on('linkout', (id) => {
   pn.lighter.lightLink([]);
+  pn.lighter.light([]);
   debug('Link out', id);
 });
 
@@ -109,7 +112,7 @@ pn.zoom.alignToCenter();
 debug('Poincare icons is', pn.options().icons);
 
 
-axios.get('/data/belgiia-big.graphml')
+axios.get('/data/belgiia.graphml')
   .then(({ data: doc }) => {
     return nGraphParse.fromGraphML(doc);
     // return balancedBinTree(4);
