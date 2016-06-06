@@ -65,6 +65,18 @@ export default class Events extends Plugin {
           return false;
         }
       })
+      .on('contextmenu.events', () => {
+        debug('CONTEXTMENU');
+        if (d3.event.defaultPrevented)
+          return;
+        if (this._focusedItem != null) {
+          // d3.event.stopImmediatePropagation();
+          d3.event.preventDefault();
+          this._pn.emit(`${this._focusedItem.type}menu`,
+                        this._focusedItem.id);
+          return false;
+        }
+      })
       .on('mousedown.events', () => {
         debug('MOUSEDOWN');
         if (this._focusedItem != null) {
