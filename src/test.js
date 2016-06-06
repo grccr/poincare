@@ -82,9 +82,18 @@ pn.on('nodeclick', (id) => {
   const item = pn.graph().getNode(id);
   debug('Node clicked', id, item);
 });
+pn.on('nodemenu', (id) => {
+  const item = pn.graph().getNode(id);
+  debug('Node menu clicked', id, item);
+});
 pn.on('linkclick', (id) => {
-  const item = pn.graph().getLink(id);
-  debug('Link clicked', id, item);
+  const item = pn._core.link(id);
+  debug('Just link clicked', id, item);
+});
+pn.on('linkmenu', (id) => {
+  const item = pn._core.link(id);
+  debug('Link menu clicked', id, item);
+  return false;
 });
 pn.on('nodeover', (id) => {
   pn.lighter.light([id]);
