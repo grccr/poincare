@@ -26,8 +26,8 @@ export default class Labels extends Plugin {
         .style({ width: `${dims[0]}px`, height: `${dims[1]}px`});
     });
 
-    const x = xx => this._pn._core.xScale(xx) + this._options.offset[0];
-    const y = yy => this._pn._core.yScale(yy) + this._options.offset[1];
+    const x = this._x = xx => this._pn._core.xScale(xx) + this._options.offset[0];
+    const y = this._y = yy => this._pn._core.yScale(yy) + this._options.offset[1];
 
     const THRESHOLD = 70;
 
@@ -42,49 +42,12 @@ export default class Labels extends Plugin {
     };
     let prevRadius = 0;
 
-    // pn.on('zoom', (tr, sc) => {
-    //   if (this._hidden)
-    //     return;
-    //   const r = pn.radius.lastRadiusForScale(sc);
-    //   debug('Last median radius', r);
-    //   if (r < THRESHOLD)
-    //     return hide();
-    // });
-
     pn.on('visiblenodes', (ids, r) => {
       prevRadius = r;
       if (r < THRESHOLD)
         return hide();
       // this._hidden = false;
-      const data = this._pn._core.selectNodes(ids)
-        .filter(d => {
-          try {
-            return this._options.getter(d.data);
-          } catch (e) {}
-          return false;
-        });
-      const labels = this._labels = this._layer.selectAll('.label')
-        .data(data, d => d.id);
-
-      labels.enter()
-        .append('div')
-        .classed('label', true)
-          .append('div')
-            .classed('label-inner', true)
-            .style('opacity', 0)
-            .text(d => this._options.getter(d.data))
-            .transition()
-              .duration(1000)
-              .style('opacity', 100);
-
-      labels.exit()
-          .transition()
-            .duration(1000)
-            .style('opacity', 0)
-            .remove();
-
-      labels
-        .style('transform', (d) => `translate(${Math.round(x(d.pos.x))}px, ${Math.round(y(d.pos.y))}px)`);
+      this._highlightThese(ids);
     });
 
     pn.on('frame', () => {
@@ -93,6 +56,88 @@ export default class Labels extends Plugin {
       this._labels && this._labels
         .style('transform', (d) => `translate(${Math.round(x(d.pos.x))}px, ${Math.round(y(d.pos.y))}px)`);
     });
+  }
+
+  _resolveData(ids) {
+    return this._pn._core.selectNodes(ids)
+      .filter(d => {
+        try {
+          return this._options.getter(d.data);
+        } catch (e) {}
+        return false;
+      });
+  }
+
+  _highlightThese(ids) {
+    const x = this._x;
+    const y = this._y;
+    const data = this._resolveData(ids);
+    const labels = this._labels = this._layer.selectAll('.label')
+      .data(data, d => d.id);
+
+    labels.enter()
+      .append('div')
+      .attr('class', (d) => `node-label-${d.id}`)
+      .classed('label auto-label', true)
+        .append('div')
+          .classed('label-inner', true)
+          .style('opacity', 0)
+          .text(d => this._options.getter(d.data))
+          .transition()
+            .duration(1000)
+            .style('opacity', 100);
+
+    labels.exit().filter('.auto-label')
+        .classed('exiting', true)
+        .transition()
+          .duration(1000)
+          .style('opacity', 0)
+          .remove();
+
+    labels.filter('.auto-label').filter('.exiting')
+      .classed('exiting', false)
+      .transition()
+        .duration(1000)
+        .style('opacity', 100);
+
+    labels.filter('.auto-label')
+      .style('transform', (d) => `translate(${Math.round(x(d.pos.x))}px, ${Math.round(y(d.pos.y))}px)`);
+  }
+
+  _locklight(ids) {
+    const x = this._x;
+    const y = this._y;
+    const data = this._resolveData(ids);
+    const labels = this._labels = this._layer.selectAll('.label')
+      .data(data, d => d.id);
+
+    labels.enter()
+      .append('div')
+      .attr('class', (d) => `node-label-${d.id}`)
+      .classed('label locked-label', true)
+        .append('div')
+          .classed('label-inner', true)
+          .style('opacity', 0)
+          .text(d => this._options.getter(d.data))
+          .transition()
+            .duration(1000)
+            .style('opacity', 100);
+
+    labels.exit().filter('.locked-label')
+      .classed('exiting', true)
+      .transition()
+        .duration(1000)
+        .style('opacity', 0)
+        .remove();
+
+    labels.filter('.locked-label').filter('.exiting')
+      .classed('exiting', false)
+      .transition()
+        .duration(250)
+        .style('opacity', 100);
+
+    labels
+      .style('transform', (d) => `translate(${Math.round(x(d.pos.x))}px, ${Math.round(y(d.pos.y))}px)`);
   }
 
   _initLayer() {
@@ -107,6 +152,10 @@ export default class Labels extends Plugin {
         top: 0
       })
       .classed('poincare-labels', true);
+  }
+
+  highlight(ids) {
+    this._locklight(ids);
   }
 }
 

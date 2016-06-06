@@ -97,10 +97,12 @@ pn.on('linkmenu', (id) => {
 });
 pn.on('nodeover', (id) => {
   pn.lighter.light([id]);
+  pn.labels.highlight([id]);
   debug('Node over', id);
 });
 pn.on('nodeout', (id) => {
   pn.lighter.light([]);
+  pn.labels.highlight([]);
   debug('Node out', id);
 });
 
