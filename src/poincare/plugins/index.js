@@ -9,5 +9,15 @@ import Cursors from './cursors';
 import AutoResize from './autoresize';
 import LineIndex from './lineindex';
 
-export { Tween, Lighter, Radius, Labels, Events, Zoom, Plugin,
-         Cursors, AutoResize, LineIndex };
+export {
+  Tween,
+  Lighter,
+  Radius,
+  Labels,
+  Events,
+  Zoom,
+  Plugin,
+  Cursors,
+  AutoResize,
+  LineIndex
+};

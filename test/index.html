@@ -29,28 +29,55 @@
     PN.stop();
   }
 
-  if (poincare.env == 'production') {
+  if (poincare.env == 'production' || poincare.env == 'stage') {
+
     var pn = new poincare.Poincare({
       container: '.graph',
       icons: {
         source: '/assets/icons/electric-icon.png',
         size: 16
       },
-      physics: { stableThreshold: 100 },
+      physics: {
+        stableThreshold: 100,
+        springLength: 100,
+      },
       plugins: [
         poincare.plugins.Tween, poincare.plugins.Events,
         poincare.plugins.Zoom, poincare.plugins.Lighter,
         poincare.plugins.Radius, poincare.plugins.Labels,
-        poincare.plugins.Cursors,
-        poincare.plugins.AutoResize
+        poincare.plugins.Cursors, poincare.plugins.AutoResize,
+        poincare.plugins.LineIndex
       ]
     });
 
+    // SOME GRAPH EVENT HANDLERS
 
     pn.on('nodeclick', (id) => {
+      const item = pn.graph().getNode(id);
+      console.debug('Node clicked', id, item);
+    });
+    pn.on('linkclick', (id) => {
+      const item = pn._core.link(id);
+      console.debug('Link clicked', id, item);
+    });
+    pn.on('nodeover', (id) => {
       pn.lighter.light([id]);
-      const node = pn.graph().getNode(id);
-      console.log('Node clicked', id, node);
+      console.debug('Node over', id);
+    });
+    pn.on('nodeout', (id) => {
+      pn.lighter.light([]);
+      console.debug('Node out', id);
+    });
+    pn.on('linkover', (id) => {
+      const item = pn._core.link(id);
+      pn.lighter.lightLink([id]);
+      pn.lighter.light([item.fromId, item.toId]);
+      console.debug('Link over', id);
+    });
+    pn.on('linkout', (id) => {
+      pn.lighter.lightLink([]);
+      pn.lighter.light([]);
+      console.debug('Link out', id);
     });
 
     var myGraph = {

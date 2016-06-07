@@ -16,8 +16,8 @@ console.log('Node ENV is', ENV);
 module.exports = {
   context: appPath,
   entry: {
-    app: ['babel-polyfill', ENV === 'production' ? './browser.js'
-                                                 : './test.js']
+    app: ['babel-polyfill', ENV === 'development' ? './test.js'
+                                                  : './browser.js']
   },
   output: {
     path: distPath,
@@ -89,6 +89,12 @@ if (ENV === 'production') {
                  'Tween', 'Cursors', 'Labels', 'AutoResize', 'LineIndex']
       }
     }),
+    new OccurenceOrderPlugin()
+  ]);
+} else if (ENV === 'stage') {
+  module.exports.devtool = '#source-map';
+  var OccurenceOrderPlugin = require('webpack/lib/optimize/OccurenceOrderPlugin');
+  module.exports.plugins = module.exports.plugins.concat([
     new OccurenceOrderPlugin()
   ]);
 } else {
