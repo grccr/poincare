@@ -19,6 +19,8 @@ const poleIcon = require('../assets/icons/pole-icon.png');
 const plantIcon = require('../assets/icons/powerplant-icon.png');
 const homeIcon = require('../assets/icons/home-icon.png');
 
+import most from 'most';
+
 
 const myGraph = {
   nodes: [
@@ -78,6 +80,43 @@ pn.on('zoom', () => debug('zoom'));
 //     // pn.lighter.light(nodes);
 //   debug('Median radius is %o [%o]', r, nodes.length);
 // });
+
+// const outs = most.fromEvent('nodeout', pn);
+// const overs = most.fromEvent('nodeover', pn);
+
+// const activator = overs
+//   .concatMap(id => most.of(id).delay(500).until(outs))
+// activator.observe(id => pn.labels.highlight([id]));
+
+// const deactivator = outs
+//   .concatMap(id => most.of(id).delay(1000).until(overs));
+
+// const time = activator.constant(deactivator.take(1));
+
+// const delayedOverClicks = activator
+//   .concatMap(id => overs.during(time))
+//   .observe(id => pn.labels.highlight([id]));
+
+pn.on('nodetip.over', id => pn.labels.highlight([id]));
+// pn.on('nodetip.activate', id => pn.labels.highlight([id]));
+
+// delayedOverClicks.observe((id) => {
+//   pn.labels.highlight([id]);
+//   debug('Delayed node over', id);
+// });
+
+pn.on('nodeover', (id) => {
+  pn.lighter.light([id]);
+  // debug('Node over', id);
+});
+
+pn.on('nodeout', (id) => {
+  pn.lighter.light([]);
+  pn.labels.highlight([]);
+  // debug('Node out', id);
+});
+
+
 pn.on('nodeclick', (id) => {
   const item = pn.graph().getNode(id);
   debug('Node clicked', id, item);
@@ -95,15 +134,10 @@ pn.on('linkmenu', (id) => {
   debug('Link menu clicked', id, item);
   return false;
 });
-pn.on('nodeover', (id) => {
-  pn.lighter.light([id]);
-  pn.labels.highlight([id]);
-  debug('Node over', id);
-});
-pn.on('nodeout', (id) => {
-  pn.lighter.light([]);
-  pn.labels.highlight([]);
-  debug('Node out', id);
+
+pn.on('linktip.over', (id) => {
+  const item = pn._core.link(id);
+  pn.labels.highlight([item.fromId, item.toId]);
 });
 
 pn.on('linkover', (id) => {
@@ -115,6 +149,7 @@ pn.on('linkover', (id) => {
 pn.on('linkout', (id) => {
   pn.lighter.lightLink([]);
   pn.lighter.light([]);
+  pn.labels.highlight([]);
   debug('Link out', id);
 });
 

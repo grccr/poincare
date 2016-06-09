@@ -39,6 +39,8 @@ export default class Poincare {
   _initEmitter() {
     this._events = new EventEmitter();
     this.on = this._events.on.bind(this._events);
+    this.addListener = this._events.addListener.bind(this._events);
+    this.removeListener = this._events.removeListener.bind(this._events);
     this.off = this._events.off.bind(this._events);
     this.once = this._events.once.bind(this._events);
     this.emit = this._events.emit.bind(this._events);
