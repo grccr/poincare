@@ -47,6 +47,7 @@
     "less": "^2.6.1",
     "less-loader": "^2.2.2",
     "mocha": "^2.4.5",
+    "most": "^0.19.7",
     "phantomjs-prebuilt": "^2.1.4",
     "postcss-loader": "^0.8.2",
     "sinon": "^2.0.0-pre",

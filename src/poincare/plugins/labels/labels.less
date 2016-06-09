@@ -1,6 +1,7 @@
 @color: #373737;
 // @bgcolor: rgba(234,234,234,0.45);
 @bgcolor: #F3F3F3;
+@bghighlighted: #F2EF42;
 // @bgcolor: red;
 
 .poincare-labels {
@@ -16,16 +17,23 @@
   overflow: hidden;
   text-overflow: ellipsis;
   height: 3.4rem;
-  // height: 10rem;
-  // line-height: 1.25em;
   cursor: default;
   user-select: none;
+}
+
+.label.locked-label {
+  height: auto;
+  overflow: visible;
+  .label-inner {
+    background-color: @bghighlighted;
+  }
 }
 
 .label-inner {
   display: inline;
   // padding: 0 7px 7px 7px;
   padding: .1em 0.6em 0em 0.6em;
+  transition: background-color 0.25s ease;
   background-color: @bgcolor;
   font-family: 'Fira Sans OT';
   font-size: 12px;
