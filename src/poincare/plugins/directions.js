@@ -3,6 +3,13 @@ import PIXI from 'pixi.js';
 import { css2pixi } from 'poincare/helpers';
 import Plugin from './base';
 
+const pol2dec = (alpha, dist) => {
+  return [
+    dist * Math.cos(alpha),
+    dist * Math.sin(alpha)
+  ];
+};
+
 export default class Directions extends Plugin {
   constructor(pn, opts) {
     super();
@@ -19,21 +26,36 @@ export default class Directions extends Plugin {
   _init() {
     const makeArrowSprite = this._arrowGenerator();
     const mgr = this._pn.core().spriteManager();
-    const container = mgr.createSpriteContainer(2, 'links');
+    const container = mgr.createSpriteContainer(3, 'links');
     const core = this._pn.core();
     this._arrows = {};
     core.eachLink((id) => {
       const arrow = this._arrows[id] = makeArrowSprite();
+      arrow.anchor.x = 0.5;
+      arrow.anchor.y = 0.5;
       container.addChild(arrow);
     });
   }
 
   _render() {
     const core = this._pn.core();
+    const scale = this._pn.zoom.truncatedScale();
     core.eachLink((id) => {
       const link = core.link(id);
-      this._arrows[id].position.x = core.xScale(link.to.x) - 8;
-      this._arrows[id].position.y = core.yScale(link.to.y) - 8;
+
+      const dy = core.yScale(link.to.y) - core.yScale(link.from.y);
+      const dx = core.xScale(link.to.x) - core.xScale(link.from.x);
+
+      const src = [core.xScale(link.from.x), core.yScale(link.from.y)];
+      const dst = [core.xScale(link.to.x), core.yScale(link.to.y)];
+      const ß = Math.atan2(dy, dx);
+      const d = Math.hypot(dx, dy);
+      const trg = pol2dec(ß, d - 16 * scale);
+      this._arrows[id].rotation = ß + Math.PI / 2;
+      this._arrows[id].position.x = trg[0] + src[0];
+      this._arrows[id].position.y = trg[1] + src[1];
+      this._arrows[id].scale.x = scale;
+      this._arrows[id].scale.y = scale;
     });
   }
 
@@ -55,7 +77,7 @@ export default class Directions extends Plugin {
 
   _arrowGenerator() {
     const gfx = new PIXI.Graphics();
-    gfx.beginFill(css2pixi('#D8D8D8'));
+    gfx.beginFill(css2pixi('#7F7F7F'));
     gfx.drawPolygon([
       3, 0,
       6, 8,
