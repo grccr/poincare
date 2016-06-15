@@ -108,6 +108,10 @@ export default class Poincare {
     });
   }
 
+  core() {
+    return this._core;
+  }
+
   options(opts) {
     if (opts != null) {
       this._options = Options.merge(this._options, opts);

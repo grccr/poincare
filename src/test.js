@@ -10,7 +10,7 @@ import Poincare from './poincare';
 import * as nGraphParse from './poincare/parsers/ngraph';
 
 import { Tween, Lighter, Radius, Labels, Events,
-         Zoom, Cursors, LineIndex } from './poincare/plugins';
+         Zoom, Cursors, LineIndex, Directions } from './poincare/plugins';
 
 const debug = require('debug')('poincare:app');
 
@@ -65,7 +65,8 @@ const pn = window.PN = new Poincare({
     springLength: 100,
     stableThreshold: 100
   },
-  plugins: [Tween, Events, Zoom, Lighter, Radius, Labels, Cursors, LineIndex]
+  plugins: [Tween, Events, Zoom, Lighter, Radius, Labels,
+            Cursors, LineIndex, Directions]
   // plugins: [Tween, Radius]
 });
 

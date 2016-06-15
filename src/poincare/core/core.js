@@ -122,6 +122,25 @@ export class SpriteManager {
     throw new PoincareCoreError(`No available views with name "${name}"`);
   }
 
+  createSpriteContainer(pos = 0, sizehint = 'nodes', factor = 1) {
+    const sz = sizehint === 'nodes' ?
+               this._nodeCount * factor :
+               this._linkCount * factor;
+    const container = new PIXI.ParticleContainer(sz, {
+      scale: true,
+      position: true,
+      rotation: true,
+      alpha: false
+    });
+
+    if (pos != null)
+      this._parent.addChildAt(container, pos);
+    else
+      this._parent.addChild(container);
+
+    return container;
+  }
+
   _getNewContainer(id, sz) {
     const container = new PIXI.ParticleContainer(this._nodeCount * 2 || sz, {
       scale: true,
@@ -242,6 +261,7 @@ export default class Core {
     this._spriteManager.setSizes(g.getNodesCount(), g.getLinksCount());
     g.forEachLink(this._initLink.bind(this));
     g.forEachNode(this._initNode.bind(this));
+    this._pn.emit('initcore');
     this._pn.emit('viewreset');
     return g;
   }
@@ -285,6 +305,14 @@ export default class Core {
                    flatMap(this._data.links, fn);
   }
 
+  eachNode(fn) {
+    return Object.keys(this._data.nodes).forEach(fn);
+  }
+
+  eachLink(fn) {
+    return Object.keys(this._data.links).forEach(fn);
+  }
+
   node(id) {
     return this._data.nodes[id];
   }
@@ -299,6 +327,10 @@ export default class Core {
 
   groupContainer() {
     return this._group;
+  }
+
+  spriteManager() {
+    return this._spriteManager;
   }
 
   _moveLine(id) {
