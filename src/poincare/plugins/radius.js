@@ -36,7 +36,7 @@ export default class Radius extends Plugin {
     debug('Index created', data);
   }
 
-  _pickNodes(bbox) {
+  getNodesByBbox(bbox) {
     return this._tree.search([bbox.x,
                               bbox.y,
                               bbox.x + bbox.w,
@@ -51,7 +51,7 @@ export default class Radius extends Plugin {
     const bbox = this._pn.zoom.bbox();
     const scale = this._pn.zoom.scale();
     debug('current viewport is', bbox);
-    const nodes = this._pickNodes(bbox);
+    const nodes = this.getNodesByBbox(bbox);
     debug('found these nodes in current viewport', nodes);
     const r = this._radiusFor(nodes);
     this._lastRadius = r;
