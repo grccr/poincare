@@ -65,6 +65,9 @@ const pn = window.PN = new Poincare({
     springLength: 100,
     stableThreshold: 100
   },
+  directions: {
+    show: true
+  },
   plugins: [Tween, Events, Zoom, Lighter, Radius, Labels,
             Cursors, LineIndex, Directions]
   // plugins: [Tween, Radius]

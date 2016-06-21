@@ -15,12 +15,14 @@ export default class Directions extends Plugin {
     super();
 
     this._options = Object.assign({
-
+      show: false
     }, opts || {});
 
     this._pn = pn;
-    this._pn.on('initcore', this._init, this);
-    this._pn.on('frame', this._render, this);
+    if (this._options.show) {
+      this._pn.on('initcore', this._init, this);
+      this._pn.on('frame', this._render, this);
+    }
   }
 
   _init() {
