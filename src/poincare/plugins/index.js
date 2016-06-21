@@ -8,6 +8,7 @@ import Labels from './labels';
 import Cursors from './cursors';
 import AutoResize from './autoresize';
 import LineIndex from './lineindex';
+import Directions from './directions';
 
 export {
   Tween,
@@ -19,5 +20,6 @@ export {
   Plugin,
   Cursors,
   AutoResize,
-  LineIndex
+  LineIndex,
+  Directions
 };
