@@ -3,6 +3,7 @@ import merge from 'lodash/merge';
 
 import Events from '../plugins/zoom';
 import Zoom from '../plugins/events';
+import VersionControl from '../plugins/version';
 
 import { css2pixi } from '../helpers';
 
@@ -36,7 +37,7 @@ const Options = {
       theta: 1
     },
 
-    plugins: [Events, Zoom]
+    plugins: [Events, Zoom, VersionControl]
   },
 
   check(v) {
