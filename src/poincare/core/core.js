@@ -317,6 +317,14 @@ export default class Core {
     return this._data.nodes[id];
   }
 
+  hasNode(id) {
+    return id in this._data.nodes;
+  }
+
+  hasLink(id) {
+    return id in this._data.links;
+  }
+
   link(id) {
     return this._data.links[id];
   }

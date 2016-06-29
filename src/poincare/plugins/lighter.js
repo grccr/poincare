@@ -69,11 +69,15 @@ export default class Lighter extends Plugin {
   }
 
   light(nodeIds) {
-    this._nodetrans.transition(nodeIds);
+    const core = this._pn.core();
+    const realIds = nodeIds.filter(id => core.hasNode(id));
+    this._nodetrans.transition(realIds);
   }
 
   lightLink(linkIds) {
-    this._linktrans.transition(linkIds);
+    const core = this._pn.core();
+    const realIds = linkIds.filter(id => core.hasLink(id));
+    this._linktrans.transition(realIds);
   }
 
   off() {
