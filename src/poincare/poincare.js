@@ -12,6 +12,8 @@ import Options from './options';
 import Core from './core';
 // import DagreLayout from './layouts/dagre';
 
+import './poincare.less';
+
 const debug = require('debug')('poincare:anri');
 
 
