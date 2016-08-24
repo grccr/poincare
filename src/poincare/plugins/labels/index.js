@@ -4,6 +4,7 @@ import most from 'most';
 import Plugin from '../base';
 import template from 'lodash/template';
 import union from 'lodash/union';
+import 'mozilla-fira-pack';
 import './labels.less';
 
 const debug = require('debug')('poincare:labels');
