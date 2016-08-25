@@ -23,6 +23,7 @@ const arrowPolygonGenerator = (w, h) => {
     a, 0
   ];
 }
+const arrowPolygon = arrowPolygonGenerator(8, 12);
 
 export default class Directions extends Plugin {
   constructor(pn, opts) {
@@ -43,7 +44,6 @@ export default class Directions extends Plugin {
     }
 
     this.OFFSET_FACTOR = 12;
-    this._arrowPolygon = arrowPolygonGenerator(8, 12);
   }
 
   _init() {
@@ -107,7 +107,7 @@ export default class Directions extends Plugin {
   _arrowGenerator() {
     const gfx = new PIXI.Graphics();
     gfx.beginFill(css2pixi('#7F7F7F'));
-    gfx.drawPolygon(this._arrowPolygon);
+    gfx.drawPolygon(arrowPolygon);
     gfx.endFill();
     const texture = gfx.generateTexture(1, PIXI.SCALE_MODES.DEFAULT);
 
