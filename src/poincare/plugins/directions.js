@@ -47,7 +47,7 @@ export default class Directions extends Plugin {
   _init() {
     const makeArrowSprite = this._arrowGenerator();
     const mgr = this._pn.core().spriteManager();
-    const container = mgr.createSpriteContainer(3, 'links');
+    const container = mgr.createSpriteContainer(3, 'links', 2);
     const core = this._pn.core();
     this._arrows = {};
     core.eachLink((id) => {
@@ -56,7 +56,7 @@ export default class Directions extends Plugin {
       arrow.anchor.x = 0.5;
       arrow.anchor.y = 0.5;
       container.addChild(arrow);
-      if(this._options.getter(core.link(id))){
+      if(this._options.getter(core.link(id).data)){
         arrow = this._arrows[id].reverse = makeArrowSprite();
         arrow.anchor.x = 0.5;
         arrow.anchor.y = 0.5;
@@ -89,9 +89,9 @@ export default class Directions extends Plugin {
       normal.scale.x = scale;
       normal.scale.y = scale;
 
-      if(this._options.getter(core.link(id))){
+      if(this._options.getter(link.data)){
         const reverse = this._arrows[id].reverse;
-        beta = Math.atan2(-dy, dx);
+        beta = Math.atan2(-dy, -dx);
         trg = pol2dec(beta, d - offset);
         reverse.rotation = beta + Math.PI / 2;
         reverse.position.x = trg[0] + dst[0];
