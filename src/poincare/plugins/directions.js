@@ -5,6 +5,12 @@ import { css2pixi } from 'poincare/helpers';
 import { fieldGetter } from '../helpers';
 
 const PI_OVER_2 = Math.PI / 2;
+const ARROW_TYPES = {
+  ACUTE:      0, 
+  EXPANDED:   1,
+  HORIZONTAL: 2,  // default
+  TAPERED:    3
+};
 
 const pol2dec = (alpha, dist) => {
   return [
@@ -13,17 +19,63 @@ const pol2dec = (alpha, dist) => {
   ];
 };
 
-const arrowPolygonGenerator = (w, h) => {
-  const a = w / 2, b = h / 3 * 2;
-  return [
-    a, 0,
-    w, h,
-    a, b,
-    0, h,
-    a, 0
-  ];
+const arrowPolygonGenerator = (t, w, h) => {
+  let coords = [];
+  let a = w / 2, b = 0, c = 0, d = 0;
+  switch(t){
+    case 0:
+      b = h / 3 * 2;
+      coords = [
+        a, 0,
+        w, h,
+        a, b,
+        0, h,
+        a, 0
+      ];
+      break;
+    case 1:
+      b = h * 3 / 4, c = a * 3 / 2, d = c - a;
+      coords = [
+        a, 0,
+        w, b,
+        c, b,
+        c, h,
+        d, h,
+        d, b,
+        0, b,
+        a, 0
+      ];
+      break;
+    case 2:
+      coords = [
+        a, 0,
+        w, h,
+        0, h,
+        a, 0
+      ];
+      break;
+    case 3:
+      b = h / 3 * 2, c = a * 3 / 2, d = c - a;
+      coords = [
+        a, 0,
+        w, b,
+        c, h,
+        d, h,
+        0, b,
+        a, 0
+      ];
+      break;
+    default:
+      coords = [
+        a, 0,
+        w, h,
+        0, h,
+        a, 0
+      ];
+      break;
+  }
+  return coords;
 }
-const arrowPolygon = arrowPolygonGenerator(8, 12);
 
 export default class Directions extends Plugin {
   constructor(pn, opts) {
@@ -31,7 +83,11 @@ export default class Directions extends Plugin {
 
     this._options = Object.assign({
       show: false,
-      getter: 'dual'
+      getter: 'dual',
+      arrow: {
+        type: ARROW_TYPES.HORIZONTAL,
+        size: { w: 10, h: 15}
+      }
     }, opts || {});
 
     if (typeof this._options.getter !== 'function')
@@ -43,7 +99,7 @@ export default class Directions extends Plugin {
       this._pn.on('frame', this._render, this);
     }
 
-    this.OFFSET_FACTOR = 12;
+    this.OFFSET_FACTOR = 12; 
   }
 
   _init() {
@@ -70,11 +126,12 @@ export default class Directions extends Plugin {
   _render() {
     const core = this._pn.core();
     const scale = this._pn.zoom.truncatedScale();
+    const offset = this.OFFSET_FACTOR * scale;
     core.eachLink((id) => {
       const link = core.link(id);
-      const offset = this.OFFSET_FACTOR * scale;
 
-      const normal = this._arrows[id].normal;
+      const arrow = this._arrows[id];
+      const normal = arrow.normal;
       
       const src = [core.xScale(link.from.x), core.yScale(link.from.y)];
       const dst = [core.xScale(link.to.x), core.yScale(link.to.y)];
@@ -91,7 +148,7 @@ export default class Directions extends Plugin {
       normal.scale.x = scale;
       normal.scale.y = scale;
 
-      if(this._options.getter(link.data)){
+      if(arrow.reverse){
         const reverse = this._arrows[id].reverse;
         beta = Math.atan2(-dy, -dx);
         trg = pol2dec(beta, d - offset);
@@ -107,7 +164,8 @@ export default class Directions extends Plugin {
   _arrowGenerator() {
     const gfx = new PIXI.Graphics();
     gfx.beginFill(css2pixi('#7F7F7F'));
-    gfx.drawPolygon(arrowPolygon);
+    const a = this._options.arrow;
+    gfx.drawPolygon(arrowPolygonGenerator(a.type, a.size.w, a.size.h));
     gfx.endFill();
     const texture = gfx.generateTexture(1, PIXI.SCALE_MODES.DEFAULT);
 
