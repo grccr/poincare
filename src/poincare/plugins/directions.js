@@ -23,7 +23,7 @@ const arrowPolygonGenerator = (t, w, h) => {
   let coords = [];
   let a = w / 2, b = 0, c = 0, d = 0;
   switch(t){
-    case 0:
+    case ARROW_TYPES.ACUTE:
       b = h / 3 * 2;
       coords = [
         a, 0,
@@ -33,7 +33,7 @@ const arrowPolygonGenerator = (t, w, h) => {
         a, 0
       ];
       break;
-    case 1:
+    case ARROW_TYPES.EXPANDED:
       b = h * 3 / 4, c = a * 3 / 2, d = c - a;
       coords = [
         a, 0,
@@ -46,7 +46,7 @@ const arrowPolygonGenerator = (t, w, h) => {
         a, 0
       ];
       break;
-    case 2:
+    case ARROW_TYPES.HORIZONTAL:
       coords = [
         a, 0,
         w, h,
@@ -54,7 +54,7 @@ const arrowPolygonGenerator = (t, w, h) => {
         a, 0
       ];
       break;
-    case 3:
+    case ARROW_TYPES.TAPERED:
       b = h / 3 * 2, c = a * 3 / 2, d = c - a;
       coords = [
         a, 0,
@@ -86,7 +86,7 @@ export default class Directions extends Plugin {
       getter: 'dual',
       arrow: {
         type: ARROW_TYPES.HORIZONTAL,
-        size: { w: 10, h: 15}
+        size: { w: 6, h: 8}
       }
     }, opts || {});
 
