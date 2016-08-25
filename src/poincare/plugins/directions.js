@@ -4,6 +4,8 @@ import Plugin from './base';
 import { css2pixi } from 'poincare/helpers';
 import { fieldGetter } from '../helpers';
 
+const PI_OVER_2 = Math.PI / 2;
+
 const pol2dec = (alpha, dist) => {
   return [
     dist * Math.cos(alpha),
@@ -83,7 +85,7 @@ export default class Directions extends Plugin {
       const d = Math.hypot(dx, dy);
       let beta = Math.atan2(dy, dx);
       let trg = pol2dec(beta, d - offset);
-      normal.rotation = beta + Math.PI / 2;
+      normal.rotation = beta + PI_OVER_2;
       normal.position.x = trg[0] + src[0];
       normal.position.y = trg[1] + src[1];
       normal.scale.x = scale;
@@ -93,7 +95,7 @@ export default class Directions extends Plugin {
         const reverse = this._arrows[id].reverse;
         beta = Math.atan2(-dy, -dx);
         trg = pol2dec(beta, d - offset);
-        reverse.rotation = beta + Math.PI / 2;
+        reverse.rotation = beta + PI_OVER_2;
         reverse.position.x = trg[0] + dst[0];
         reverse.position.y = trg[1] + dst[1];
         reverse.scale.x = scale;
