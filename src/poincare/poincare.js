@@ -38,6 +38,17 @@ export default class Poincare {
     this.emit('init');
   }
 
+  destroy() {
+    this.emit('destroy');
+    this._uninstallPlugins();
+    this._destroyCore();
+    this._destroyLayout();
+    this._destroyContainer();
+    this._destroyEmitter();
+    this._destroyGraph();
+    this._options = null;
+  }
+
   _initEmitter() {
     this._events = new EventEmitter();
     this.on = this._events.on.bind(this._events);
@@ -48,6 +59,19 @@ export default class Poincare {
     this.emit = this._events.emit.bind(this._events);
   }
 
+  _destroyEmitter() {
+    if (this._events instanceof EventEmitter) {
+      this._events.removeAllListeners();
+      const methodsToUnset = [
+        'on', 'off', 'once', 'emit',
+        'addListener', 'removeListener'
+      ];
+      for (let m of methodsToUnset)
+        this[m] = () => undefined;
+    }
+    this._events = null;
+  }
+
   _initLayout() {
     if (this._options.layout === 'force') {
       this._layout = createForceLayout(this._graph, this._options.physics);
@@ -55,7 +79,20 @@ export default class Poincare {
     }
     throw new PoincareError('No such layout supported: ' +
                             `${this._options.layout}`);
+  }
 
+  _destroyLayout(){
+    if (!this._layout)
+      return;
+    switch (this._options.layout) {
+      case 'force':
+        this._layout.off();
+        this._layout.simulator.off();
+        Object.assign(this._layout.simulator, {
+          bodies: null, springs: null
+        });
+        break;
+    }
   }
 
   _installPlugins() {
@@ -85,6 +122,10 @@ export default class Poincare {
       .classed('poincare-graph', true);
   }
 
+  _destroyContainer() {
+    this._container == null;
+  }
+
   container() {
     return this._container;
   }
@@ -108,6 +149,10 @@ export default class Poincare {
       zoom: this.zoom,
       pn: this
     });
+  }
+
+  _destroyCore(){
+    this._core = this._core.destroy();
   }
 
   core() {
@@ -143,5 +188,10 @@ export default class Poincare {
       this._core.init(this._graph, this._layout);
     }
     return this._graph;
+  }
+
+  _destroyGraph() {
+    this._graph.off();
+    this._graph = null;
   }
 }
