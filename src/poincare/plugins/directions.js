@@ -6,10 +6,10 @@ import { fieldGetter } from '../helpers';
 
 const PI_OVER_2 = Math.PI / 2;
 const ARROW_TYPES = {
-  ACUTE:      0, 
-  EXPANDED:   1,
-  HORIZONTAL: 2,  // default
-  TAPERED:    3
+  ACUTE:      'acute', 
+  EXPANDED:   'expanded',
+  HORIZONTAL: 'horizontal',  // default
+  TAPERED:    'tapered'
 };
 
 const pol2dec = (alpha, dist) => {
@@ -84,10 +84,8 @@ export default class Directions extends Plugin {
     this._options = Object.assign({
       show: false,
       getter: 'dual',
-      arrow: {
-        type: ARROW_TYPES.HORIZONTAL,
-        size: { w: 6, h: 8}
-      }
+      style: 'horizontal',
+      size: [6, 8]
     }, opts || {});
 
     if (typeof this._options.getter !== 'function')
@@ -164,8 +162,11 @@ export default class Directions extends Plugin {
   _arrowGenerator() {
     const gfx = new PIXI.Graphics();
     gfx.beginFill(css2pixi('#7F7F7F'));
-    const a = this._options.arrow;
-    gfx.drawPolygon(arrowPolygonGenerator(a.type, a.size.w, a.size.h));
+    gfx.drawPolygon(arrowPolygonGenerator(
+      this._options.style, 
+      this._options.size[0],
+      this._options.size[1]
+    ));
     gfx.endFill();
     const texture = gfx.generateTexture(1, PIXI.SCALE_MODES.DEFAULT);
 
