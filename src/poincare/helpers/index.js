@@ -23,7 +23,7 @@ export function fieldGetter(path) {
     .reduce((pv, cur) => {
       const x = pv.length - 1;
       if (!cur)
-        pv[x] = pv[x] + '.';
+        pv[x] = `${pv[x]}.`;
       else if (x >= 0 && pv[x].slice(-1) === '.')
         pv[x] = pv[x] + cur;
       else
@@ -33,6 +33,10 @@ export function fieldGetter(path) {
     .filter(Boolean)
     .map(p => `['${p}']`)
     .join('');
-  // return new Function('obj', 'try { return obj' + compiled + '; } catch(e) { return null; }');
+  // return new Function(
+  //   'obj',
+  //   'try { return obj' + compiled +
+  //   '; } catch(e) { return null; }'
+  // );
   return new Function('obj', `return obj${compiled};`);
 }

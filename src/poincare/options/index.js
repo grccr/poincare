@@ -1,4 +1,3 @@
-import d3 from 'd3';
 import merge from 'lodash/merge';
 
 import Events from '../plugins/zoom';

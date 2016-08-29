@@ -49,7 +49,7 @@ export default class Directions extends Plugin {
       const dx = core.xScale(link.to.x) - core.xScale(link.from.x);
 
       const src = [core.xScale(link.from.x), core.yScale(link.from.y)];
-      const dst = [core.xScale(link.to.x), core.yScale(link.to.y)];
+      // const dst = [core.xScale(link.to.x), core.yScale(link.to.y)];
       const ß = Math.atan2(dy, dx);
       const d = Math.hypot(dx, dy);
       const trg = pol2dec(ß, d - 16 * scale);

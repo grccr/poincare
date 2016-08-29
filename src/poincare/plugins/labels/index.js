@@ -2,12 +2,12 @@ import d3 from 'd3';
 import { fieldGetter } from '../../helpers';
 import most from 'most';
 import Plugin from '../base';
-import template from 'lodash/template';
+// import template from 'lodash/template';
 import union from 'lodash/union';
 import 'mozilla-fira-pack';
 import './labels.less';
 
-const debug = require('debug')('poincare:labels');
+// const debug = require('debug')('poincare:labels');
 
 
 export default class Labels extends Plugin {
@@ -33,11 +33,13 @@ export default class Labels extends Plugin {
 
     pn.on('dimensions', dims => {
       this._layer
-        .style({ width: `${dims[0]}px`, height: `${dims[1]}px`});
+        .style({ width: `${dims[0]}px`, height: `${dims[1]}px` });
     });
 
-    const x = this._x = xx => this._pn._core.xScale(xx) + this._options.offset[0];
-    const y = this._y = yy => this._pn._core.yScale(yy) + this._options.offset[1];
+    const x = this._x = xx => this._pn._core.xScale(xx) +
+                              this._options.offset[0];
+    const y = this._y = yy => this._pn._core.yScale(yy) +
+                              this._options.offset[1];
 
     const THRESHOLD = 70;
 
@@ -48,17 +50,17 @@ export default class Labels extends Plugin {
           .style('opacity', 0)
           .remove();
       this._labels = null;
-      this._current_ids = [];
+      this._currentIds = [];
       // this._hidden = true;
     };
-    let prevRadius = 0;
+    // let prevRadius = 0;
 
     pn.on('visiblenodes', (ids, r) => {
-      prevRadius = r;
+      // prevRadius = r;
       if (r < THRESHOLD)
         return hide();
       // this._hidden = false;
-      this._current_ids = ids;
+      this._currentIds = ids;
       this._highlightThese(ids);
     });
 
@@ -66,7 +68,10 @@ export default class Labels extends Plugin {
       // TODO: здесь можно пересчитывать радиус от scale и
       // убрать лейблы во время зума
       this._labels && this._labels
-        .style('transform', (d) => `translate(${Math.round(x(d.pos.x))}px, ${Math.round(y(d.pos.y))}px)`);
+        .style('transform', (d) => `translate(
+          ${Math.round(x(d.pos.x))}px,
+          ${Math.round(y(d.pos.y))}px
+        )`);
     });
 
     const nodeOuts = most.fromEvent('nodeout', pn);
@@ -106,12 +111,14 @@ export default class Labels extends Plugin {
       .filter(d => {
         try {
           return this._options.getter(d.data);
-        } catch (e) {}
+        } catch (e) {
+          // do nothing
+        }
         return false;
       });
   }
 
-  _highlightThese(ids, locked=[]) {
+  _highlightThese(ids, locked = []) {
     const x = this._x;
     const y = this._y;
     const lockedIds = new Set(locked);
@@ -147,7 +154,10 @@ export default class Labels extends Plugin {
 
     labels
       .classed('locked-label', d => lockedIds.has(d.id))
-      .style('transform', (d) => `translate(${Math.round(x(d.pos.x))}px, ${Math.round(y(d.pos.y))}px)`);
+      .style('transform', (d) => `translate(
+        ${Math.round(x(d.pos.x))}px,
+        ${Math.round(y(d.pos.y))}px
+      )`);
   }
 
   _initLayer() {
@@ -165,7 +175,7 @@ export default class Labels extends Plugin {
   }
 
   highlight(ids) {
-    this._highlightThese(union(this._current_ids.concat(ids)), ids);
+    this._highlightThese(union(this._currentIds.concat(ids)), ids);
   }
 }
 

@@ -3,7 +3,7 @@
 import util from 'util';
 
 import EventEmitter from 'eventemitter3';
-import graphlib from 'graphlib';
+// import graphlib from 'graphlib';
 import nGraph from 'ngraph.graph';
 import createForceLayout from 'ngraph.forcelayout';
 import d3 from 'd3';
@@ -66,7 +66,7 @@ export default class Poincare {
         'on', 'off', 'once', 'emit',
         'addListener', 'removeListener'
       ];
-      for (let m of methodsToUnset)
+      for (const m of methodsToUnset)
         this[m] = () => undefined;
     }
     this._events = null;
@@ -81,7 +81,7 @@ export default class Poincare {
                             `${this._options.layout}`);
   }
 
-  _destroyLayout(){
+  _destroyLayout() {
     if (!this._layout)
       return;
     switch (this._options.layout) {
@@ -123,7 +123,7 @@ export default class Poincare {
   }
 
   _destroyContainer() {
-    this._container == null;
+    this._container = null;
   }
 
   container() {
@@ -151,7 +151,7 @@ export default class Poincare {
     });
   }
 
-  _destroyCore(){
+  _destroyCore() {
     this._core = this._core.destroy();
   }
 

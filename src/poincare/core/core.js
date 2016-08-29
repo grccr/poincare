@@ -1,5 +1,4 @@
 import util from 'util';
-
 import map from 'lodash/map';
 import flatMap from 'lodash/flatMap';
 import PIXI from 'pixi.js';
@@ -19,7 +18,7 @@ PoincareCoreError.prototype.name = 'PoincareCoreError';
 
 export default class Core {
   constructor(opts) {
-    const { options, dims, container, layout, pn } = opts;
+    const { options, container, layout, pn } = opts;
 
     this._stopped = true;
     this._layoutStopped = false;
@@ -43,7 +42,10 @@ export default class Core {
 
     // stage.addChild(group);
 
-    // debug('opts is %o, dims is %o, container is %o', options, dims, container);
+    // debug(
+    //   'opts is %o, dims is %o, container is %o',
+    //   options, dims, container
+    // );
 
     this._pixi = PIXI.autoDetectRenderer(200, 200, {
       antialias: options.antialias,
@@ -80,8 +82,7 @@ export default class Core {
     this._pn.emit('frame', t);
     if (this._pn.zoom && this._pn.zoom.scale() < 1 && !this._zoomedOut) {
       this._zoomedOut = true;
-    }
-    else if (this._pn.zoom && this._pn.zoom.scale() >= 1 && this._zoomedOut) {
+    } else if (this._pn.zoom && this._pn.zoom.scale() >= 1 && this._zoomedOut) {
       this._zoomedOut = false;
       this._zoomSwitch = true;
     }
@@ -128,14 +129,14 @@ export default class Core {
     return g;
   }
 
-  destroy(){
-    this._graph = g;
-    this._layout = layout;
-    this._spriteManager.setSizes(g.getNodesCount(), g.getLinksCount());
-    g.forEachLink(this._initLink.bind(this));
-    g.forEachNode(this._initNode.bind(this));
-    this._pn = null;
-    return null;
+  destroy() {
+    // this._graph = g;
+    // this._layout = layout;
+    // this._spriteManager.setSizes(g.getNodesCount(), g.getLinksCount());
+    // g.forEachLink(this._initLink.bind(this));
+    // g.forEachNode(this._initNode.bind(this));
+    // this._pn = null;
+    // return null;
   }
 
   switchScales() {
@@ -268,7 +269,7 @@ export default class Core {
 
   _initLink(link) {
     const data = this._addLinkData(link);
-    this._addLinkSprite(link, data)
+    this._addLinkSprite(link, data);
   }
 
   stopLayout() {

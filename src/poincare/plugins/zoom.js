@@ -1,6 +1,6 @@
 import d3 from 'd3';
-import debounce from 'lodash/debounce';
-import throttle from 'lodash/throttle';
+// import debounce from 'lodash/debounce';
+// import throttle from 'lodash/throttle';
 
 import Plugin from './base';
 
@@ -15,7 +15,7 @@ class Zoom extends Plugin {
     }, opts || {});
     const zoom = this._zoom = d3.behavior.zoom();
     const $container = this._$container = d3.select(pn._container);
-    const group = this._group = pn._core._group;
+    // const group = this._group = pn._core._group;
 
     this._pn = pn;
 
@@ -122,7 +122,11 @@ class Zoom extends Plugin {
   transform(tr, sc, animated = true) {
     if (tr == null && sc == null)
       return;
-    debug('Transforming to %o / %o', tr || this._zoom.translate(), sc || this._zoom.scale());
+    debug(
+      'Transforming to %o / %o',
+      tr || this._zoom.translate(),
+      sc || this._zoom.scale()
+    );
 
     if (animated) {
       this._pn._core.stop();
@@ -132,8 +136,7 @@ class Zoom extends Plugin {
         this._zoom.scale(sc);
       this._zoom.event(d3.transition().duration(1000));
       this._pn._core.run();
-    }
-    else {
+    } else {
       if (tr != null)
         this._zoom.translate(tr);
       if (sc != null)

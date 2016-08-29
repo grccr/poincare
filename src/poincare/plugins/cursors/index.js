@@ -1,5 +1,6 @@
 import './cursors.less';
 import Plugin from '../base';
+import d3 from 'd3';
 
 export default class Cursors extends Plugin {
   constructor(pn, opts) {

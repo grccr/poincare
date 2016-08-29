@@ -113,10 +113,10 @@ export default class Events extends Plugin {
 
     if (nearest == null && focused != null) {
       pn.emit(`${focused.type}out`, focused.id);
-      pn.emit(`itemblur`);
+      pn.emit('itemblur');
     } else if (nearest != null && focused == null) {
       pn.emit(`${nearest.type}over`, nearest.id);
-      pn.emit(`itemfocus`);
+      pn.emit('itemfocus');
     } else if (nearest.id !== focused.id ||
                nearest.type !== focused.type) {
       pn.emit(`${focused.type}out`, focused.id);

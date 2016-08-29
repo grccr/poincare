@@ -1,6 +1,6 @@
 import rbush from 'rbush';
-import knn from 'rbush-knn';
-import PIXI from 'pixi.js';
+// import knn from 'rbush-knn';
+// import PIXI from 'pixi.js';
 import minBy from 'lodash/minBy';
 
 import Plugin from './base';
@@ -48,7 +48,7 @@ export default class LineIndex extends Plugin {
     this._pn = pn;
     pn.on('layoutstop', this._createLinkIndex, this);
 
-    this._bbox = {x0:0, y0:0, x1:0, y1:0};
+    this._bbox = { x0: 0, y0: 0, x1: 0, y1: 0 };
   }
 
   _createLinkIndex() {

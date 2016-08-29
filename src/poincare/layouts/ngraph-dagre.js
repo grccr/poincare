@@ -1,10 +1,9 @@
 import nGraph from 'ngraph.graph';
 import dagre from 'dagre';
-import merge from 'lodash/merge';
 
 
 export default class NGraphDagreLayout {
-  constructor(graph, settings={}) {
+  constructor(graph, settings = {}) {
     this._graph = graph;
     this._layouted = false;
     this._expr = /\w+/g;
@@ -20,13 +19,13 @@ export default class NGraphDagreLayout {
   }
 
   static graphlibToNGraph(graph) {
-    let newGraph = nGraph();
+    const newGraph = nGraph();
 
     graph.nodes().forEach(id => {
       newGraph.addNode(id, graph.node(id));
     });
 
-    graph.edges().forEach(({v, w}) => {
+    graph.edges().forEach(({ v, w }) => {
       newGraph.addLink(v, w, graph.edge(v, w));
     });
 
@@ -42,8 +41,8 @@ export default class NGraphDagreLayout {
    * For a given `nodeId` returns position
    */
   getNodePosition(nodeId) {
-    let {x, y} = this._graph.node(nodeId);
-    return {x, y};
+    const { x, y } = this._graph.node(nodeId);
+    return { x, y };
   }
 
   /**
@@ -63,11 +62,11 @@ export default class NGraphDagreLayout {
    * @returns {Object.to} {x, y} coordinates of link end
    */
   getLinkPosition(linkId) {
-    let [source, target] = linkId.match(this._expr);
-    let edge = this._graph.edge(source, target);
+    const [source, target] = linkId.match(this._expr);
+    const edge = this._graph.edge(source, target);
     return {
       from: edge.points[0],
-      to: edge.points[edge.points.length-1]
+      to: edge.points[edge.points.length - 1]
     };
   }
 
@@ -77,7 +76,7 @@ export default class NGraphDagreLayout {
    * `x2`, `y2` - bottom right coordinates
    */
   getGraphRect() {
-    let {width, height} = this._graph.graph();
+    const { width, height } = this._graph.graph();
     return {
       x1: 0,
       y1: 0,

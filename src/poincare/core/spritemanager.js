@@ -1,10 +1,9 @@
 import { MD5 } from 'jshashes';
 import memoize from 'lodash/memoize';
-import map from 'lodash/map';
 import PIXI from 'pixi.js';
-import d3 from 'd3';
+// import d3 from 'd3';
 
-const debug = require('debug')('poincare:sprites');
+// const debug = require('debug')('poincare:sprites');
 
 import { PoincareCoreError } from './core.js';
 
@@ -96,7 +95,7 @@ export default class SpriteManager {
 
   createLink(data) {
     const container = this._container('links', this._linkCount * 2);
-    const sprite = this._generator('links')(data)
+    const sprite = this._generator('links')(data);
     container.addChild(sprite);
     return sprite;
   }
@@ -146,7 +145,5 @@ export default class SpriteManager {
     return container;
   }
 
-  destroy() {
-    
-  }
+  destroy() {}
 }

@@ -5,7 +5,7 @@ import { css2pixi } from 'poincare/helpers';
 import { Transitioner } from './tween.js';
 import Plugin from './base';
 
-const debug = require('debug')('poincare:lighter');
+// const debug = require('debug')('poincare:lighter');
 
 
 export default class Lighter extends Plugin {
@@ -62,7 +62,11 @@ export default class Lighter extends Plugin {
       })
       .render((id, prop, X, Y) => {
         const ln = this._pn._core.link(id);
-        this._linkGfx.lineStyle(prop.width * zm.truncatedScale(), this._options.linkColor, prop.opacity);
+        this._linkGfx.lineStyle(
+          prop.width * zm.truncatedScale(),
+          this._options.linkColor,
+          prop.opacity
+        );
         this._linkGfx.moveTo(X(ln.from.x), Y(ln.from.y));
         this._linkGfx.lineTo(X(ln.to.x), Y(ln.to.y));
       });

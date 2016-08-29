@@ -1,7 +1,7 @@
 'use strict';
 
 import axios from 'axios';
-import { balancedBinTree } from 'ngraph.generators';
+// import { balancedBinTree } from 'ngraph.generators';
 
 import d3 from 'd3';
 import debounce from 'lodash/debounce';
@@ -19,23 +19,22 @@ const poleIcon = require('../assets/icons/pole-icon.png');
 const plantIcon = require('../assets/icons/powerplant-icon.png');
 const homeIcon = require('../assets/icons/home-icon.png');
 
-import most from 'most';
+// import most from 'most';
 
+// const myGraph = {
+//   nodes: [
+//     { v: '1', value: { label: '1' } },
+//     { v: '2', value: { label: '2' } },
+//     { v: '3', value: { label: '3' } }
+//   ],
 
-const myGraph = {
-  nodes: [
-    { v: '1', value: { label: '1' } },
-    { v: '2', value: { label: '2' } },
-    { v: '3', value: { label: '3' } }
-  ],
+//   edges: [
+//     { v: '1', w: '2', value: { label: 3 } },
+//     { v: '1', w: '3', value: { label: 3 } }
+//   ],
 
-  edges: [
-    { v: '1', w: '2', value: { label: 3 } },
-    { v: '1', w: '3', value: { label: 3 } }
-  ],
-
-  options: { directed: true }
-};
+//   options: { directed: true }
+// };
 
 const types = {
   'infrastructure/powersubstation': stationIcon,
@@ -171,7 +170,10 @@ axios.get('/data/belgiia.graphml')
   .then(graph => {
     pn.graph(graph);
     pn.run();
-    // pn.lighter.light(['552f7ccb8a432b148143e681', '552f7ccb8a432b148143e63e']);
+    // pn.lighter.light([
+    //   '552f7ccb8a432b148143e681',
+    //   '552f7ccb8a432b148143e63e'
+    // ]);
   });
 
 d3.select(window).on('resize', debounce(() => {
@@ -212,15 +214,17 @@ d3.select(window).on('resize', debounce(() => {
 
 // function useNgraph() {
 
-
-
 //   getGraph().then(loadedGraph => {
 //     // let graph = adaptGraph(loadedGraph);
 //     // let graph = balancedBinTree(11.3);
 //     // let graph = balancedBinTree(13);
 //     let graph = balancedBinTree(4);
 
-//     debug('Graph nodes is %o %o', graph.getNodesCount(), graph.getLinksCount());
+    // debug(
+    //   'Graph nodes is %o %o',
+    //   graph.getNodesCount(),
+    //   graph.getLinksCount()
+    // );
 
 //     let pixiGraphics = window.PIXI = pixiRenderer(graph, {
 //       container: document.getElementById('ashberry'),

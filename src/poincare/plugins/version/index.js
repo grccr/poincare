@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import debounce from 'lodash/debounce';
+// import debounce from 'lodash/debounce';
 import Plugin from '../base';
 import './version.less';
 import { version } from '../../../../package.json';
