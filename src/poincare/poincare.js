@@ -4,6 +4,7 @@ import util from 'util';
 
 import EventEmitter from 'eventemitter3';
 // import graphlib from 'graphlib';
+import isFunction from 'lodash/isFunction';
 import nGraph from 'ngraph.graph';
 import createForceLayout from 'ngraph.forcelayout';
 import d3 from 'd3';
@@ -13,6 +14,8 @@ import Core from './core';
 // import DagreLayout from './layouts/dagre';
 
 import './poincare.less';
+
+const eventProxyMethods = new Symbol();
 
 const debug = require('debug')('poincare:anri');
 
@@ -50,13 +53,14 @@ export default class Poincare {
   }
 
   _initEmitter() {
+    const methods = [
+      'on', 'off', 'once', 'emit',
+      'addListener', 'removeListener'
+    ];
     this._events = new EventEmitter();
-    this.on = this._events.on.bind(this._events);
-    this.addListener = this._events.addListener.bind(this._events);
-    this.removeListener = this._events.removeListener.bind(this._events);
-    this.off = this._events.off.bind(this._events);
-    this.once = this._events.once.bind(this._events);
-    this.emit = this._events.emit.bind(this._events);
+    this.[eventProxyMethods] = methods;
+    for (const m of methods)
+        this[m] = this._events[m].bind(this._events);
   }
 
   _destroyEmitter() {
@@ -66,7 +70,7 @@ export default class Poincare {
         'on', 'off', 'once', 'emit',
         'addListener', 'removeListener'
       ];
-      for (const m of methodsToUnset)
+      for (const m of this.[eventProxyMethods])
         this[m] = () => undefined;
     }
     this._events = null;
@@ -91,6 +95,7 @@ export default class Poincare {
         Object.assign(this._layout.simulator, {
           bodies: null, springs: null
         });
+        this._layout = null;
         break;
     }
   }
@@ -106,7 +111,16 @@ export default class Poincare {
   }
 
   _uninstallPlugins() {
-
+    const plugins = Array.from(this._options.plugins);
+    for (const plugin of plugins) {
+      const nm = plugin.name.toLowerCase();
+      const p = this[nm];
+      if (p !== undefined) {
+        isFunction(p.destroy) && p.destroy();
+        this[nm] = null;
+        debug(`Plugin ${nm} is uninstalled`);
+      }
+    }
   }
 
   _initContainer() {
