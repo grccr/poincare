@@ -15,7 +15,7 @@ import Core from './core';
 
 import './poincare.less';
 
-const eventProxyMethods = new Symbol();
+const eventProxyMethods = Symbol();
 
 const debug = require('debug')('poincare:anri');
 
@@ -44,10 +44,10 @@ export default class Poincare {
   destroy() {
     this.emit('destroy');
     this._uninstallPlugins();
+    this._destroyEmitter();
     this._destroyCore();
     this._destroyLayout();
     this._destroyContainer();
-    this._destroyEmitter();
     this._destroyGraph();
     this._options = null;
   }
@@ -58,19 +58,15 @@ export default class Poincare {
       'addListener', 'removeListener'
     ];
     this._events = new EventEmitter();
-    this.[eventProxyMethods] = methods;
+    this[eventProxyMethods] = methods;
     for (const m of methods)
-        this[m] = this._events[m].bind(this._events);
+      this[m] = this._events[m].bind(this._events);
   }
 
   _destroyEmitter() {
     if (this._events instanceof EventEmitter) {
       this._events.removeAllListeners();
-      const methodsToUnset = [
-        'on', 'off', 'once', 'emit',
-        'addListener', 'removeListener'
-      ];
-      for (const m of this.[eventProxyMethods])
+      for (const m of this[eventProxyMethods])
         this[m] = () => undefined;
     }
     this._events = null;

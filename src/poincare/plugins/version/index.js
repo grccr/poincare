@@ -1,23 +1,22 @@
 import d3 from 'd3';
-// import debounce from 'lodash/debounce';
-import Plugin from '../base';
+import { setGlobally, Plugin } from '../base';
 import './version.less';
 import { version } from '../../../../package.json';
 
+const classes = 'poincare-control poincare-control-version';
 
 export default class VersionControl extends Plugin {
   constructor(pn, opts) {
     super();
     d3.select(pn.container()).append('div')
-      .classed('poincare-control poincare-control-version', true)
+      .classed(classes, true)
       .text(version);
+  }
+
+  destroy() {
+    const selector = classes.split(' ').join('.');
+    d3.select(`.${selector}`).remove();
   }
 }
 
-if (typeof window !== 'undefined') {
-  if (window.poincare == null)
-    window.poincare = {};
-  if (window.poincare.plugins == null)
-    window.poincare.plugins = {};
-  window.poincare.plugins.VersionControl = VersionControl;
-}
+setGlobally(VersionControl);

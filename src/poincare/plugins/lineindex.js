@@ -3,7 +3,7 @@ import rbush from 'rbush';
 // import PIXI from 'pixi.js';
 import minBy from 'lodash/minBy';
 
-import Plugin from './base';
+import { setGlobally, Plugin } from './base';
 
 const debug = require('debug')('poincare:lineindex');
 const sqr = (n) => Math.pow(n, 2);
@@ -150,10 +150,4 @@ export default class LineIndex extends Plugin {
   }
 }
 
-if (typeof window !== 'undefined') {
-  if (window.poincare == null)
-    window.poincare = {};
-  if (window.poincare.plugins == null)
-    window.poincare.plugins = {};
-  window.poincare.plugins.LineIndex = LineIndex;
-}
+setGlobally(LineIndex);

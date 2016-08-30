@@ -1,6 +1,6 @@
 import d3 from 'd3';
 import debounce from 'lodash/debounce';
-import Plugin from './base';
+import { setGlobally, Plugin } from './base';
 
 export default class AutoResize extends Plugin {
   constructor(pn, opts) {
@@ -11,10 +11,4 @@ export default class AutoResize extends Plugin {
   }
 }
 
-if (typeof window !== 'undefined') {
-  if (window.poincare == null)
-    window.poincare = {};
-  if (window.poincare.plugins == null)
-    window.poincare.plugins = {};
-  window.poincare.plugins.AutoResize = AutoResize;
-}
+setGlobally(AutoResize);

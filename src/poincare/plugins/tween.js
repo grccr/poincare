@@ -1,5 +1,5 @@
 import TWEEN from 'tween.js';
-import Plugin from './base';
+import { setGlobally, Plugin } from './base';
 import { venn } from 'poincare/helpers';
 
 const debug = require('debug')('poincare:transitioner');
@@ -145,10 +145,4 @@ export class Transitioner {
   }
 }
 
-if (typeof window !== 'undefined') {
-  if (window.poincare == null)
-    window.poincare = {};
-  if (window.poincare.plugins == null)
-    window.poincare.plugins = {};
-  window.poincare.plugins.Tween = Tween;
-}
+setGlobally(Tween);

@@ -1,5 +1,6 @@
 import util from 'util';
 import map from 'lodash/map';
+import each from 'lodash/each';
 import flatMap from 'lodash/flatMap';
 import PIXI from 'pixi.js';
 import d3 from 'd3';
@@ -7,7 +8,7 @@ import d3 from 'd3';
 import { DEFAULT_LINE_LENGTH } from './spritemanager.js';
 import SpriteManager from './spritemanager.js';
 
-const debug = require('debug')('poincare:core');
+// const debug = require('debug')('poincare:core');
 
 export function PoincareCoreError(message) {
   this.message = message;
@@ -20,9 +21,9 @@ export default class Core {
   constructor(opts) {
     const { options, container, layout, pn } = opts;
 
+    this._container = container;
     this._stopped = true;
     this._layoutStopped = false;
-    this._stage = new PIXI.Container();
     this._layout = layout;
     this._dataViews = {
       node: (node) => node,
@@ -53,7 +54,7 @@ export default class Core {
       transparent: options.transparent
     });
 
-    container.appendChild(this._pixi.view);
+    this._container.appendChild(this._pixi.view);
 
     this._bindedRun = this._run.bind(this);
 
@@ -130,13 +131,36 @@ export default class Core {
   }
 
   destroy() {
-    // this._graph = g;
-    // this._layout = layout;
-    // this._spriteManager.setSizes(g.getNodesCount(), g.getLinksCount());
-    // g.forEachLink(this._initLink.bind(this));
-    // g.forEachNode(this._initNode.bind(this));
-    // this._pn = null;
-    // return null;
+    this.stop();
+    this._spriteManager.destroy();
+
+    each(this._data.nodes, (node, id) => {
+      node.links = null;
+      this._data.nodes[id] = null;
+      this._sprites.nodes[id].texture.destroy();
+    });
+
+    each(this._data.links, (link, id) => {
+      this._sprites.links[id].texture.destroy();
+      this._data.links[id] = null;
+    });
+
+    this._stage.destroy(true);
+    this._pixi.destroy(true);
+
+    this._spriteManager =
+    this._sprites =
+    this._stage =
+    this._pixi =
+    this._dataViews =
+    this._data =
+    this._graph =
+    this._layout =
+    this._container =
+    this._pn =
+      null;
+
+    return null;
   }
 
   switchScales() {
@@ -230,15 +254,8 @@ export default class Core {
     this._pn.emit('moveline', link);
   }
 
-  _attachMouseEvents(sprite, id) {
-    sprite.interactive = true;
-    sprite._id = id;
-    sprite.on('mouseover', data => debug('CLICK!!!!', data));
-  }
-
   _addNodeSprite(node, data) {
-    const sprite = this._spriteManager.create(data);
-    // this._attachMouseEvents(sprite, node.id);
+    const sprite = this._spriteManager.createNode(data);
     this._sprites.nodes[node.id] = sprite;
   }
 

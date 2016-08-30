@@ -1,6 +1,6 @@
 import d3 from 'd3';
 import throttle from 'lodash/throttle';
-import Plugin from './base';
+import { setGlobally, Plugin } from './base';
 
 const debug = require('debug')('poincare:events');
 
@@ -44,6 +44,18 @@ export default class Events extends Plugin {
     //   const position = d3.mouse(container);
     //   debug('MOVE', position);
     // }, 250));
+  }
+
+  destroy() {
+    d3.select(this._pn.container())
+      .on('mousemove.events', null)
+      .on('click.events', null)
+      .on('contextmenu.events', null)
+      .on('mousedown.events', null)
+
+    this._throttledFind =
+    this._pn =
+    null;
   }
 
   _installMouseHandlers() {
@@ -155,10 +167,4 @@ export default class Events extends Plugin {
 
 Events.priority = 0;
 
-if (typeof window !== 'undefined') {
-  if (window.poincare == null)
-    window.poincare = {};
-  if (window.poincare.plugins == null)
-    window.poincare.plugins = {};
-  window.poincare.plugins.Events = Events;
-}
+setGlobally(Events);
