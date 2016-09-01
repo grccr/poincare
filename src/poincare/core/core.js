@@ -6,6 +6,7 @@ import map from 'lodash/map';
 import flatMap from 'lodash/flatMap';
 import PIXI from 'pixi.js';
 import d3 from 'd3';
+import { css2pixi } from '../helpers';
 
 const debug = require('debug')('poincare:core');
 
@@ -19,13 +20,22 @@ PoincareCoreError.prototype.name = 'PoincareCoreError';
 const DEFAULT_LINE_LENGTH = 1000;
 
 export const LinkSpriteGenerator = (renderer, options) => {
-  const gfx = new PIXI.Graphics();
-  gfx.lineStyle(1, 0xcccccc, 1);
-  gfx.moveTo(0, 0);
-  gfx.lineTo(DEFAULT_LINE_LENGTH, 0);
-  const texture = gfx.generateTexture(1, PIXI.SCALE_MODES.DEFAULT);
+  // const gfx = new PIXI.Graphics();
+  // const color = css2pixi(options.color({data:{id:'CCCCCC'}}));
+  // gfx.lineStyle(1, color, 1);
+  // gfx.moveTo(0, 0);
+  // gfx.lineTo(DEFAULT_LINE_LENGTH, 0);
+  // const texture = gfx.generateTexture(1, PIXI.SCALE_MODES.DEFAULT);
 
   return (link) => {
+    const gfx = new PIXI.Graphics();
+    const spriteColor = css2pixi(options.color(link));
+    debug(link, options.color(link));
+    gfx.lineStyle(1, spriteColor, 1);
+    gfx.moveTo(0, 0);
+    gfx.lineTo(DEFAULT_LINE_LENGTH, 0);
+    const texture = gfx.generateTexture(1, PIXI.SCALE_MODES.DEFAULT);
+    
     return new PIXI.Sprite(texture);
   };
 };

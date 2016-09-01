@@ -5,6 +5,7 @@ import { balancedBinTree } from 'ngraph.generators';
 
 import d3 from 'd3';
 import debounce from 'lodash/debounce';
+import random from 'lodash/random';
 
 import Poincare from './poincare';
 import * as nGraphParse from './poincare/parsers/ngraph';
@@ -50,6 +51,13 @@ const pn = window.PN = new Poincare({
     max: 60
   },
   transparent: true,
+  links: {
+    color: (l) => {
+      const i = random(0, 18);
+      const hash = l.data.id.slice(i, i+6);
+      return `#${hash}`;
+    }
+  },
   icons: {
     source: (d) => {
       if (d.data.type === 'infrastructure/powerline' && d.links.length < 2)
