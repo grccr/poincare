@@ -112,7 +112,7 @@ export default class Poincare {
       const nm = plugin.name.toLowerCase();
       const p = this[nm];
       if (p !== undefined) {
-        isFunction(p.destroy) && p.destroy();
+        isFunction(p.unplug) && p.unplug();
         this[nm] = null;
         debug(`Plugin ${nm} is uninstalled`);
       }

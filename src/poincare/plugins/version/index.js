@@ -13,7 +13,7 @@ export default class VersionControl extends Plugin {
       .text(version);
   }
 
-  destroy() {
+  unplug() {
     const selector = classes.split(' ').join('.');
     d3.select(`.${selector}`).remove();
   }

@@ -1,5 +1,5 @@
 import d3 from 'd3';
-// import debounce from 'lodash/debounce';
+import functionsIn from 'lodash/functionsIn';
 // import throttle from 'lodash/throttle';
 
 import { setGlobally, Plugin } from './base';
@@ -70,6 +70,17 @@ class Zoom extends Plugin {
 
     // zoom.on('zoom', this._zoomHandler.bind(this, group));
     this._wasSwitch = false;
+  }
+
+  unplug() {
+    this._destroyMethods();
+    this._zoom
+      .on('zoom', null)
+      .on('zoomstart', null)
+      .on('zoomend', null);
+    this._$container.on('.zoom', null);
+    this._zoom = null;
+    this._$container = null;
   }
 
   // _toggleScale(toggle) {
@@ -204,11 +215,6 @@ class Zoom extends Plugin {
   //   group.position.x = d3.event.translate[0];
   //   group.position.y = d3.event.translate[1];
   // }
-
-  unplug() {
-    this._zoom.on('zoom', null);
-    this._$container.on('.zoom', null);
-  }
 }
 
 setGlobally(Zoom);

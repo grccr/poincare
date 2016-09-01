@@ -46,16 +46,15 @@ export default class Events extends Plugin {
     // }, 250));
   }
 
-  destroy() {
+  unplug() {
     d3.select(this._pn.container())
       .on('mousemove.events', null)
       .on('click.events', null)
       .on('contextmenu.events', null)
       .on('mousedown.events', null)
 
-    this._throttledFind =
-    this._pn =
-    null;
+    this._throttledFind = null;
+    this._pn = null;
   }
 
   _installMouseHandlers() {
