@@ -7,6 +7,7 @@ import flatMap from 'lodash/flatMap';
 import PIXI from 'pixi.js';
 import d3 from 'd3';
 import { css2pixi } from '../helpers';
+import random from 'lodash/random';
 
 const debug = require('debug')('poincare:core');
 
@@ -30,7 +31,6 @@ export const LinkSpriteGenerator = (renderer, options) => {
   return (link) => {
     const gfx = new PIXI.Graphics();
     const spriteColor = css2pixi(options.color(link));
-    debug(link, options.color(link));
     gfx.lineStyle(1, spriteColor, 1);
     gfx.moveTo(0, 0);
     gfx.lineTo(DEFAULT_LINE_LENGTH, 0);
@@ -98,7 +98,9 @@ export class SpriteManager {
 
     this._nodeCount = 5000;
     this._linkCount = 5000;
-
+    this._colorLinkCount = {
+      '#CCC': 5000
+    };
     // Links container must created first
     // Because order of creation is important
     // this._container('links')
@@ -112,16 +114,18 @@ export class SpriteManager {
     return sprite;
   }
 
-  createLink(data) {
-    const container = this._container('links', this._linkCount * 2);
-    const sprite = this._generator('links')(data)
+  createLink(link) {
+    const color = link.data.color || '#CCC';
+    const container = this._container('links' + color, this._colorLinkCount[color]);
+    const sprite = this._generator('links')(link);
     container.addChild(sprite);
     return sprite;
   }
 
-  setSizes(nodeCount, linkCount) {
+  setSizes(nodeCount, linkCount, colorDict) {
     this._nodeCount = nodeCount;
     this._linkCount = linkCount;
+    this._colorLinkCount = colorDict;
   }
 
   _getGenerator(name) {
@@ -152,7 +156,7 @@ export class SpriteManager {
   }
 
   _getNewContainer(id, sz) {
-    const container = new PIXI.ParticleContainer(this._nodeCount * 2 || sz, {
+    const container = new PIXI.ParticleContainer(sz || this._nodeCount * 2, {
       scale: true,
       position: true,
       rotation: true,
@@ -268,7 +272,12 @@ export default class Core {
   init(g, layout) {
     this._graph = g;
     this._layout = layout;
-    this._spriteManager.setSizes(g.getNodesCount(), g.getLinksCount());
+    const colordict = {};
+    g.forEachLink(link => {
+      const clr = link.data.color || '#CCC';
+      colordict[clr] = (colordict[clr] || 0) + 1;
+    });
+    this._spriteManager.setSizes(g.getNodesCount(), g.getLinksCount(), colordict);
     g.forEachLink(this._initLink.bind(this));
     g.forEachNode(this._initNode.bind(this));
     this._pn.emit('initcore');
@@ -406,7 +415,7 @@ export default class Core {
 
   _initLink(link) {
     const data = this._addLinkData(link);
-    this._addLinkSprite(link, data)
+    this._addLinkSprite(link, data);
   }
 
   stopLayout() {

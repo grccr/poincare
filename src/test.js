@@ -53,9 +53,7 @@ const pn = window.PN = new Poincare({
   transparent: true,
   links: {
     color: (l) => {
-      const i = random(0, 18);
-      const hash = l.data.id.slice(i, i+6);
-      return `#${hash}`;
+      return l.data.color || '#CCC';
     }
   },
   icons: {
@@ -170,7 +168,7 @@ pn.zoom.alignToCenter();
 debug('Poincare icons is', pn.options().icons);
 
 
-axios.get('/data/belgiia.graphml')
+axios.get('/data/estoniia-color.graphml')
   .then(({ data: doc }) => {
     return nGraphParse.fromGraphML(doc);
     // return balancedBinTree(4);
