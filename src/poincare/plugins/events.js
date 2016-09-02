@@ -51,7 +51,7 @@ export default class Events extends Plugin {
       .on('mousemove.events', null)
       .on('click.events', null)
       .on('contextmenu.events', null)
-      .on('mousedown.events', null)
+      .on('mousedown.events', null);
 
     this._throttledFind = null;
     this._pn = null;

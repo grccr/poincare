@@ -133,6 +133,8 @@ export default class Poincare {
   }
 
   _destroyContainer() {
+    d3.select(this._container)
+      .classed('poincare-graph', false);
     this._container = null;
   }
 

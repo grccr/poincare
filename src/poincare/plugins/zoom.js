@@ -1,5 +1,4 @@
 import d3 from 'd3';
-import functionsIn from 'lodash/functionsIn';
 // import throttle from 'lodash/throttle';
 
 import { setGlobally, Plugin } from './base';

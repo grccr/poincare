@@ -7,12 +7,25 @@ export default class Cursors extends Plugin {
     super();
 
     const container = d3.select(pn.container());
-    pn.on('itemfocus', () => {
-      container.classed('item-focused', true);
+    this._pn = pn;
+
+    pn.on('itemfocus', this._toggle, {
+      container, state: true
     });
-    pn.on('itemblur', () => {
-      container.classed('item-focused', false);
+    pn.on('itemblur', this._toggle, {
+      container, state: false
     });
+  }
+
+  unplug() {
+    this._pn
+      .removeListener('itemfocus', this._toggle)
+      .removeListener('itemblur', this._toggle);
+    this._pn = null;
+  }
+
+  _toggle() {
+    this.container.classed('item-focused', this.state);
   }
 }
 
