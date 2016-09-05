@@ -132,7 +132,8 @@ export default class Core {
 
   destroy() {
     this.stop();
-    this._spriteManager.destroy();
+    if (this._spriteManager)
+      this._spriteManager.destroy();
 
     each(this._data.nodes, (node, id) => {
       node.links = null;
@@ -145,8 +146,10 @@ export default class Core {
       this._data.links[id] = null;
     });
 
-    this._stage.destroy(true);
-    this._pixi.destroy(true);
+    if (this._stage)
+      this._stage.destroy(true);
+    if (this._pixi)
+      this._pixi.destroy(true);
 
     this._spriteManager =
     this._sprites =

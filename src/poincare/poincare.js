@@ -191,14 +191,35 @@ export default class Poincare {
     this._core.stopLayout();
   }
 
+  // graph(g) {
+  //   if (g != null) {
+  //     this._graph = g;
+  //     debug('Attempting to display graph [%o, %o]', g.getNodesCount(),
+  //           g.getLinksCount());
+  //     this._initLayout();
+  //     this._core.init(this._graph, this._layout);
+  //   }
+  //   return this._graph;
+  // }
+
   graph(g) {
-    if (g != null) {
-      this._graph = g;
-      debug('Attempting to display graph [%o, %o]', g.getNodesCount(),
-            g.getLinksCount());
-      this._initLayout();
-      this._core.init(this._graph, this._layout);
-    }
+    this._destroyCore();
+    this._destroyLayout();
+    this._destroyGraph();
+
+    g = g || new nGraph();
+    debug(
+      'Attempting to display graph [%o, %o]',
+      g.getNodesCount(),
+      g.getLinksCount()
+    );
+
+    this._graph = g;
+    this._initLayout();
+    this._initCore();
+    this._core.init(this._graph, this._layout);
+    // this.run()
+
     return this._graph;
   }
 
