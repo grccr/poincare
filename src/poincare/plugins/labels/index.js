@@ -4,6 +4,7 @@ import most from 'most';
 import { setGlobally, Plugin } from '../base';
 // import template from 'lodash/template';
 import union from 'lodash/union';
+
 import 'mozilla-fira-pack';
 import './labels.less';
 
@@ -24,7 +25,7 @@ export default class Labels extends Plugin {
     this._locked = [];
 
     this._pn = pn;
-    this._parentContainer = pn.container();
+    this._parentContainer = pn.container;
 
     if (typeof this._options.getter !== 'function')
       this._options.getter = fieldGetter(this._options.getter);

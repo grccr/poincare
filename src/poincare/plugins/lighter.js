@@ -2,7 +2,7 @@ import PIXI from 'pixi.js';
 import TWEEN from 'tween.js';
 
 import { css2pixi } from 'poincare/helpers';
-import { Transitioner } from './tween.js';
+import { Transitioner } from '../modules';
 import { setGlobally, Plugin } from './base';
 
 // const debug = require('debug')('poincare:lighter');
@@ -73,13 +73,13 @@ export default class Lighter extends Plugin {
   }
 
   light(nodeIds) {
-    const core = this._pn.core();
+    const core = this._pn.core;
     const realIds = nodeIds.filter(id => core.hasNode(id));
     this._nodetrans.transition(realIds);
   }
 
   lightLink(linkIds) {
-    const core = this._pn.core();
+    const core = this._pn.core;
     const realIds = linkIds.filter(id => core.hasLink(id));
     this._linktrans.transition(realIds);
   }

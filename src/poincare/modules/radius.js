@@ -3,7 +3,7 @@ import rbush from 'rbush';
 import knn from 'rbush-knn';
 // import range from 'lodash/range';
 // import { css2pixi } from '../helpers';
-import { setGlobally, Plugin } from './base';
+import Module from './base';
 
 const debug = require('debug')('poincare:radius');
 
@@ -11,7 +11,7 @@ function dist(pos1, pos2) {
   return Math.hypot(pos1.x - pos2.x, pos1.y - pos2.y);
 }
 
-export default class Radius extends Plugin {
+export default class Radius extends Module {
   constructor(pn, opts) {
     super();
     this._options = Object.assign({
@@ -125,5 +125,3 @@ export default class Radius extends Plugin {
     return sum / ids.length;
   }
 }
-
-setGlobally(Radius);

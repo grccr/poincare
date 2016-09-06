@@ -1,10 +1,10 @@
 import TWEEN from 'tween.js';
-import { setGlobally, Plugin } from './base';
-import { venn } from 'poincare/helpers';
+import Module from './base';
+import { venn } from '../helpers';
 
 const debug = require('debug')('poincare:transitioner');
 
-export default class Tween extends Plugin {
+export default class Tween extends Module {
   constructor(pn, opts) {
     super();
     pn.on('frame', TWEEN.update.bind(TWEEN));
@@ -144,5 +144,3 @@ export class Transitioner {
     this._subscribe();
   }
 }
-
-setGlobally(Tween);

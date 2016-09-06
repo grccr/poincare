@@ -1,12 +1,13 @@
-import './cursors.less';
 import { setGlobally, Plugin } from '../base';
 import d3 from 'd3';
+
+import './cursors.less';
 
 export default class Cursors extends Plugin {
   constructor(pn, opts) {
     super();
 
-    const container = d3.select(pn.container());
+    const container = d3.select(pn.container);
     this._pn = pn;
 
     pn.on('itemfocus', this._toggle, {

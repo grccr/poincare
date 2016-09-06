@@ -1,11 +1,11 @@
 import d3 from 'd3';
 // import throttle from 'lodash/throttle';
 
-import { setGlobally, Plugin } from './base';
+import Module from './base';
 
 const debug = require('debug')('poincare:zoom');
 
-class Zoom extends Plugin {
+export default class Zoom extends Module {
   constructor(pn, opts) {
     super();
     this._options = Object.assign({
@@ -71,7 +71,7 @@ class Zoom extends Plugin {
     this._wasSwitch = false;
   }
 
-  unplug() {
+  destroy() {
     this._destroyMethods();
     this._zoom
       .on('zoom', null)
@@ -108,7 +108,7 @@ class Zoom extends Plugin {
   bbox() {
     const tr = this._zoom.translate();
     const sc = this._zoom.scale();
-    const sz = this._pn.size();
+    const sz = this._pn.size;
     return {
       x: -tr[0] / sc,
       y: -tr[1] / sc,
@@ -122,7 +122,7 @@ class Zoom extends Plugin {
   }
 
   alignToCenter(animated = false) {
-    this.transform(this._pn.size().map(d => d / 2), null, animated);
+    this.transform(this._pn.size.map(d => d / 2), null, animated);
     // this._zoom.x(this._pn._core.xScale);
     // this._zoom.y(this._pn._core.yScale);
     // this._group.position.x = dims[0] / 2;
@@ -215,7 +215,3 @@ class Zoom extends Plugin {
   //   group.position.y = d3.event.translate[1];
   // }
 }
-
-setGlobally(Zoom);
-
-export default Zoom;

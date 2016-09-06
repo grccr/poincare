@@ -18,13 +18,13 @@ util.inherits(PoincareCoreError, Error);
 PoincareCoreError.prototype.name = 'PoincareCoreError';
 
 export default class Core {
-  constructor(opts) {
-    const { options, container, layout, pn } = opts;
-
+  constructor({ pn, container, options }) {
     this._container = container;
+    this._pn = pn;
+
     this._stopped = true;
     this._layoutStopped = false;
-    this._layout = layout;
+
     this._dataViews = {
       node: (node) => node,
       link: (link) => link
@@ -38,16 +38,6 @@ export default class Core {
       links: {}
     };
 
-    this._pn = pn;
-    // const group = new PIXI.Container();
-
-    // stage.addChild(group);
-
-    // debug(
-    //   'opts is %o, dims is %o, container is %o',
-    //   options, dims, container
-    // );
-
     this._pixi = PIXI.autoDetectRenderer(200, 200, {
       antialias: options.antialias,
       backgroundColor: options.background,
@@ -60,20 +50,54 @@ export default class Core {
 
     this._stage = new PIXI.Container();
     this._group = new PIXI.Container();
-    // this._group.scale.x = 0.5;
-    // this._group.scale.y = 0.5;
     this._stage.addChild(this._group);
-
-    // const graphics = new PIXI.Graphics();
-    // group.addChild(graphics);
-
     this._spriteManager = new SpriteManager(this._group, this._pixi, options);
+    
     this.xScale = d3.scale.linear();
     this.yScale = d3.scale.linear();
 
-    pn.on('dimensions', dims => {
-      this._pixi.resize(dims[0], dims[1]);
+    pn.on('dimensions', this._renderResize, this);
+  }
+
+  clear(){
+    this.stop();
+    this._pn.removeListener('dimensions', this._renderResize, this);
+
+    each(this._data.nodes, (node, id) => {
+      node.links = null;
+      this._data.nodes[id] = null;
+      this._sprites.nodes[id].texture.destroy();
     });
+
+    each(this._data.links, (link, id) => {
+      this._sprites.links[id].texture.destroy();
+      this._data.links[id] = null;
+    });
+  }
+
+  destroy() {
+    this.clear();
+
+    if (this._spriteManager)
+      this._spriteManager.destroy();
+    if (this._stage)
+      this._stage.destroy(true);
+    if (this._pixi)
+      this._pixi.destroy(true);
+
+    this._spriteManager =
+    this._sprites =
+    this._stage =
+    this._pixi =
+    this._dataViews =
+    this._data =
+    this._graph =
+    this._layout =
+    this._container =
+    this._pn =
+      null;
+
+    return null;
   }
 
   _renderFrame(t) {
@@ -92,6 +116,10 @@ export default class Core {
     this._zoomSwitch = false;
 
     this._pixi.render(this._stage);
+  }
+
+  _renderResize(dims) {
+    this._pixi.resize(dims[0], dims[1]);
   }
 
   _run(t) {
@@ -128,42 +156,6 @@ export default class Core {
     this._pn.emit('initcore');
     this._pn.emit('viewreset');
     return g;
-  }
-
-  destroy() {
-    this.stop();
-    if (this._spriteManager)
-      this._spriteManager.destroy();
-
-    each(this._data.nodes, (node, id) => {
-      node.links = null;
-      this._data.nodes[id] = null;
-      this._sprites.nodes[id].texture.destroy();
-    });
-
-    each(this._data.links, (link, id) => {
-      this._sprites.links[id].texture.destroy();
-      this._data.links[id] = null;
-    });
-
-    if (this._stage)
-      this._stage.destroy(true);
-    if (this._pixi)
-      this._pixi.destroy(true);
-
-    this._spriteManager =
-    this._sprites =
-    this._stage =
-    this._pixi =
-    this._dataViews =
-    this._data =
-    this._graph =
-    this._layout =
-    this._container =
-    this._pn =
-      null;
-
-    return null;
   }
 
   switchScales() {
@@ -246,7 +238,6 @@ export default class Core {
     const dy = this.yScale(link.to.y) - this.yScale(link.from.y);
     const dx = this.xScale(link.to.x) - this.xScale(link.from.x);
     const angle = Math.atan2(dy, dx);
-    // const dist = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
     const dist = Math.hypot(dx, dy);
     const s = this._sprites.links[id];
     s.scale.x = dist / DEFAULT_LINE_LENGTH;
@@ -254,7 +245,7 @@ export default class Core {
     s.rotation = angle;
     s.position.x = this.xScale(link.from.x);
     s.position.y = this.yScale(link.from.y);
-    this._pn.emit('moveline', link);
+    this._pn.emit('move:link', link);
   }
 
   _addNodeSprite(node, data) {

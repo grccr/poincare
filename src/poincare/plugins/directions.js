@@ -1,6 +1,6 @@
 // import d3 from 'd3';
 import PIXI from 'pixi.js';
-import { css2pixi } from 'poincare/helpers';
+import { css2pixi } from '../helpers';
 import { setGlobally, Plugin } from './base';
 
 const pol2dec = (alpha, dist) => {
@@ -27,9 +27,9 @@ export default class Directions extends Plugin {
 
   _init() {
     const makeArrowSprite = this._arrowGenerator();
-    const mgr = this._pn.core().spriteManager();
+    const mgr = this._pn.core.spriteManager();
     const container = mgr.createSpriteContainer(3, 'links');
-    const core = this._pn.core();
+    const core = this._pn.core;
     this._arrows = {};
     core.eachLink((id) => {
       const arrow = this._arrows[id] = makeArrowSprite();
@@ -40,7 +40,7 @@ export default class Directions extends Plugin {
   }
 
   _render() {
-    const core = this._pn.core();
+    const core = this._pn.core;
     const scale = this._pn.zoom.truncatedScale();
     core.eachLink((id) => {
       const link = core.link(id);

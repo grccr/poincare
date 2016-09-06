@@ -47,7 +47,7 @@ export default class Events extends Plugin {
   }
 
   unplug() {
-    d3.select(this._pn.container())
+    d3.select(this._pn.container)
       .on('mousemove.events', null)
       .on('click.events', null)
       .on('contextmenu.events', null)
@@ -58,7 +58,7 @@ export default class Events extends Plugin {
   }
 
   _installMouseHandlers() {
-    const container = this._pn.container();
+    const container = this._pn.container;
 
     d3.select(container)
       .on('mousemove.events', () => {

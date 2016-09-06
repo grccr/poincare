@@ -67,9 +67,7 @@ const pn = window.PN = new Poincare({
   directions: {
     show: true
   },
-  plugins: [Tween, Events, Zoom, Lighter, Radius, Labels,
-            Cursors, LineIndex, Directions]
-  // plugins: [Tween, Radius]
+  plugins: [ Events, Lighter, Labels, Cursors, Directions ]
 });
 
 pn.on('zoomstart', () => debug('zoomstart'));

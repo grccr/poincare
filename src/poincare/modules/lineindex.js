@@ -3,7 +3,7 @@ import rbush from 'rbush';
 // import PIXI from 'pixi.js';
 import minBy from 'lodash/minBy';
 
-import { setGlobally, Plugin } from './base';
+import Module from './base';
 
 const debug = require('debug')('poincare:lineindex');
 const sqr = (n) => Math.pow(n, 2);
@@ -42,7 +42,7 @@ function makeNormalLineBBox(ln) {
 //   return points;
 // }
 
-export default class LineIndex extends Plugin {
+export default class LineIndex extends Module {
   constructor(pn, opts) {
     super();
     this._pn = pn;
@@ -149,5 +149,3 @@ export default class LineIndex extends Plugin {
     return null;
   }
 }
-
-setGlobally(LineIndex);

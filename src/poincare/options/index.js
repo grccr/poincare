@@ -1,9 +1,9 @@
-import merge from 'lodash/merge';
 
-import Events from '../plugins/zoom';
-import Zoom from '../plugins/events';
-import VersionControl from '../plugins/version';
-
+// modules
+import { LineIndex, Radius, Tween, VersionControl, Zoom } from '../plugins';
+// plugins
+import { Events } from '../plugins';
+import { isFunction, merge } from 'lodash';
 import { css2pixi } from '../helpers';
 
 const worldIcon = 'icon.png';
@@ -36,11 +36,13 @@ const Options = {
       theta: 1
     },
 
-    plugins: [Events, Zoom, VersionControl]
+    plugins: [ Events ],
+
+    _modules: [ VersionControl, Zoom, Radius, LineIndex, Tween ]
   },
 
   check(v) {
-    return typeof v !== 'function' ? constant(v) : v;
+    return isFunction(v) ? constant(v) : v;
   },
 
   merge(current, newOpts) {
@@ -55,7 +57,7 @@ const Options = {
   },
 
   _convert(opts) {
-    const check = Options.check;
+    const check = this.check.bind(this);
     const convertable = {
       background: css2pixi(opts.background),
       icons: {

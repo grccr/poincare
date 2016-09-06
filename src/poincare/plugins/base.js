@@ -1,19 +1,6 @@
-import { PoincareCoreError } from '../core';
+import Module from '../modules';
 
-export class Plugin {
-
-  _destroyMethods() {
-    const proto = Object.getPrototypeOf(this);
-    for (const m of Object.getOwnPropertyNames(proto))
-      if ('constructor' !== m && 'function' === typeof proto[m])
-        this[m] = () => {
-          throw new PoincareCoreError(
-            `${proto.constructor.name} plugin instance was destroyed ` +
-            `thus \`${m}\` method can't be called`
-          );
-        };
-  }
-}
+export class Plugin extends Module {};
 
 Plugin.priority = Infinity;
 
