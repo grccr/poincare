@@ -29,15 +29,14 @@ export default class Poincare {
     this.options(opts);
     this._createEmitter();
     this._createContainer();
-    this._installModules();
     this._createCore();
     this.updateDimensions();
-    this[pluginsListProp] = {};
+    this._installModules();
     this._installPlugins();
   }
 
   options(opts) {
-    if (opts != null) {
+    if (opts !== null) {
       this._options = Options.merge(this._options, opts);
     }
     return this._options;
@@ -90,9 +89,9 @@ export default class Poincare {
   /* --- Container  --- */
 
   _createContainer() {
-    this._container = isString(this._options.container)
-      ? document.querySelector(this._options.container)
-      : this._options.container;
+    this._container = isString(this._options.container) ?
+      document.querySelector(this._options.container) :
+      this._options.container;
 
     if (this.container === null)
       throw new PoincareError(`No container '${this._options.container}'` +
@@ -124,26 +123,6 @@ export default class Poincare {
     return this._dims.slice();
   }
 
-  /* --- Modules --- */
-
-  _installModules(){
-    for (const module of this._options._modules) {
-      this[module.name] = new module(this, this._options[module.name]);
-      debug('${module.name} module is installed');
-    }
-  }
-  
-  _destroyModules() {
-    for (const module of this._options._modules) {
-      const m = this[module.name];
-      if (m !== undefined) {
-        isFunction(m.destroy) && m.destroy();
-        this[module.name] = null;
-        debug(`${module.name} module is destroyed`);
-      }
-    }
-  }
-
   /* --- Core --- */
 
   _createCore() {
@@ -165,15 +144,38 @@ export default class Poincare {
     return this._core;
   }
 
+  /* --- Modules --- */
+
+  _installModules() {
+    for (const module of this._options._modules) {
+      const name = module.name.toLowerCase();
+      this[name] = new module(this, this._options[name]);
+      debug(`${module.name} module is installed`);
+    }
+  }
+
+  _destroyModules() {
+    for (const module of this._options._modules) {
+      const name = module.name.toLowerCase();
+      const m = this[name];
+      if (m !== undefined) {
+        isFunction(m.destroy) && m.destroy();
+        this[name] = null;
+        debug(`${module.name} module is destroyed`);
+      }
+    }
+  }
+
   /* --- Plugins --- */
 
   _installPlugins() {
     const plugins = Array.from(this._options.plugins);
     plugins.sort((a, b) => a.priority - b.priority);
+    this[pluginsListProp] = {};
     for (const plugin of plugins) {
       const name = plugin.name.toLowerCase();
       this[pluginsListProp][name] = new plugin(this, this._options[name]);
-      debug('Plugin ${name} is installed');
+      debug(`${plugin.name} plugin is installed`);
     }
   }
 
@@ -184,10 +186,11 @@ export default class Poincare {
       const p = this[pluginsListProp][name];
       if (p !== undefined) {
         isFunction(p.unplug) && p.unplug();
-        delete this[pluginsListProp][name];
-        debug(`Plugin ${name} is uninstalled`);
+        this[pluginsListProp][name] = null;
+        debug(`${plugin.name} plugin is uninstalled`);
       }
     }
+    this[pluginsListProp] = {};
   }
 
   get plugins() {
@@ -228,22 +231,14 @@ export default class Poincare {
 
   /* --- Graph --- */
 
-  // original
-  __graph__(g) {
-    if (g != null) {
-      this._graph = g;
-      debug('Attempting to display graph [%o, %o]', g.getNodesCount(),
-            g.getLinksCount());
-      this._createLayout();
-      this._core.init(this._graph, this._layout);
-    }
+  get graph() {
     return this._graph;
   }
 
-  graph(g) {
-    if (!(g instanceof nGraph)) {
+  set graph(g) {
+    if (undefined === g || null === g) {
       g = new nGraph();
-      debug('Attempting to display empty graph');
+      debug('Attempting to empty graph');
     } else {
       debug(
         'Attempting to display graph [%o, %o]',
@@ -253,14 +248,14 @@ export default class Poincare {
     }
 
     if (this.graph) {
-
-      // kill 'em all
-
+      this.core.clear();
+      this._destroyLayout();
+      this._destroyGraph();
     }
 
     this._graph = g;
-
-    // make pretty init
+    this._createLayout();
+    this.core.init(this.graph, this.layout);
 
     return this.graph;
   }
@@ -268,9 +263,5 @@ export default class Poincare {
   _destroyGraph() {
     this.graph.off();
     this._graph = null;
-  }
-
-  get graph() {
-    return this._graph;
   }
 }

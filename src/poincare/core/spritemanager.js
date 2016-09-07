@@ -3,7 +3,7 @@ import memoize from 'lodash/memoize';
 import PIXI from 'pixi.js';
 // import d3 from 'd3';
 
-// const debug = require('debug')('poincare:sprites');
+const debug = require('debug')('poincare:spritemanager');
 
 import { PoincareCoreError } from './core.js';
 
@@ -70,6 +70,7 @@ export default class SpriteManager {
   constructor(parentContainer, renderer, opts) {
     // PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.LINEAR;
     // PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
+    debug('init opts', opts)
     this._getName = opts.nodeView;
     this._options = opts;
     this._generator = memoize(this._getGenerator.bind(this));

@@ -8,7 +8,7 @@ import d3 from 'd3';
 import { DEFAULT_LINE_LENGTH } from './spritemanager.js';
 import SpriteManager from './spritemanager.js';
 
-// const debug = require('debug')('poincare:core');
+const debug = require('debug')('poincare:core');
 
 export function PoincareCoreError(message) {
   this.message = message;
@@ -153,7 +153,7 @@ export default class Core {
     this._spriteManager.setSizes(g.getNodesCount(), g.getLinksCount());
     g.forEachLink(this._initLink.bind(this));
     g.forEachNode(this._initNode.bind(this));
-    this._pn.emit('initcore');
+    this._pn.emit('core:init');
     this._pn.emit('viewreset');
     return g;
   }
@@ -176,7 +176,7 @@ export default class Core {
       s.scale.x = s.scale.y = this._pn.zoom.scale();
     else if (!this._zoomedOut && this._zoomSwitch)
       s.scale.x = s.scale.y = 1;
-    this._pn.emit('movenode', node);
+    this._pn.emit('node:move', node);
   }
 
   selectNodes(ids) {
@@ -245,7 +245,7 @@ export default class Core {
     s.rotation = angle;
     s.position.x = this.xScale(link.from.x);
     s.position.y = this.yScale(link.from.y);
-    this._pn.emit('move:link', link);
+    this._pn.emit('link:move', link);
   }
 
   _addNodeSprite(node, data) {

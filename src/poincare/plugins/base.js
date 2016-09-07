@@ -1,6 +1,6 @@
-import Module from '../modules';
+import { Module } from '../modules';
 
-export class Plugin extends Module {};
+export class Plugin extends Module {}
 
 Plugin.priority = Infinity;
 

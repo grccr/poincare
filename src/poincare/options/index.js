@@ -1,7 +1,5 @@
 
-// modules
-import { LineIndex, Radius, Tween, VersionControl, Zoom } from '../plugins';
-// plugins
+import { LineIndex, Radius, Tween, VersionControl, Zoom } from '../modules';
 import { Events } from '../plugins';
 import { isFunction, merge } from 'lodash';
 import { css2pixi } from '../helpers';
@@ -36,13 +34,13 @@ const Options = {
       theta: 1
     },
 
-    plugins: [ Events ],
+    plugins: [Events],
 
-    _modules: [ VersionControl, Zoom, Radius, LineIndex, Tween ]
+    _modules: [VersionControl, Zoom, Radius, LineIndex, Tween]
   },
 
   check(v) {
-    return isFunction(v) ? constant(v) : v;
+    return !isFunction(v) ? constant(v) : v;
   },
 
   merge(current, newOpts) {
