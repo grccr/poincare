@@ -169,7 +169,7 @@ axios.get('/data/belgiia.graphml')
     pn.graph = graph;
     pn.run();
 
-    window.restart = () => {
+    window.testReset = () => {
       pn.graph = graph;
       pn.run();
     }

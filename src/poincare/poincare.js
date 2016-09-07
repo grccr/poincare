@@ -55,9 +55,10 @@ export default class Poincare {
     this._uninstallPlugins();
     this._destroyEmitter();
     this._destroyCore();
+    this._uninstallModules();
     this._destroyLayout();
+    this._destroyGraph();
     this._destroyContainer();
-    this._kickGraph();
     this._options = null;
   }
 
