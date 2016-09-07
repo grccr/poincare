@@ -158,8 +158,13 @@ pn.zoom.alignToCenter();
 
 // debug('Poincare icons is', pn.options().icons);
 
-
-axios.get('/data/belgiia.graphml')
+const testData = [
+  '/data/estoniia.graphml',
+  '/data/belgiia.graphml',
+  '/data/belgiia-dual.graphml',
+  '/data/belgiia-big.graphml'
+];
+axios.get(testData[2])
   .then(({ data: doc }) => {
     return nGraphParse.fromGraphML(doc);
     // return balancedBinTree(4);
