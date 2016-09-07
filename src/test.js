@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import d3 from 'd3';
 import debounce from 'lodash/debounce';
+import random from 'lodash/random';
 
 import Poincare from './poincare';
 import * as nGraphParse from './poincare/parsers/ngraph';
@@ -49,6 +50,11 @@ const pn = window.PN = new Poincare({
     max: 60
   },
   transparent: true,
+  links: {
+    color: (l) => {
+      return l.data.color || '#CCC';
+    }
+  },
   icons: {
     source: (d) => {
       if (d.data.type === 'infrastructure/powerline' && d.links.length < 2)
@@ -160,6 +166,7 @@ pn.zoom.alignToCenter();
 
 const testData = [
   '/data/estoniia.graphml',
+  '/data/estoniia-color.graphml',
   '/data/belgiia.graphml',
   '/data/belgiia-dual.graphml',
   '/data/belgiia-big.graphml'

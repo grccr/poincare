@@ -1,7 +1,7 @@
 import { MD5 } from 'jshashes';
 import memoize from 'lodash/memoize';
 import PIXI from 'pixi.js';
-// import d3 from 'd3';
+import { css2pixi } from '../helpers';
 
 const debug = require('debug')('poincare:spritemanager');
 
@@ -10,67 +10,32 @@ import { PoincareCoreError } from './core.js';
 export const DEFAULT_LINE_LENGTH = 1000;
 
 export const LinkSpriteGenerator = (renderer, options) => {
-  const gfx = new PIXI.Graphics();
-  gfx.lineStyle(1, 0xcccccc, 1);
-  gfx.moveTo(0, 0);
-  gfx.lineTo(DEFAULT_LINE_LENGTH, 0);
-  const texture = gfx.generateTexture(1, PIXI.SCALE_MODES.DEFAULT);
-
   return (link) => {
+    const gfx = new PIXI.Graphics();
+    const spriteColor = css2pixi(options.color(link));
+    gfx.lineStyle(1, spriteColor, 1);
+    gfx.moveTo(0, 0);
+    gfx.lineTo(DEFAULT_LINE_LENGTH, 0);
+    const texture = gfx.generateTexture(1, PIXI.SCALE_MODES.DEFAULT);
+    
     return new PIXI.Sprite(texture);
   };
 };
 
 export const IconSpriteGenerator = (renderer, options) => {
   const md5 = new MD5();
-  // const c = d3.rgb('red');
-  // const matrix = [
-  //   1, 0, 0, 0, c.r,
-  //   0, 1, 0, 0, c.g,
-  //   0, 0, 1, 0, c.b,
-  //   0, 0, 0, 1, 0
-  // ];
-  // const colorMatrix = new PIXI.filters.ColorMatrixFilter();
-  // colorMatrix.matrix = matrix;
-  // const textures = {};
-
-  // const genTexture = (icon) => {
-  //   // const size = options.size(node);
-  //   const sprite = PIXI.Sprite.fromImage(icon);
-  //   // sprite.filters = [colorMatrix];
-  //   sprite.position.x = sprite.position.y = 0;
-  //   debug('Original sprite', sprite);
-  //   const renderTexture = new PIXI.RenderTexture(renderer, 16, 16);
-  //   renderTexture.render(sprite);
-  //   return renderTexture;
-  // };
-
-  // const getTexture = (hash, icon) => {
-  //   if (hash in textures)
-  //     return textures[hash];
-  //   const txt = genTexture(icon);
-  //   debug('Texture generated for hash "%s"', hash, txt);
-  //   textures[hash] = txt;
-  //   return txt;
-  // };
 
   return (node) => {
     const icon = options.source(node);
     const hash = md5.hex(`${icon}`);
-    // const txt = getTexture(hash, icon);
     const sprite = PIXI.Sprite.fromImage(icon);
     sprite.anchor.x = sprite.anchor.y = 0.5;
-    // sprite.cacheAsBitmap = true;
-    // sprite.tint = 0xFF0000;
     return [hash, sprite];
   };
 };
 
 export default class SpriteManager {
   constructor(parentContainer, renderer, opts) {
-    // PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.LINEAR;
-    // PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
-    debug('init opts', opts)
     this._getName = opts.nodeView;
     this._options = opts;
     this._generator = memoize(this._getGenerator.bind(this));
@@ -79,11 +44,9 @@ export default class SpriteManager {
     this._parent = parentContainer;
 
     this._nodeCount = 5000;
-    this._linkCount = 5000;
-
-    // Links container must created first
-    // Because order of creation is important
-    // this._container('links')
+    this._colorLinkCount = {
+      '#CCC': 5000
+    };
   }
 
   destroy() {
@@ -105,16 +68,17 @@ export default class SpriteManager {
     return sprite;
   }
 
-  createLink(data) {
-    const container = this._container('links', this._linkCount * 2);
-    const sprite = this._generator('links')(data);
+  createLink(link) {
+    const color = link.data.color || '#CCC';
+    const container = this._container('links' + color, this._colorLinkCount[color]);
+    const sprite = this._generator('links')(link);
     container.addChild(sprite);
     return sprite;
   }
 
-  setSizes(nodeCount, linkCount) {
+  setSizes(nodeCount, colorDict) {
     this._nodeCount = nodeCount;
-    this._linkCount = linkCount;
+    this._colorLinkCount = colorDict;
   }
 
   _getGenerator(name) {
@@ -145,14 +109,12 @@ export default class SpriteManager {
   }
 
   _getNewContainer(id, sz) {
-    const container = new PIXI.ParticleContainer(this._nodeCount * 2 || sz, {
+    const container = new PIXI.ParticleContainer(sz || this._nodeCount * 2, {
       scale: true,
       position: true,
       rotation: true,
       alpha: false
     });
-    // container.interactiveChildren = true;
-    // const container = new PIXI.Container();
     this._parent.addChild(container);
     return container;
   }

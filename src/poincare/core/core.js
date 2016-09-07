@@ -1,9 +1,11 @@
-import util from 'util';
+
 import map from 'lodash/map';
 import each from 'lodash/each';
 import flatMap from 'lodash/flatMap';
 import PIXI from 'pixi.js';
 import d3 from 'd3';
+import util from 'util';
+import random from 'lodash/random';
 
 import { DEFAULT_LINE_LENGTH } from './spritemanager.js';
 import SpriteManager from './spritemanager.js';
@@ -150,7 +152,12 @@ export default class Core {
   init(g, layout) {
     this._graph = g;
     this._layout = layout;
-    this._spriteManager.setSizes(g.getNodesCount(), g.getLinksCount());
+    const colordict = {};
+    g.forEachLink(link => {
+      const clr = link.data.color || '#CCC';
+      colordict[clr] = (colordict[clr] || 0) + 1;
+    });
+    this._spriteManager.setSizes(g.getNodesCount(), colordict);
     g.forEachLink(this._initLink.bind(this));
     g.forEachNode(this._initNode.bind(this));
     this._pn.emit('core:init');

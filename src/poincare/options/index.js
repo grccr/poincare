@@ -21,6 +21,10 @@ const Options = {
 
     nodeView: 'icons',
 
+    links: {
+      color: '#CCC'
+    },
+
     icons: {
       source: worldIcon,
       size: 16
@@ -58,6 +62,9 @@ const Options = {
     const check = this.check.bind(this);
     const convertable = {
       background: css2pixi(opts.background),
+      links: {
+        color: check(opts.links.color),
+      },
       icons: {
         source: check(opts.icons.source),
         size: check(opts.icons.size)

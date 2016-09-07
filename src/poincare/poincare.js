@@ -30,9 +30,9 @@ export default class Poincare {
     this._createEmitter();
     this._createContainer();
     this._createCore();
-    this.updateDimensions();
     this._installModules();
     this._installPlugins();
+    this.updateDimensions();
   }
 
   options(opts) {
@@ -231,6 +231,18 @@ export default class Poincare {
   }
 
   /* --- Graph --- */
+
+  // original
+  // __graph__(g) {
+  //   if (g != null) {
+  //     this._graph = g;
+  //     debug('Attempting to display graph [%o, %o]', g.getNodesCount(),
+  //           g.getLinksCount());
+  //     this._createLayout();
+  //     this._core.init(this._graph, this._layout);
+  //   }
+  //   return this._graph;
+  // }
 
   get graph() {
     return this._graph;
