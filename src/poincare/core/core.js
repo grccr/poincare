@@ -1,11 +1,8 @@
 
-import map from 'lodash/map';
-import each from 'lodash/each';
-import flatMap from 'lodash/flatMap';
 import PIXI from 'pixi.js';
 import d3 from 'd3';
 import util from 'util';
-import random from 'lodash/random';
+import { each, map, flatMap, random } from 'lodash';
 
 import { DEFAULT_LINE_LENGTH } from './spritemanager.js';
 import SpriteManager from './spritemanager.js';
@@ -68,11 +65,11 @@ export default class Core {
     each(this._data.nodes, (node, id) => {
       node.links = null;
       this._data.nodes[id] = null;
-      this._sprites.nodes[id].texture.destroy();
+      this._sprites.nodes[id].texture.destroy(true);
     });
 
     each(this._data.links, (link, id) => {
-      this._sprites.links[id].texture.destroy();
+      this._sprites.links[id].texture.destroy(true);
       this._data.links[id] = null;
     });
   }

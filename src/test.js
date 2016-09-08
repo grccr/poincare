@@ -1,15 +1,11 @@
 'use strict';
 
-import axios from 'axios';
-// import { balancedBinTree } from 'ngraph.generators';
-
 import d3 from 'd3';
-import debounce from 'lodash/debounce';
-import random from 'lodash/random';
+import { debounce, random } from 'lodash';
+import axios from 'axios';
 
 import Poincare from './poincare';
 import * as nGraphParse from './poincare/parsers/ngraph';
-
 import { Lighter, Labels, Events,
           Cursors, Directions } from './poincare/plugins';
 
@@ -19,23 +15,6 @@ const stationIcon = require('../assets/icons/electric-icon.png');
 const poleIcon = require('../assets/icons/pole-icon.png');
 const plantIcon = require('../assets/icons/powerplant-icon.png');
 const homeIcon = require('../assets/icons/home-icon.png');
-
-// import most from 'most';
-
-// const myGraph = {
-//   nodes: [
-//     { v: '1', value: { label: '1' } },
-//     { v: '2', value: { label: '2' } },
-//     { v: '3', value: { label: '3' } }
-//   ],
-
-//   edges: [
-//     { v: '1', w: '2', value: { label: 3 } },
-//     { v: '1', w: '3', value: { label: 3 } }
-//   ],
-
-//   options: { directed: true }
-// };
 
 const types = {
   'infrastructure/powersubstation': stationIcon,
@@ -162,105 +141,36 @@ pn.on('linkout', (id) => {
 
 pn.zoom.alignToCenter();
 
-// debug('Poincare icons is', pn.options().icons);
+// debug('Poincare icons is', pn._options.icons);
 
+let n = 0;
 const testData = [
   '/data/estoniia.graphml',
   '/data/estoniia-color.graphml',
-  '/data/belgiia.graphml',
   '/data/belgiia-dual.graphml',
-  '/data/belgiia-big.graphml'
+  '/data/belgiia-big.graphml',
+  '/data/belgiia.graphml',
+  null
 ];
-axios.get(testData[2])
+function nextTestGraph(){
+  axios.get(testData[n++])
   .then(({ data: doc }) => {
     return nGraphParse.fromGraphML(doc);
-    // return balancedBinTree(4);
-    // return nGraphParse.fromJSON(myGraph);
   })
   .then(graph => {
     pn.graph = graph;
     pn.run();
-
-    window.testReset = () => {
-      pn.graph = graph;
-      pn.run();
-    }
     // pn.plugins.lighter.light([
     //   '552f7ccb8a432b148143e681',
     //   '552f7ccb8a432b148143e63e'
     // ]);
   });
+}
+nextTestGraph();
+window.nextGraph = nextTestGraph;
+
 
 d3.select(window).on('resize', debounce(() => {
   pn.updateDimensions();
 }, 100));
-//
-// let graph = balancedBinTree(11.3);
-// let graph = balancedBinTree(14);
-// let graph = balancedBinTree(4);
-// pn.graph = graph;
-// pn.run()
 
-
-// // import graphlib from 'graphlib';
-// import merge from 'lodash/merge';
-// // import sigma from 'sigma';
-// // import dagre from 'dagre';
-// import axios from 'axios';
-
-// import nGraph from 'ngraph.graph';
-// import pixiRenderer from 'ngraph.pixi';
-// import { balancedBinTree } from 'ngraph.generators';
-
-// // import Ashberry from './lib/ashberry';
-// // import NGraphDagreLayout from './lib/layouts/ngraph-dagre';
-// // import ZUI from './lib/behaviors/zoom';
-// import GraphMLParser from './lib/parsers/graphml';
-
-// // Some expositions for testing purposes only
-// // window.graphlib = graphlib;
-
-// function getGraph() {
-//   return axios.get('/data/belgiia.graphml')
-//     .then(({ data }) => {
-//       return GraphMLParser.parse(data);
-//     });
-// }
-
-// function useNgraph() {
-
-//   getGraph().then(loadedGraph => {
-//     // let graph = adaptGraph(loadedGraph);
-//     // let graph = balancedBinTree(11.3);
-//     // let graph = balancedBinTree(13);
-//     let graph = balancedBinTree(4);
-
-    // debug(
-    //   'Graph nodes is %o %o',
-    //   graph.getNodesCount(),
-    //   graph.getLinksCount()
-    // );
-
-//     let pixiGraphics = window.PIXI = pixiRenderer(graph, {
-//       container: document.getElementById('ashberry'),
-//       background: 0xFFFFFF,
-//       physics: {
-//         stableThreshold: 100
-//       }
-//       // layout: new NGraphDagreLayout(loadedGraph)
-//     });
-
-//     // let layout = pixiGraphics.layout;
-
-//     // just make sure first node does not move:
-//     // layout.pinNode(graph.getNode(1), true);
-
-//     // begin animation loop:
-//     pixiGraphics.run();
-//   });
-// }
-
-// window.addEventListener('load', () => {
-//   console.log('window loaded');
-//   useNgraph();
-// });
