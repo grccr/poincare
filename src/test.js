@@ -153,18 +153,19 @@ const testData = [
   null
 ];
 function nextTestGraph() {
-  axios.get(testData[n++])
-  .then(({ data: doc }) => {
-    return nGraphParse.fromGraphML(doc);
-  })
-  .then(graph => {
-    pn.graph = graph;
-    pn.run();
-    // pn.plugins.lighter.light([
-    //   '552f7ccb8a432b148143e681',
-    //   '552f7ccb8a432b148143e63e'
-    // ]);
-  });
+  axios
+    .get(testData[n++])
+    .then(({ data: doc }) => {
+      return nGraphParse.fromGraphML(doc);
+    })
+    .then(graph => {
+      pn.graph = graph;
+      pn.run();
+      // pn.plugins.lighter.light([
+      //   '552f7ccb8a432b148143e681',
+      //   '552f7ccb8a432b148143e63e'
+      // ]);
+    });
 }
 nextTestGraph();
 window.nextGraph = nextTestGraph;

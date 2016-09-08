@@ -8,6 +8,13 @@ export function css2pixi(color) {
   return clr.r * hp(4) + clr.g * hp(2) + clr.b;
 }
 
+export function pol2dec(alpha, dist) => {
+  return [
+    dist * Math.cos(alpha),
+    dist * Math.sin(alpha)
+  ];
+};
+
 export function venn(_old, _new) {
   const a = new Set(_old);
   const b = new Set(_new);

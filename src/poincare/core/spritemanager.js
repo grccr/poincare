@@ -17,8 +17,10 @@ export const LinkSpriteGenerator = (renderer, options) => {
     gfx.moveTo(0, 0);
     gfx.lineTo(DEFAULT_LINE_LENGTH, 0);
     const texture = gfx.generateTexture(1, PIXI.SCALE_MODES.DEFAULT);
-
-    return new PIXI.Sprite(texture);
+    return {
+      sprite: new PIXI.Sprite(texture),
+      color: spriteColor
+    };
   };
 };
 
@@ -36,17 +38,15 @@ export const IconSpriteGenerator = (renderer, options) => {
 
 export default class SpriteManager {
   constructor(parentContainer, renderer, opts) {
-    this._getName = opts.nodeView;
     this._options = opts;
+    this._getName = opts.nodes.view;
     this._generator = memoize(this._getGenerator.bind(this));
     this._container = memoize(this._getNewContainer.bind(this));
     this._renderer = renderer;
     this._parent = parentContainer;
 
     this._nodeCount = 5000;
-    this._colorLinkCount = {
-      '#CCC': 5000
-    };
+    this._colorLinkCount = {};
   }
 
   destroy() {
@@ -69,12 +69,11 @@ export default class SpriteManager {
   }
 
   createLink(link) {
-    const color = link.data.color || '#CCC';
+    const { sprite, color } = this._generator('links')(link);
     const container = this._container(
       `links${color}`,
       this._colorLinkCount[color]
     );
-    const sprite = this._generator('links')(link);
     container.addChild(sprite);
     return sprite;
   }

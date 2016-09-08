@@ -19,8 +19,11 @@ const Options = {
     background: 'white',
     transparent: false,
 
-    nodeView: 'icons',
-
+    nodes:{
+      radius: 13,
+      view: 'icons'
+    },
+    
     links: {
       color: '#CCC'
     },
@@ -65,11 +68,13 @@ const Options = {
       links: {
         color: check(opts.links.color)
       },
+      nodes: {
+        view: check(opts.nodes.view)
+      },
       icons: {
         source: check(opts.icons.source),
         size: check(opts.icons.size)
       },
-      nodeView: check(opts.nodeView)
     };
     return merge(opts, convertable);
   }

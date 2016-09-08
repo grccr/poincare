@@ -1,7 +1,7 @@
 // import d3 from 'd3';
 import PIXI from 'pixi.js';
 import { setGlobally, Plugin } from '../base';
-import { css2pixi, fieldGetter } from '../../helpers';
+import { css2pixi, pol2dec, fieldGetter } from '../../helpers';
 import arrowPolygonGenerator from './arrows';
 
 const PI_OVER_2 = Math.PI / 2;
