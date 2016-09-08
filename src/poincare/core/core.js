@@ -169,7 +169,7 @@ export default class Core {
 
     this._stopped = true;
     this._layoutStopped = false;
-    this._stage = new PIXI.Container();
+    //this._stage = new PIXI.Container();
     this._layout = layout;
     this._dataViews = {
       node: (node) => node,
@@ -201,11 +201,11 @@ export default class Core {
 
     this._bindedRun = this._run.bind(this);
 
-    this._stage = new PIXI.Container();
+    //this._stage = new PIXI.Container();
     this._group = new PIXI.Container();
     // this._group.scale.x = 0.5;
     // this._group.scale.y = 0.5;
-    this._stage.addChild(this._group);
+    //this._stage.addChild(this._group);
 
     // const graphics = new PIXI.Graphics();
     // group.addChild(graphics);
@@ -235,7 +235,7 @@ export default class Core {
     Object.keys(this._data.links).forEach(this._moveLine.bind(this));
     this._zoomSwitch = false;
 
-    this._pixi.render(this._stage);
+    this._pixi.render(this._group);
   }
 
   _run(t) {

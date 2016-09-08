@@ -11,6 +11,12 @@ function dist(pos1, pos2) {
   return Math.hypot(pos1.x - pos2.x, pos1.y - pos2.y);
 }
 
+function mid(pos1, pos2) {
+  return {
+    x: (pos1.x + pos2.x) / 2,
+    y: (pos1.y + pos2.y) / 2
+  };
+}
 export default class Radius extends Plugin {
   constructor(pn, opts) {
     super();
@@ -18,7 +24,10 @@ export default class Radius extends Plugin {
       linkIndexFrequency: 30
     }, opts || {});
     this._pn = pn;
-    this._tree = null;
+    this._tree = {
+      'nodes': null,
+      'links': null
+    };
     this._lastRadius = 0;
 
     pn.on('layoutstop', () => {
@@ -30,34 +39,42 @@ export default class Radius extends Plugin {
 
   _createIndex() {
     debug('Will create node index');
-    const tree = this._tree = rbush(9, ['.x', '.y', '.x', '.y']);
-    const data = this._pn._core.mapNodes(node => ({ id: node.id, ...node.pos }));
-    tree.load(data);
-    debug('Index created', data);
+    const nodesTree = this._tree['nodes'] = rbush(9, ['.x', '.y', '.x', '.y']);
+    const nodesData = this._pn._core.mapNodes(node => ({ id: node.id, ...node.pos }));
+    nodesTree.load(nodesData);
+    debug('Nodes index created', nodesData);
+    debug('Will create link\'s mid index');
+    const linksTree = this._tree['links'] = rbush(9, ['.x', '.y', '.x', '.y']);
+    const linksData = this._pn._core.mapLinks(link => ({ id: link.id, ...mid(link.to, link.from) }));
+    linksTree.load(linksData);
+    debug('Links index created', linksData);
   }
 
-  getNodesByBbox(bbox) {
-    return this._tree.search([bbox.x,
-                              bbox.y,
-                              bbox.x + bbox.w,
-                              bbox.y + bbox.h])
-      // .filter(n => n.type === 'n')
-      .map(n => n.id);
+  getElementsByBbox(bbox, t = 'nodes') {
+    const result = this._tree[t]
+        .search([ 
+          bbox.x,
+          bbox.y,
+          bbox.x + bbox.w,
+          bbox.y + bbox.h
+        ])
+        .map(e => e.id);
+    return result;
   }
 
   _calculateRadiusMedian() {
-    if (this._tree == null)
-      return;
+    if (this._tree['nodes'] == null || this._tree['links'] == null) return;
     const bbox = this._pn.zoom.bbox();
     const scale = this._pn.zoom.scale();
     debug('current viewport is', bbox);
-    const nodes = this.getNodesByBbox(bbox);
+    const nodes = this.getElementsByBbox(bbox);
     debug('found these nodes in current viewport', nodes);
+    const links = this.getElementsByBbox(bbox, 'links');
+    debug('found these links in current viewport', links);
     const r = this._radiusFor(nodes);
-    this._lastRadius = r;
-    this._pn.emit('visiblenodes', nodes, r * scale);
-    // if (nodes.length < 30)
-    //   this._pn.lighter.high(nodes);
+    const r2 = this._radiusFor(links, 'link');
+    this._lastRadius = Math.max(r, r2);
+    this._pn.emit('radius:visibleElements', { nodes, links }, this._lastRadius * scale);
   }
 
   lastRadiusForScale(sc) {
@@ -65,34 +82,10 @@ export default class Radius extends Plugin {
   }
 
   nearest(pos, radius = 30) {
-    if (this._tree == null)
-      return null;
-    const [nearest] = knn(this._tree, pos, 1);
+    if (this._tree['nodes'] == null || this._tree['links'] == null) return null;
+    const [nearest] = knn(this._tree['nodes'], pos, 1);
     if (nearest) {
-      // if (nearest.type == 'n')
-      //   debug('NEAREST POINT', nearest.id, this._pn._core.node(nearest.id));
-      // else
-      //   debug('NEAREST LINE', nearest.id);
-      // let distance;
-      // if (nearest.type === 'n') {
-        // simple distance
-        const distance = Math.hypot(nearest.x - pos[0], nearest.y - pos[1]);
-      // } else {
-      //   // distance from point to vector
-      //   const ln = this._pn._core.link(nearest.id);
-      //   // const v = [ln.to.x - ln.from.x, ln.to.y - ln.from.y];
-      //   // const k = v[0] / v[1];
-      //   // distance = Math.abs(k * pos[0] - pos[1]) / Math.sqrt(1 + Math.pow(k, 2));
-      //   //
-      //   const sqr = (n) => Math.pow(n, 2);
-      //   const d = (x0, y0, x1, y1, x, y) =>
-      //     Math.abs((y0 - y1) * x + (x1 - x0) * y + (x0 * y1 - x1 * y0)) /
-      //     Math.sqrt(sqr(x1 - x0) + sqr(y1 - y0));
-      //   distance = d(ln.from.x, ln.from.y,
-      //                ln.to.x, ln.to.y,
-      //                pos[0], pos[1]);
-      //   debug('line distance', distance, ln);
-      // }
+      const distance = Math.hypot(nearest.x - pos[0], nearest.y - pos[1]);
       if (distance <= radius) {
         // debug('nearest', nearest.id);
         return nearest.id;
@@ -101,13 +94,12 @@ export default class Radius extends Plugin {
     return null;
   }
 
-  _radiusFor(ids) {
+  _radiusFor(ids, t = 'node') {
     let sum = 0;
     ids.forEach(id => {
-      const { pos } = this._pn._core.node(id);
-      const [neighbor1, neighbor2] = knn(this._tree, [pos.x, pos.y], 2);
-      // debug('neighbor for %o', node.id, neighbor2);
-      // debug('radius for %o', node.id, dist(pos, neighbor2));
+      const element = this._pn._core[t](id);
+      const pos = t == 'node'? element.pos : mid(element.to, element.from);
+      const [neighbor, neighbor2] = knn(this._tree[t + 's'], [pos.x, pos.y], 2);
       sum += dist(pos, neighbor2);
     });
     return sum / ids.length;

@@ -34,9 +34,11 @@ export default class Labels extends Plugin {
       this._layer
         .style({ width: `${dims[0]}px`, height: `${dims[1]}px`});
     });
-
-    const x = this._x = xx => this._pn._core.xScale(xx) + this._options.offset[0];
-    const y = this._y = yy => this._pn._core.yScale(yy) + this._options.offset[1];
+    const offset = this._options.offset;
+    const x = this._x = xx => this._pn._core.xScale(xx) + offset[0];
+    const y = this._y = yy => this._pn._core.yScale(yy) + offset[1];
+    const linkx = this._linkx = xx => this._pn._core.xScale(xx);
+    const linky = this._linky = yy => this._pn._core.yScale(yy);
 
     const THRESHOLD = 70;
 
@@ -47,16 +49,17 @@ export default class Labels extends Plugin {
           .style('opacity', 0)
           .remove();
       this._labels = null;
-      this._current_ids = [];
-      // this._hidden = true;
+      this._current_ids = {
+        'nodes': [],
+        'links': []
+      };
     };
     let prevRadius = 0;
 
-    pn.on('visiblenodes', (ids, r) => {
+    pn.on('radius:visibleElements', (ids, r) => {
       prevRadius = r;
       if (r < THRESHOLD)
         return hide();
-      // this._hidden = false;
       this._current_ids = ids;
       this._highlightThese(ids);
     });
@@ -65,7 +68,14 @@ export default class Labels extends Plugin {
       // TODO: здесь можно пересчитывать радиус от scale и
       // убрать лейблы во время зума
       this._labels && this._labels
-        .style('transform', (d) => `translate(${Math.round(x(d.pos.x))}px, ${Math.round(y(d.pos.y))}px)`);
+        .style('transform', (d) => {
+          if(d.from){ 
+            return `translate(${Math.round(linkx((d.from.x + d.to.x)/2))}px, ${Math.round(linky((d.from.y + d.to.y)/2))}px)`;
+          }
+          else {
+            return `translate(${Math.round(x(d.pos.x))}px, ${Math.round(y(d.pos.y))}px)`;
+          }
+        });
     });
 
     const nodeOuts = most.fromEvent('nodeout', pn);
@@ -101,13 +111,19 @@ export default class Labels extends Plugin {
   }
 
   _resolveData(ids) {
-    return this._pn._core.selectNodes(ids)
-      .filter(d => {
-        try {
-          return this._options.getter(d.data);
-        } catch (e) {}
+    const nodes = this._pn._core.selectNodes(ids['nodes'])
+      .filter(n => {
+        try { return this._options.getter(n.data);} 
+        catch (e) {}
         return false;
       });
+    const links = this._pn._core.selectLinks(ids['links'])
+      .filter(l => {
+        try { return this._options.getter(l.data); } 
+        catch (e) {}
+        return false;
+      });
+    return { nodes, links };
   }
 
   _highlightThese(ids, locked=[]) {
@@ -117,11 +133,11 @@ export default class Labels extends Plugin {
 
     const data = this._resolveData(ids);
     const labels = this._labels = this._layer.selectAll('.label')
-      .data(data, d => d.id);
+      .data(data['nodes'].concat(data['links']), d => d.id);
 
     labels.enter()
       .append('div')
-      .attr('class', (d) => `node-label-${d.id}`)
+      .attr('class', (d) => `label-${d.id}`)
       .classed('label', true)
         .append('div')
           .classed('label-inner', true)
@@ -146,7 +162,11 @@ export default class Labels extends Plugin {
 
     labels
       .classed('locked-label', d => lockedIds.has(d.id))
-      .style('transform', (d) => `translate(${Math.round(x(d.pos.x))}px, ${Math.round(y(d.pos.y))}px)`);
+      .style('transform', (d) => {
+        return d.from ? 
+          `translate(${Math.round(x((d.from.x + d.to.x)/2))}px, ${Math.round(y((d.from.y + d.to.y)/2))}px)`:
+          `translate(${Math.round(x(d.pos.x))}px, ${Math.round(y(d.pos.y))}px)`;
+      });
   }
 
   _initLayer() {
@@ -164,7 +184,9 @@ export default class Labels extends Plugin {
   }
 
   highlight(ids) {
-    this._highlightThese(union(this._current_ids.concat(ids)), ids);
+    this._current_ids['nodes'] = union(this._current_ids['nodes'].concat(ids['nodes']));
+    this._current_ids['links'] = union(this._current_ids['links'].concat(ids['links']));
+    this._highlightThese(this._current_ids, ids);
   }
 }
 
