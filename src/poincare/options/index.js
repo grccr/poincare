@@ -20,7 +20,9 @@ const Options = {
     transparent: false,
 
     nodeView: 'icons',
-
+    nodes:{
+      radius: 13,
+    },
     links: {
       color: '#CCC'
     },

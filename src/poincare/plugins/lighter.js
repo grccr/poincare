@@ -56,7 +56,7 @@ export default class Lighter extends Plugin {
       // .easing(TWEEN.Easing.Exponential.Out)
       .duration(250, 750)
       .from(() => ({ opacity: 0, width: 21 }))
-      .to(() => ({ opacity: 1, width: 11 }))
+      .to(() => ({ opacity: 0.75, width: 11 }))
       .beforeRendering(() => {
         this._linkGfx.clear();
       })
@@ -64,7 +64,7 @@ export default class Lighter extends Plugin {
         const ln = this._pn._core.link(id);
         this._linkGfx.lineStyle(
           prop.width * zm.truncatedScale(),
-          this._options.linkColor,
+          css2pixi(ln.data.color),
           prop.opacity
         );
         this._linkGfx.moveTo(X(ln.from.x), Y(ln.from.y));

@@ -52,7 +52,7 @@ const pn = window.PN = new Poincare({
   transparent: true,
   links: {
     color: (l) => {
-      return l.data.color || '#CCC';
+      return l.data.color || '#CCCCCC';
     }
   },
   icons: {
@@ -171,7 +171,7 @@ const testData = [
   '/data/belgiia-dual.graphml',
   '/data/belgiia-big.graphml'
 ];
-axios.get(testData[2])
+axios.get(testData[1])
   .then(({ data: doc }) => {
     return nGraphParse.fromGraphML(doc);
     // return balancedBinTree(4);

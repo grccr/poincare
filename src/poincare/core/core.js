@@ -19,6 +19,13 @@ export function PoincareCoreError(message) {
 util.inherits(PoincareCoreError, Error);
 PoincareCoreError.prototype.name = 'PoincareCoreError';
 
+const pol2dec = (alpha, dist) => {
+  return [
+    dist * Math.cos(alpha),
+    dist * Math.sin(alpha)
+  ];
+};
+
 export default class Core {
   constructor({ pn, container, options }) {
     this._container = container;
@@ -245,13 +252,15 @@ export default class Core {
     const dy = this.yScale(link.to.y) - this.yScale(link.from.y);
     const dx = this.xScale(link.to.x) - this.xScale(link.from.x);
     const angle = Math.atan2(dy, dx);
+    const angle2 = Math.atan2(-dy, -dx);
     const dist = Math.hypot(dx, dy);
+    const trg = pol2dec(angle, dist - this._pn._options.nodes.radius);
     const s = this._sprites.links[id];
-    s.scale.x = dist / DEFAULT_LINE_LENGTH;
+    s.scale.x = (dist - (link.data.dual ? 2 : 1) * this._pn._options.nodes.radius) / DEFAULT_LINE_LENGTH;
     s.scale.y = 1.0;
-    s.rotation = angle;
-    s.position.x = this.xScale(link.from.x);
-    s.position.y = this.yScale(link.from.y);
+    s.rotation = angle2;
+    s.position.x = trg[0] + this.xScale(link.from.x);
+    s.position.y = trg[1] + this.yScale(link.from.y);
     this._pn.emit('link:move', link);
   }
 
