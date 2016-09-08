@@ -6,13 +6,6 @@ import arrowPolygonGenerator from './arrows';
 
 const PI_OVER_2 = Math.PI / 2;
 
-const pol2dec = (alpha, dist) => {
-  return [
-    dist * Math.cos(alpha),
-    dist * Math.sin(alpha)
-  ];
-};
-
 export default class Directions extends Plugin {
   constructor(pn, opts) {
     super();

@@ -3,7 +3,7 @@ import PIXI from 'pixi.js';
 import d3 from 'd3';
 import util from 'util';
 import { each, map, flatMap } from 'lodash';
-import { pol2dec } from './helpers';
+import { pol2dec } from '../helpers';
 
 import { DEFAULT_LINE_LENGTH } from './spritemanager.js';
 import SpriteManager from './spritemanager.js';
@@ -100,9 +100,9 @@ export default class Core {
 
     // zoom plugin is here :)
     this._pn.emit('frame', t);
-    if (this._pn.zoom && this._pn.zoom.scale() < 1 && !this._zoomedOut) {
+    if (this._pn.zoom.scale() < 1 && !this._zoomedOut) {
       this._zoomedOut = true;
-    } else if (this._pn.zoom && this._pn.zoom.scale() >= 1 && this._zoomedOut) {
+    } else if (this._pn.zoom.scale() >= 1 && this._zoomedOut) {
       this._zoomedOut = false;
       this._zoomSwitch = true;
     }
@@ -242,7 +242,8 @@ export default class Core {
     const dist = Math.hypot(dx, dy);
     const trg = pol2dec(angle, dist - this._pn._options.nodes.radius);
     const s = this._sprites.links[id];
-    s.scale.x = (dist - (link.data.dual ? 2 : 1) * this._pn._options.nodes.radius) / DEFAULT_LINE_LENGTH;
+    const r = this._pn._options.nodes.radius;
+    s.scale.x = (dist - (link.data.dual ? 2 : 1) * r) / DEFAULT_LINE_LENGTH;
     s.scale.y = 1.0;
     s.rotation = angle2;
     s.position.x = trg[0] + this.xScale(link.from.x);

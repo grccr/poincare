@@ -23,7 +23,7 @@ const Options = {
       radius: 13,
       view: 'icons'
     },
-    
+
     links: {
       color: '#CCC'
     },
@@ -74,7 +74,7 @@ const Options = {
       icons: {
         source: check(opts.icons.source),
         size: check(opts.icons.size)
-      },
+      }
     };
     return merge(opts, convertable);
   }
