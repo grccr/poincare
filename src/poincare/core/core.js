@@ -42,15 +42,11 @@ export default class Core {
       backgroundColor: options.background,
       transparent: options.transparent
     });
-
     this._container.appendChild(this._pixi.view);
 
-    this._bindedRun = this._run.bind(this);
-
-    this._stage = new PIXI.Container();
     this._group = new PIXI.Container();
-    this._stage.addChild(this._group);
     this._spriteManager = new SpriteManager(this._group, this._pixi, options);
+    this._bindedRun = this._run.bind(this);
     
     this.xScale = d3.scale.linear();
     this.yScale = d3.scale.linear();
@@ -86,7 +82,6 @@ export default class Core {
 
     this._spriteManager =
     this._sprites =
-    this._stage =
     this._pixi =
     this._dataViews =
     this._data =
@@ -114,7 +109,7 @@ export default class Core {
     Object.keys(this._data.links).forEach(this._moveLine.bind(this));
     this._zoomSwitch = false;
 
-    this._pixi.render(this._stage);
+    this._pixi.render(this._group);
   }
 
   _renderResize(dims) {
