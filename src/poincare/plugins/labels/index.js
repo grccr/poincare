@@ -28,7 +28,6 @@ export default class Labels extends Plugin {
     if (typeof this._options.getter !== 'function')
       this._options.getter = fieldGetter(this._options.getter);
 
-    let prevRadius = 0;
     this._initLayer();
 
     pn.on('dimensions', dims => {
@@ -52,17 +51,16 @@ export default class Labels extends Plugin {
           .remove();
       this._labels = null;
 
-      this._current_ids = {
+      this._currentIDs = {
         'nodes': [],
         'links': []
       };
     };
 
     pn.on('radius:visibleElements', (ids, r) => {
-      prevRadius = r;
       if (r < THRESHOLD)
         return hide();
-      this._current_ids = ids;
+      this._currentIDs = ids;
       this._highlightThese(ids);
     });
 
@@ -70,13 +68,15 @@ export default class Labels extends Plugin {
       // TODO: здесь можно пересчитывать радиус от scale и
       // убрать лейблы во время зума
       this._labels && this._labels
-        .style('transform', (d) => {
-          if(d.from){ 
-            return `translate(${Math.round(linkx((d.from.x + d.to.x)/2))}px, ${Math.round(linky((d.from.y + d.to.y)/2))}px)`;
-          }
-          else {
-            return `translate(${Math.round(x(d.pos.x))}px, ${Math.round(y(d.pos.y))}px)`;
-          }
+        .style('transform', d => {
+          const pos = d.from ? {
+            x: Math.round(linkx((d.from.x + d.to.x) / 2)),
+            y: Math.round(linky((d.from.y + d.to.y) / 2))
+          } : {
+            x: Math.round(x(d.pos.x)),
+            y: Math.round(y(d.pos.y))
+          };
+          return `translate(${pos.x}px, ${pos.y}px)`;
         });
     });
 
@@ -113,16 +113,22 @@ export default class Labels extends Plugin {
   }
 
   _resolveData(ids) {
-    const nodes = this._pn._core.selectNodes(ids['nodes'])
+    const nodes = this._pn._core.selectNodes(ids.nodes)
       .filter(n => {
-        try { return this._options.getter(n.data);} 
-        catch (e) {}
+        try {
+          return this._options.getter(n.data);
+        } catch (err) {
+          //
+        }
         return false;
       });
-    const links = this._pn._core.selectLinks(ids['links'])
+    const links = this._pn._core.selectLinks(ids.links)
       .filter(l => {
-        try { return this._options.getter(l.data); } 
-        catch (e) {}
+        try {
+          return this._options.getter(l.data);
+        } catch (err) {
+          //
+        }
         return false;
       });
     return { nodes, links };
@@ -135,7 +141,7 @@ export default class Labels extends Plugin {
 
     const data = this._resolveData(ids);
     const labels = this._labels = this._layer.selectAll('.label')
-      .data(data['nodes'].concat(data['links']), d => d.id);
+      .data(data.nodes.concat(data.links), d => d.id);
 
     labels.enter()
       .append('div')
@@ -165,11 +171,14 @@ export default class Labels extends Plugin {
     labels
       .classed('locked-label', d => lockedIds.has(d.id))
       .style('transform', (d) => {
-        return d.from ? 
-          `translate(${Math.round(x((
-            d.from.x + d.to.x)/2))}px,
-          ${Math.round(y((d.from.y + d.to.y)/2))}px)`:
-          `translate(${Math.round(x(d.pos.x))}px, ${Math.round(y(d.pos.y))}px)`;
+        const pos = d.from ? {
+          x: Math.round(x((d.from.x + d.to.x) / 2)),
+          y: Math.round(y((d.from.y + d.to.y) / 2))
+        } : {
+          x: Math.round(x(d.pos.x)),
+          y: Math.round(y(d.pos.y))
+        };
+        return `translate(${pos.x}px, ${pos.y}px)`;
       });
   }
 
@@ -188,9 +197,9 @@ export default class Labels extends Plugin {
   }
 
   highlight(ids) {
-    this._current_ids['nodes'] = union(this._current_ids['nodes'].concat(ids['nodes']));
-    this._current_ids['links'] = union(this._current_ids['links'].concat(ids['links']));
-    this._highlightThese(this._current_ids, ids);
+    this._currentIDs.nodes = union(this._currentIDs.nodes.concat(ids.nodes));
+    this._currentIDs.links = union(this._currentIDs.links.concat(ids.links));
+    this._highlightThese(this._currentIDs, ids);
   }
 }
 

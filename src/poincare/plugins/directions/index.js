@@ -1,15 +1,10 @@
 // import d3 from 'd3';
 import PIXI from 'pixi.js';
-import { setGlobally, Plugin } from './base';
-import { css2pixi, fieldGetter } from '../helpers';
+import { setGlobally, Plugin } from '../base';
+import { css2pixi, fieldGetter } from '../../helpers';
+import arrowPolygonGenerator from './arrows';
 
 const PI_OVER_2 = Math.PI / 2;
-const ARROW_TYPES = {
-  ACUTE:      'acute', 
-  EXPANDED:   'expanded',
-  HORIZONTAL: 'horizontal',  // default
-  TAPERED:    'tapered'
-};
 
 const pol2dec = (alpha, dist) => {
   return [
@@ -17,64 +12,6 @@ const pol2dec = (alpha, dist) => {
     dist * Math.sin(alpha)
   ];
 };
-
-const arrowPolygonGenerator = (t, w, h) => {
-  let coords = [];
-  let a = w / 2, b = 0, c = 0, d = 0;
-  switch(t){
-    case ARROW_TYPES.ACUTE:
-      b = h / 3 * 2;
-      coords = [
-        a, 0,
-        w, h,
-        a, b,
-        0, h,
-        a, 0
-      ];
-      break;
-    case ARROW_TYPES.EXPANDED:
-      b = h * 3 / 4, c = a * 3 / 2, d = c - a;
-      coords = [
-        a, 0,
-        w, b,
-        c, b,
-        c, h,
-        d, h,
-        d, b,
-        0, b,
-        a, 0
-      ];
-      break;
-    case ARROW_TYPES.HORIZONTAL:
-      coords = [
-        a, 0,
-        w, h,
-        0, h,
-        a, 0
-      ];
-      break;
-    case ARROW_TYPES.TAPERED:
-      b = h / 3 * 2, c = a * 3 / 2, d = c - a;
-      coords = [
-        a, 0,
-        w, b,
-        c, h,
-        d, h,
-        0, b,
-        a, 0
-      ];
-      break;
-    default:
-      coords = [
-        a, 0,
-        w, h,
-        0, h,
-        a, 0
-      ];
-      break;
-  }
-  return coords;
-}
 
 export default class Directions extends Plugin {
   constructor(pn, opts) {
@@ -96,7 +33,7 @@ export default class Directions extends Plugin {
       this._pn.on('frame', this._render, this);
     }
 
-    this.OFFSET_FACTOR = 12; 
+    this.OFFSET_FACTOR = 12;
   }
 
   _init() {
@@ -111,12 +48,12 @@ export default class Directions extends Plugin {
       arrow.anchor.x = 0.5;
       arrow.anchor.y = 0.5;
       container.addChild(arrow);
-      if(this._options.getter(core.link(id).data)){
+      if (this._options.getter(core.link(id).data)) {
         arrow = this._arrows[id].reverse = makeArrowSprite();
         arrow.anchor.x = 0.5;
         arrow.anchor.y = 0.5;
         container.addChild(arrow);
-      } 
+      }
     });
   }
 
@@ -129,7 +66,7 @@ export default class Directions extends Plugin {
 
       const arrow = this._arrows[id];
       const normal = arrow.normal;
-      
+
       const src = [core.xScale(link.from.x), core.yScale(link.from.y)];
       const dst = [core.xScale(link.to.x), core.yScale(link.to.y)];
 
@@ -145,7 +82,7 @@ export default class Directions extends Plugin {
       normal.scale.x = scale;
       normal.scale.y = scale;
 
-      if(arrow.reverse){
+      if (arrow.reverse) {
         const reverse = this._arrows[id].reverse;
         beta = Math.atan2(-dy, -dx);
         trg = pol2dec(beta, d - offset);
@@ -154,7 +91,7 @@ export default class Directions extends Plugin {
         reverse.position.y = trg[1] + dst[1];
         reverse.scale.x = scale;
         reverse.scale.y = scale;
-      } 
+      }
     });
   }
 
@@ -162,7 +99,7 @@ export default class Directions extends Plugin {
     const gfx = new PIXI.Graphics();
     gfx.beginFill(css2pixi('#7F7F7F'));
     gfx.drawPolygon(arrowPolygonGenerator(
-      this._options.style, 
+      this._options.style,
       this._options.size[0],
       this._options.size[1]
     ));

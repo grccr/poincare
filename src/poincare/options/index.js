@@ -63,7 +63,7 @@ const Options = {
     const convertable = {
       background: css2pixi(opts.background),
       links: {
-        color: check(opts.links.color),
+        color: check(opts.links.color)
       },
       icons: {
         source: check(opts.icons.source),

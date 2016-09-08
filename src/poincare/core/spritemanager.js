@@ -3,7 +3,7 @@ import memoize from 'lodash/memoize';
 import PIXI from 'pixi.js';
 import { css2pixi } from '../helpers';
 
-const debug = require('debug')('poincare:spritemanager');
+// const debug = require('debug')('poincare:spritemanager');
 
 import { PoincareCoreError } from './core.js';
 
@@ -17,7 +17,7 @@ export const LinkSpriteGenerator = (renderer, options) => {
     gfx.moveTo(0, 0);
     gfx.lineTo(DEFAULT_LINE_LENGTH, 0);
     const texture = gfx.generateTexture(1, PIXI.SCALE_MODES.DEFAULT);
-    
+
     return new PIXI.Sprite(texture);
   };
 };
@@ -70,7 +70,10 @@ export default class SpriteManager {
 
   createLink(link) {
     const color = link.data.color || '#CCC';
-    const container = this._container('links' + color, this._colorLinkCount[color]);
+    const container = this._container(
+      `links${color}`,
+      this._colorLinkCount[color]
+    );
     const sprite = this._generator('links')(link);
     container.addChild(sprite);
     return sprite;

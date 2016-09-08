@@ -1,7 +1,7 @@
 'use strict';
 
 import d3 from 'd3';
-import { debounce, random } from 'lodash';
+import { debounce } from 'lodash';
 import axios from 'axios';
 
 import Poincare from './poincare';
@@ -152,7 +152,7 @@ const testData = [
   '/data/belgiia.graphml',
   null
 ];
-function nextTestGraph(){
+function nextTestGraph() {
   axios.get(testData[n++])
   .then(({ data: doc }) => {
     return nGraphParse.fromGraphML(doc);

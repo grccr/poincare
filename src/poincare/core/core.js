@@ -2,12 +2,12 @@
 import PIXI from 'pixi.js';
 import d3 from 'd3';
 import util from 'util';
-import { each, map, flatMap, random } from 'lodash';
+import { each, map, flatMap } from 'lodash';
 
 import { DEFAULT_LINE_LENGTH } from './spritemanager.js';
 import SpriteManager from './spritemanager.js';
 
-const debug = require('debug')('poincare:core');
+// const debug = require('debug')('poincare:core');
 
 export function PoincareCoreError(message) {
   this.message = message;
@@ -47,14 +47,14 @@ export default class Core {
     this._group = new PIXI.Container();
     this._spriteManager = new SpriteManager(this._group, this._pixi, options);
     this._bindedRun = this._run.bind(this);
-    
+
     this.xScale = d3.scale.linear();
     this.yScale = d3.scale.linear();
 
     pn.on('dimensions', this._renderResize, this);
   }
 
-  clear(){
+  clear() {
     this.stop();
     this._pn.removeListener('dimensions', this._renderResize, this);
 
