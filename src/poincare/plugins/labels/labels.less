@@ -1,24 +1,20 @@
 @color: #373737;
-// @bgcolor: rgba(234,234,234,0.45);
 @bgcolor: #F3F3F3;
 @bghighlighted: #F2EF42;
-// @bgcolor: red;
 
 .poincare-labels {
   pointer-events: none;
 }
 
 .label {
-  position: absolute;
-  width: 100px;
-  // margin-top: 16px;
-  // margin-left: -50px;
-  text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  height: 3.4rem;
   cursor: default;
+  height: 3.4rem;
+  overflow: hidden;
+  position: absolute;
+  text-align: center;
+  text-overflow: ellipsis;
   user-select: none;
+  width: 100px;
 }
 
 .label.locked-label {
@@ -30,20 +26,17 @@
 }
 
 .label-inner {
-  display: inline;
-  // padding: 0 7px 7px 7px;
-  padding: .1em 0.6em 0em 0.6em;
-  transition: background-color 0.25s ease;
   background-color: @bgcolor;
-  font-family: 'Fira Sans';
-  font-size: 12px;
   border-radius: 4px;
   color: @color;
-  line-height: 1.25em;
+  display: inline;
+  font-family: 'Fira Sans';
+  font-size: .75em;
+  font-weight: 300;
+  line-height: .25em;
+  padding: .25em .55em;
+  transition: background-color .25s ease;
+
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
-  // padding-left: 0;
-  // padding-right: 0;
-  // box-shadow: 7px 0 0 @bgcolor,
-  //            -7px 0 0 @bgcolor;
 }

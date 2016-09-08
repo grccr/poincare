@@ -51,6 +51,10 @@ module.exports = {
       {
         test: /\.less$/,
         loader: 'style-loader!css-loader!postcss-loader!less-loader'
+      },
+      {
+        test: /.(woff(2)?|eot|ttf)(\?[a-z0-9=\.]+)?$/,
+        loader: 'url-loader?limit=100000'
       }
     ],
     postLoaders: [

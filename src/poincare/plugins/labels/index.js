@@ -4,7 +4,7 @@ import most from 'most';
 import { setGlobally, Plugin } from '../base';
 import union from 'lodash/union';
 
-import 'mozilla-fira-pack';
+import 'mozilla-fira-pack/Fira/fira.css';
 import './labels.less';
 
 // const debug = require('debug')('poincare:labels');
@@ -18,7 +18,10 @@ export default class Labels extends Plugin {
     this._options = Object.assign({
       template: '<b><%- label %></b>',
       getter: 'label',
-      offset: [-50, 16]
+      offsets: {
+        link: [-50, -10],
+        node: [-50, 16]
+      }
     }, opts || {});
 
     this._locked = [];
@@ -35,11 +38,11 @@ export default class Labels extends Plugin {
         .style({ width: `${dims[0]}px`, height: `${dims[1]}px` });
     });
 
-    const offset = this._options.offset;
-    const x = this._x = xx => this._pn._core.xScale(xx) + offset[0];
-    const y = this._y = yy => this._pn._core.yScale(yy) + offset[1];
-    const linkx = this._linkx = xx => this._pn._core.xScale(xx);
-    const linky = this._linky = yy => this._pn._core.yScale(yy);
+    const offsets = this._options.offsets;
+    const x = this._x = xx => this._pn._core.xScale(xx) + offsets.node[0];
+    const y = this._y = yy => this._pn._core.yScale(yy) + offsets.node[1];
+    const linkx = this._linkx = xx => this._pn._core.xScale(xx) + offsets.link[0];
+    const linky = this._linky = yy => this._pn._core.yScale(yy) + offsets.link[1];
 
     const THRESHOLD = 70;
 
