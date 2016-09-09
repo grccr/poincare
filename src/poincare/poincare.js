@@ -117,7 +117,7 @@ export default class Poincare {
   updateDimensions() {
     const bbox = this.container.getBoundingClientRect();
     this._dims = [bbox.width, bbox.height];
-    this.emit('dimensions', this._dims);
+    this.emit('view:size', this._dims);
   }
 
   get size() {

@@ -23,7 +23,7 @@ export default class Directions extends Plugin {
     this._pn = pn;
     if (this._options.show) {
       this._pn.on('core:init', this._init, this);
-      this._pn.on('frame', this._render, this);
+      this._pn.on('view:frame', this._render, this);
     }
 
     this.OFFSET_FACTOR = 12;

@@ -33,7 +33,7 @@ export default class Labels extends Plugin {
 
     this._initLayer();
 
-    pn.on('dimensions', dims => {
+    pn.on('view:size', dims => {
       this._layer
         .style({ width: `${dims[0]}px`, height: `${dims[1]}px` });
     });
@@ -41,8 +41,10 @@ export default class Labels extends Plugin {
     const offsets = this._options.offsets;
     const x = this._x = xx => this._pn._core.xScale(xx) + offsets.node[0];
     const y = this._y = yy => this._pn._core.yScale(yy) + offsets.node[1];
-    const linkx = this._linkx = xx => this._pn._core.xScale(xx) + offsets.link[0];
-    const linky = this._linky = yy => this._pn._core.yScale(yy) + offsets.link[1];
+    const linkx = this._linkx = xx =>
+      this._pn._core.xScale(xx) + offsets.link[0];
+    const linky = this._linky = yy =>
+      this._pn._core.yScale(yy) + offsets.link[1];
 
     const THRESHOLD = 70;
 
@@ -60,14 +62,14 @@ export default class Labels extends Plugin {
       };
     };
 
-    pn.on('radius:visibleElements', (ids, r) => {
+    pn.on('view:elements', (ids, r) => {
       if (r < THRESHOLD)
         return hide();
       this._currentIDs = ids;
       this._highlightThese(ids);
     });
 
-    pn.on('frame', () => {
+    pn.on('view:frame', () => {
       // TODO: здесь можно пересчитывать радиус от scale и
       // убрать лейблы во время зума
       this._labels && this._labels
@@ -83,14 +85,14 @@ export default class Labels extends Plugin {
         });
     });
 
-    const nodeOuts = most.fromEvent('nodeout', pn);
-    const nodeOvers = most.fromEvent('nodeover', pn);
+    const nodeOuts = most.fromEvent('node:out', pn);
+    const nodeOvers = most.fromEvent('node:over', pn);
 
-    const linkOuts = most.fromEvent('linkout', pn);
-    const linkOvers = most.fromEvent('linkover', pn);
+    const linkOuts = most.fromEvent('link:out', pn);
+    const linkOvers = most.fromEvent('link:over', pn);
 
-    this._createTooltipEvents(nodeOvers, nodeOuts, 'nodetip');
-    this._createTooltipEvents(linkOvers, linkOuts, 'linktip');
+    this._createTooltipEvents(nodeOvers, nodeOuts, 'node:tip');
+    this._createTooltipEvents(linkOvers, linkOuts, 'link:tip');
   }
 
   _createTooltipEvents(overStream, outStream, name) {
@@ -99,14 +101,14 @@ export default class Labels extends Plugin {
       .concatMap(id => most.of(id).delay(1000).until(outStream));
 
     activator.observe(id => {
-      pn.emit(`${name}.activate`, id);
-      pn.emit(`${name}.over`, id);
+      pn.emit(`${name}:show`, id);
+      pn.emit(`${name}:hover`, id);
     });
 
     const deactivator = outStream
       .concatMap(id => most.of(id).delay(1000).until(overStream));
 
-    deactivator.observe(id => pn.emit(`${name}.deactivate`, id));
+    deactivator.observe(id => pn.emit(`${name}:hide`, id));
 
     const time = activator.constant(deactivator.take(1));
 

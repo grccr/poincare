@@ -7,7 +7,7 @@ const debug = require('debug')('poincare:transitioner');
 export default class Tween extends Module {
   constructor(pn, opts) {
     super();
-    pn.on('frame', TWEEN.update.bind(TWEEN));
+    pn.on('view:frame', TWEEN.update.bind(TWEEN));
   }
 }
 
@@ -107,7 +107,7 @@ export class Transitioner {
   _subscribe() {
     if (this._subscribed)
       return;
-    this._pn.on('frame', this._bindedRender, this);
+    this._pn.on('view:frame', this._bindedRender, this);
     this._subscribed = true;
     debug('Subscribed to rendering');
   }
@@ -116,7 +116,7 @@ export class Transitioner {
     if (!this._subscribed)
       return;
     this._subscribed = false;
-    this._pn.off('frame', this._bindedRender, this);
+    this._pn.off('view:frame', this._bindedRender, this);
     debug('Unsubscribed from rendering');
   }
 

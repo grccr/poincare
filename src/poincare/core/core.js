@@ -52,12 +52,12 @@ export default class Core {
     this.xScale = d3.scale.linear();
     this.yScale = d3.scale.linear();
 
-    pn.on('dimensions', this._renderResize, this);
+    pn.on('view:size', this._renderResize, this);
   }
 
   clear() {
     this.stop();
-    this._pn.removeListener('dimensions', this._renderResize, this);
+    this._pn.removeListener('view:size', this._renderResize, this);
 
     each(this._data.nodes, (node, id) => {
       node.links = null;
@@ -96,18 +96,15 @@ export default class Core {
   }
 
   _renderFrame(t) {
-    // Object.keys(this._data.links).forEach(this._renderLink);
-
-    // zoom plugin is here :)
-    this._pn.emit('frame', t);
+    this._pn.emit('view:frame', t);
     if (this._pn.zoom.scale() < 1 && !this._zoomedOut) {
       this._zoomedOut = true;
     } else if (this._pn.zoom.scale() >= 1 && this._zoomedOut) {
       this._zoomedOut = false;
       this._zoomSwitch = true;
     }
-    Object.keys(this._data.nodes).forEach(this._moveNode.bind(this));
-    Object.keys(this._data.links).forEach(this._moveLine.bind(this));
+    Object.keys(this._data.nodes).forEach(this._renderNode.bind(this));
+    Object.keys(this._data.links).forEach(this._renderLine.bind(this));
     this._zoomSwitch = false;
 
     this._pixi.render(this._group);
@@ -154,7 +151,7 @@ export default class Core {
     g.forEachLink(this._initLink.bind(this));
     g.forEachNode(this._initNode.bind(this));
     this._pn.emit('core:init');
-    this._pn.emit('viewreset');
+    this._pn.emit('view:reset');
     return g;
   }
 
@@ -167,7 +164,7 @@ export default class Core {
     this._oldyScale = y;
   }
 
-  _moveNode(id) {
+  _renderNode(id) {
     const node = this._data.nodes[id];
     const s = this._sprites.nodes[id];
     s.position.x = this.xScale(node.pos.x);
@@ -176,7 +173,7 @@ export default class Core {
       s.scale.x = s.scale.y = this._pn.zoom.scale();
     else if (!this._zoomedOut && this._zoomSwitch)
       s.scale.x = s.scale.y = 1;
-    this._pn.emit('node:move', node);
+    this._pn.emit('node:render', node);
   }
 
   selectNodes(ids) {
@@ -233,7 +230,7 @@ export default class Core {
     return this._spriteManager;
   }
 
-  _moveLine(id) {
+  _renderLine(id) {
     const link = this._data.links[id];
     const dy = this.yScale(link.to.y) - this.yScale(link.from.y);
     const dx = this.xScale(link.to.x) - this.xScale(link.from.x);
@@ -248,7 +245,7 @@ export default class Core {
     s.rotation = angle2;
     s.position.x = trg[0] + this.xScale(link.from.x);
     s.position.y = trg[1] + this.yScale(link.from.y);
-    this._pn.emit('link:move', link);
+    this._pn.emit('link:render', link);
   }
 
   _addNodeSprite(node, data) {
@@ -288,6 +285,6 @@ export default class Core {
 
   stopLayout() {
     this._layoutStopped = true;
-    this._pn.emit('layoutstop');
+    this._pn.emit('layout:ready');
   }
 }

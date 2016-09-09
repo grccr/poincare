@@ -46,7 +46,7 @@ export default class LineIndex extends Module {
   constructor(pn, opts) {
     super();
     this._pn = pn;
-    pn.on('layoutstop', this._createLinkIndex, this);
+    pn.on('layout:ready', this._createLinkIndex, this);
 
     this._bbox = { x0: 0, y0: 0, x1: 0, y1: 0 };
   }
@@ -54,7 +54,7 @@ export default class LineIndex extends Module {
   _createLinkIndex() {
     // this._gfx = new PIXI.Graphics();
     // this._pn._core.groupContainer().addChildAt(this._gfx, 0);
-    // this._pn.on('frame', this._renderSquares, this);
+    // this._pn.on('view:frame', this._renderSquares, this);
 
 
     const tree = this._tree = rbush(9, ['.x0', '.y0', '.x1', '.y1']);

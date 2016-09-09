@@ -29,11 +29,11 @@ export default class Radius extends Module {
     };
     this._lastRadius = 0;
 
-    pn.on('layoutstop', () => {
+    pn.on('layout:ready', () => {
       this._createIndex();
       this._calculateRadiusMedian();
     }, this);
-    pn.on('viewreset', this._calculateRadiusMedian, this);
+    pn.on('view:reset', this._calculateRadiusMedian, this);
   }
 
   _createIndex() {
@@ -81,7 +81,7 @@ export default class Radius extends Module {
     const r2 = this._radiusFor(links, 'link');
     this._lastRadius = Math.max(r, r2);
     this._pn.emit(
-      'radius:visibleElements',
+      'view:elements',
       { nodes, links },
       this._lastRadius * scale
     );

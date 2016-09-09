@@ -10,18 +10,18 @@ export default class Cursors extends Plugin {
     const container = d3.select(pn.container);
     this._pn = pn;
 
-    pn.on('itemfocus', this._toggle, {
+    pn.on('item:focus', this._toggle, {
       container, state: true
     });
-    pn.on('itemblur', this._toggle, {
+    pn.on('item:blur', this._toggle, {
       container, state: false
     });
   }
 
   unplug() {
     this._pn
-      .removeListener('itemfocus', this._toggle)
-      .removeListener('itemblur', this._toggle);
+      .removeListener('item:focus', this._toggle)
+      .removeListener('item:blur', this._toggle);
     this._pn = null;
   }
 

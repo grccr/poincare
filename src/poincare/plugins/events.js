@@ -24,13 +24,13 @@ export default class Events extends Plugin {
     //   const nearestLine = pn.lineindex.nearest(graphPos, r);
     //   if (nearest == null && lastNearest != null) {
     //     // we're out of any node
-    //     pn.emit('nodeout', lastNearest);
+    //     pn.emit('node:out', lastNearest);
     //     lastNearest = null;
     //   } else if (nearest !== lastNearest) {
     //     // we're on node
     //     if (lastNearest != null) // but moved from other node
-    //       pn.emit('nodeout', lastNearest);
-    //     pn.emit('nodeover', nearest);
+    //       pn.emit('node:out', lastNearest);
+    //     pn.emit('node:over', nearest);
     //     lastNearest = nearest;
     //   }
     //   // debug('NEAREST', pn.radius.nearest(graphPos));
@@ -71,7 +71,7 @@ export default class Events extends Plugin {
           return;
         if (this._focusedItem != null) {
           d3.event.stopImmediatePropagation();
-          this._pn.emit(`${this._focusedItem.type}click`,
+          this._pn.emit(`${this._focusedItem.type}:click`,
                         this._focusedItem.id);
           return false;
         }
@@ -83,7 +83,7 @@ export default class Events extends Plugin {
         if (this._focusedItem != null) {
           // d3.event.stopImmediatePropagation();
           d3.event.preventDefault();
-          this._pn.emit(`${this._focusedItem.type}menu`,
+          this._pn.emit(`${this._focusedItem.type}:menu`,
                         this._focusedItem.id);
           return false;
         }
@@ -123,15 +123,15 @@ export default class Events extends Plugin {
       return;
 
     if (nearest == null && focused != null) {
-      pn.emit(`${focused.type}out`, focused.id);
-      pn.emit('itemblur');
+      pn.emit(`${focused.type}:out`, focused.id);
+      pn.emit('item:blur');
     } else if (nearest != null && focused == null) {
-      pn.emit(`${nearest.type}over`, nearest.id);
-      pn.emit('itemfocus');
+      pn.emit(`${nearest.type}:over`, nearest.id);
+      pn.emit('item:focus');
     } else if (nearest.id !== focused.id ||
                nearest.type !== focused.type) {
-      pn.emit(`${focused.type}out`, focused.id);
-      pn.emit(`${nearest.type}over`, nearest.id);
+      pn.emit(`${focused.type}:out`, focused.id);
+      pn.emit(`${nearest.type}:over`, nearest.id);
     }
 
     this._focusedItem = nearest;
@@ -147,19 +147,19 @@ export default class Events extends Plugin {
     // const n = nearest && nearest.id;
 
     // if (n == f && n != null && nearest.type != this._focusedItem.type) {
-    //   pn.emit(`${this._focusedItem.type}out`, this._focusedItem.id);
+    //   pn.emit(`${this._focusedItem.type}:out`, this._focusedItem.id);
     //   this._focusedItem = nearest;
-    //   pn.emit(`${this._focusedItem.type}in`, this._focusedItem.id);
+    //   pn.emit(`${this._focusedItem.type}:in`, this._focusedItem.id);
     // } else if (n == null && f != null) {
     //   // we're out of any node / link
-    //   pn.emit(`${this._focusedItem.type}out`, this._focusedItem.id);
+    //   pn.emit(`${this._focusedItem.type}:out`, this._focusedItem.id);
     //   this._focusedItem = null;
     // } else if (n !== f) {
     //   // we're on node
     //   if (f != null) // but moved from other node / link
-    //     pn.emit(`${this._focusedItem.type}out`, this._focusedItem.id);
+    //     pn.emit(`${this._focusedItem.type}:out`, this._focusedItem.id);
     //   this._focusedItem = nearest;
-    //   pn.emit(`${this._focusedItem.type}in`, this._focusedItem.id);
+    //   pn.emit(`${this._focusedItem.type}:in`, this._focusedItem.id);
     // }
   }
 }

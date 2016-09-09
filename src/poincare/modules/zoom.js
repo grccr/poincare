@@ -22,9 +22,9 @@ export default class Zoom extends Module {
     zoom.scaleExtent([this._options.min, this._options.max]);
     zoom.size([200, 200]);
 
-    pn.on('dimensions', (dims) => {
+    pn.on('view:size', (dims) => {
       zoom.size(dims);
-      pn.emit('viewreset', zoom.translate(), zoom.scale());
+      pn.emit('view:reset', zoom.translate(), zoom.scale());
     });
 
     zoom.x(pn._core.xScale);
@@ -44,13 +44,13 @@ export default class Zoom extends Module {
     const viewReset = () => {
       cancelViewReset();
       timer = setTimeout(() => {
-        pn.emit('viewreset', zoom.translate(), zoom.scale());
+        pn.emit('view:reset', zoom.translate(), zoom.scale());
         timer = null;
       }, 40);
     };
 
     // const zoomStart = () => {
-      // pn.emit('zoomstart', zoom.translate(), zoom.scale());
+      // pn.emit('zoom:start', zoom.translate(), zoom.scale());
     // });
 
     zoom.on('zoomstart', () => {
@@ -59,12 +59,12 @@ export default class Zoom extends Module {
     });
 
     zoom.on('zoomend', () => {
-      // pn.emit('zoomend', zoom.translate(), zoom.scale());
+      // pn.emit('zoom:stop', zoom.translate(), zoom.scale());
       viewReset();
     });
 
     // zoom.on('zoom', throttle(() => {
-    //   pn.emit('zoom', zoom.translate(), zoom.scale());
+    //   pn.emit('zoom:change', zoom.translate(), zoom.scale());
     // }, 100));
 
     // zoom.on('zoom', this._zoomHandler.bind(this, group));
