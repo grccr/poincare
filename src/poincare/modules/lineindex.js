@@ -53,7 +53,7 @@ export default class LineIndex extends Module {
 
   _createLinkIndex() {
     // this._gfx = new PIXI.Graphics();
-    // this._pn._core.groupContainer().addChildAt(this._gfx, 0);
+    // this._pn._core.stage.addChildAt(this._gfx, 0);
     // this._pn.on('view:frame', this._renderSquares, this);
 
 

@@ -14,7 +14,6 @@ export default class Zoom extends Module {
     }, opts || {});
     const zoom = this._zoom = d3.behavior.zoom();
     const $container = this._$container = d3.select(pn._container);
-    // const group = this._group = pn._core._group;
 
     this._pn = pn;
 
@@ -67,7 +66,6 @@ export default class Zoom extends Module {
     //   pn.emit('zoom:change', zoom.translate(), zoom.scale());
     // }, 100));
 
-    // zoom.on('zoom', this._zoomHandler.bind(this, group));
     this._wasSwitch = false;
   }
 
@@ -81,25 +79,6 @@ export default class Zoom extends Module {
     this._zoom = null;
     this._$container = null;
   }
-
-  // _toggleScale(toggle) {
-  //   if (toggle === this._toggle)
-  //     return;
-  //   if (toggle) {
-  //     this._zoom.x(this._pn._core.xScale);
-  //     this._zoom.y(this._pn._core.yScale);
-  //   } else {
-  //     this._pn._core.xScale
-  //       .range([0, 1])
-  //       .domain([0, 1]);
-  //     this._pn._core.yScale
-  //       .range([0, 1])
-  //       .domain([0, 1]);
-  //     this._zoom.x(this._pn._core.xScale);
-  //     this._zoom.y(this._pn._core.yScale);
-  //   }
-  //   this._toggle = toggle;
-  // }
 
   scale() {
     return this._zoom.scale();
@@ -123,10 +102,6 @@ export default class Zoom extends Module {
 
   alignToCenter(animated = false) {
     this.transform(this._pn.size.map(d => d / 2), null, animated);
-    // this._zoom.x(this._pn._core.xScale);
-    // this._zoom.y(this._pn._core.yScale);
-    // this._group.position.x = dims[0] / 2;
-    // this._group.position.y = dims[1] / 2;
   }
 
   transform(tr, sc, animated = true) {
@@ -151,13 +126,8 @@ export default class Zoom extends Module {
         this._zoom.translate(tr);
       if (sc != null)
         this._zoom.scale(sc);
-      // this._$container.call(this._zoom.event);
-      // this._zoom.event(this._$container);
-      // this._zoom.event(this._$container);
       this._zoom.event(d3.transition().duration(0));
     }
-    // this._zoom.x(this._pn._core.xScale);
-    // this._zoom.y(this._pn._core.yScale);
   }
 
   fitBounds(bbox, padding = 100, maxZoom = 3) {
@@ -201,17 +171,4 @@ export default class Zoom extends Module {
       height: (y[1] - y[0]) + pdd * 2 };
     this.fitBounds(bbox);
   }
-
-  // _zoomHandler(group) {
-  //   if (d3.event.scale > 1) {
-  //     return this._toggleScale(true);
-  //   } else {
-  //     this._toggleScale(false);
-  //   }
-  //   group.scale.x = d3.event.scale;
-  //   group.scale.y = d3.event.scale;
-
-  //   group.position.x = d3.event.translate[0];
-  //   group.position.y = d3.event.translate[1];
-  // }
 }

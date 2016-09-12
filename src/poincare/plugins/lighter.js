@@ -20,8 +20,8 @@ export default class Lighter extends Plugin {
     this._options.linkColor = css2pixi(this._options.linkColor);
     this._gfx = new PIXI.Graphics();
     this._linkGfx = new PIXI.Graphics();
-    this._pn._core.groupContainer().addChildAt(this._gfx, 0);
-    this._pn._core.groupContainer().addChildAt(this._linkGfx, 0);
+    this._pn._core.stage.addChildAt(this._gfx, 0);
+    this._pn._core.stage.addChildAt(this._linkGfx, 0);
     this._initNodeTransitioner();
     this._initLinkTransitioner();
   }
@@ -84,8 +84,8 @@ export default class Lighter extends Plugin {
   }
 
   off() {
-    this._pn._core.groupContainer().removeChild(this._gfx);
-    this._pn._core.groupContainer().removeChild(this._linkGfx);
+    this._pn._core.stage.removeChild(this._gfx);
+    this._pn._core.stage.removeChild(this._linkGfx);
   }
 }
 

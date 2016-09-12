@@ -44,7 +44,6 @@ export default class Poincare {
 
   run() {
     this.core.run();
-    this.emit('run');
   }
 
   stop() {

@@ -52,18 +52,21 @@ const pn = window.PN = new Poincare({
   directions: {
     show: true
   },
+  // plugins: []
   plugins: [Events, Lighter, Labels, Cursors, Directions]
 });
 
 pn.on('zoom:start', () => debug('zoomstart'));
 pn.on('zoom:stop', () => debug('zoomend'));
 pn.on('view:reset', () => debug('viewreset'));
-pn.on('run', () => debug('run'));
+pn.on('core:run', () => debug('run'));
 pn.on('layout:ready', () => debug('layoutstop'));
 pn.on('zoom:change', () => debug('zoom'));
 // pn.on('view:elements', (nodes, r) => {
-//   // if (nodes.length < 32)
-//     // pn.plugins.lighter.light(nodes);
+//   if (nodes.length < 32) {
+//     const lighter = pn.plugins.lighter;
+//     lighter && lighter.light(nodes);
+//   }
 //   debug('Median radius is %o [%o]', r, nodes.length);
 // });
 
@@ -72,7 +75,10 @@ pn.on('zoom:change', () => debug('zoom'));
 
 // const activator = overs
 //   .concatMap(id => most.of(id).delay(500).until(outs))
-// activator.observe(id => pn.plugins.labels.highlight([id]));
+// activator.observe(id => {
+//   const labels = pn.plugins.labels;
+//   labels && labels.highlight([id]);
+// });
 
 // const deactivator = outs
 //   .concatMap(id => most.of(id).delay(1000).until(overs));
@@ -81,24 +87,37 @@ pn.on('zoom:change', () => debug('zoom'));
 
 // const delayedOverClicks = activator
 //   .concatMap(id => overs.during(time))
-//   .observe(id => pn.plugins.labels.highlight([id]));
+//   .observe(id => {
+//     const labels = pn.plugins.labels;
+//     labels && labels.highlight([id]);
+//   });
 
-pn.on('node:tip:hover', id => pn.plugins.labels.highlight([id]));
-// pn.on('node:tip:show', id => pn.plugins.labels.highlight([id]));
+pn.on('node:tip:hover', id => {
+  const labels = pn.plugins.labels;
+  labels && labels.highlight([id]);
+});
+// pn.on('node:tip:show', id => {
+//   const labels = pn.plugins.labels;
+//   labels && labels.highlight([id]);
+// });
 
 // delayedOverClicks.observe((id) => {
-//   pn.plugins.labels.highlight([id]);
+//   const labels = pn.plugins.labels;
+//   labels && labels.highlight([id]);
 //   debug('Delayed node over', id);
 // });
 
 pn.on('node:over', (id) => {
-  pn.plugins.lighter.light([id]);
+  const lighter = pn.plugins.lighter;
+  lighter && lighter.light([id]);
   // debug('Node over', id);
 });
 
 pn.on('node:out', (id) => {
-  pn.plugins.lighter.light([]);
-  pn.plugins.labels.highlight([]);
+  const lighter = pn.plugins.lighter;
+  const labels = pn.plugins.labels;
+  lighter && lighter.light([]);
+  labels && labels.highlight([]);
   // debug('Node out', id);
 });
 
@@ -123,19 +142,23 @@ pn.on('link:menu', (id) => {
 
 pn.on('link:tip:hover', (id) => {
   const item = pn.core.link(id);
-  pn.plugins.labels.highlight([item.fromId, item.toId]);
+  const labels = pn.plugins.labels;
+  labels && labels.highlight([item.fromId, item.toId]);
 });
 
 pn.on('link:over', (id) => {
   const item = pn.core.link(id);
-  pn.plugins.lighter.lightLink([id]);
-  pn.plugins.lighter.light([item.fromId, item.toId]);
+  const lighter = pn.plugins.lighter;
+  lighter && lighter.lightLink([id]);
+  lighter && lighter.light([item.fromId, item.toId]);
   debug('Link over', id);
 });
 pn.on('link:out', (id) => {
-  pn.plugins.lighter.lightLink([]);
-  pn.plugins.lighter.light([]);
-  pn.plugins.labels.highlight([]);
+  const lighter = pn.plugins.lighter;
+  const labels = pn.plugins.labels;
+  lighter && lighter.lightLink([]);
+  lighter && lighter.light([]);
+  labels && labels.highlight([]);
   debug('Link out', id);
 });
 
@@ -161,7 +184,8 @@ function nextTestGraph() {
     .then(graph => {
       pn.graph = graph;
       pn.run();
-      // pn.plugins.lighter.light([
+      // const lighter = pn.plugins.lighter;
+      // lighter && lighter.light([
       //   '552f7ccb8a432b148143e681',
       //   '552f7ccb8a432b148143e63e'
       // ]);

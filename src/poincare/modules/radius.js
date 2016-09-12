@@ -19,27 +19,39 @@ function mid(pos1, pos2) {
 export default class Radius extends Module {
   constructor(pn, opts) {
     super();
+
+    this._pn = pn;
     this._options = Object.assign({
       linkIndexFrequency: 30
     }, opts || {});
-    this._pn = pn;
+
+    this._lastRadius = 0;
     this._tree = {
       'nodes': null,
       'links': null
     };
-    this._lastRadius = 0;
 
     pn.on('layout:ready', () => {
       this._createIndex();
       this._calculateRadiusMedian();
     }, this);
     pn.on('view:reset', this._calculateRadiusMedian, this);
+    pn.on('core:clear', this._clear, this);
+  }
+
+  _clear() {
+
+  }
+
+  destroy() {
+    this._clear();
+    this._pn.removeListener('core:clear', this._clear, this);
   }
 
   _createIndex() {
     debug('Gonna create nodes\' index');
     const nodesTree = this._tree.nodes = rbush(9, ['.x', '.y', '.x', '.y']);
-    const nodesData = this._pn._core.mapNodes(node => ({
+    const nodesData = this._pn.core.mapNodes(node => ({
       id: node.id, ...node.pos
     }));
     nodesTree.load(nodesData);
@@ -47,23 +59,11 @@ export default class Radius extends Module {
 
     debug('Gonna create link mids\' index');
     const linksTree = this._tree.links = rbush(9, ['.x', '.y', '.x', '.y']);
-    const linksData = this._pn._core.mapLinks(link => ({
+    const linksData = this._pn.core.mapLinks(link => ({
       id: link.id, ...mid(link.to, link.from)
     }));
     linksTree.load(linksData);
     debug('Links index is created', linksData);
-  }
-
-  getElementsByBbox(bbox, t = 'nodes') {
-    const result = this._tree[t]
-      .search([
-        bbox.x,
-        bbox.y,
-        bbox.x + bbox.w,
-        bbox.y + bbox.h
-      ])
-      .map(e => e.id);
-    return result;
   }
 
   _calculateRadiusMedian() {
@@ -87,8 +87,27 @@ export default class Radius extends Module {
     );
   }
 
-  lastRadiusForScale(sc) {
-    return this._lastRadius * sc;
+  _radiusFor(ids, t = 'node') {
+    let sum = 0;
+    ids.forEach(id => {
+      const element = this._pn.core[t](id);
+      const pos = t === 'node' ? element.pos : mid(element.to, element.from);
+      const neighbor = knn(this._tree[`${t}s`], [pos.x, pos.y], 2)[1];
+      sum += dist(pos, neighbor);
+    });
+    return sum / ids.length;
+  }
+
+  getElementsByBbox(bbox, t = 'nodes') {
+    const result = this._tree[t]
+      .search([
+        bbox.x,
+        bbox.y,
+        bbox.x + bbox.w,
+        bbox.y + bbox.h
+      ])
+      .map(e => e.id);
+    return result;
   }
 
   nearest(pos, radius = 30) {
@@ -103,16 +122,5 @@ export default class Radius extends Module {
       }
     }
     return null;
-  }
-
-  _radiusFor(ids, t = 'node') {
-    let sum = 0;
-    ids.forEach(id => {
-      const element = this._pn._core[t](id);
-      const pos = t === 'node' ? element.pos : mid(element.to, element.from);
-      const neighbor = knn(this._tree[`${t}s`], [pos.x, pos.y], 2)[1];
-      sum += dist(pos, neighbor);
-    });
-    return sum / ids.length;
   }
 }

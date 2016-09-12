@@ -19,13 +19,14 @@ PoincareCoreError.prototype.name = 'PoincareCoreError';
 
 export default class Core {
   constructor({ pn, container, options }) {
-    this._container = container;
     this._pn = pn;
+    this._container = container;
 
-    this._stopped = true;
+    this._freezed = true;
     this._layoutStopped = false;
+    this._frame = null;
 
-    this._dataViews = {
+    this._getDataFrom = {
       node: (node) => node,
       link: (link) => link
     };
@@ -45,9 +46,11 @@ export default class Core {
     });
     this._container.appendChild(this._pixi.view);
 
-    this._group = new PIXI.Container();
-    this._spriteManager = new SpriteManager(this._group, this._pixi, options);
-    this._bindedRun = this._run.bind(this);
+    this._stage = new PIXI.Container();
+    this._spriteManager = new SpriteManager(this._stage, this._pixi, options);
+
+    for (const m of ['_run', '_renderNode', '_renderLine'])
+      this[m] = this[m].bind(this);
 
     this.xScale = d3.scale.linear();
     this.yScale = d3.scale.linear();
@@ -56,6 +59,8 @@ export default class Core {
   }
 
   clear() {
+    this._pn.emit('core:clear');
+
     this.stop();
     this._pn.removeListener('view:size', this._renderResize, this);
 
@@ -74,17 +79,19 @@ export default class Core {
   destroy() {
     this.clear();
 
-    if (this._spriteManager)
-      this._spriteManager.destroy();
-    if (this._stage)
-      this._stage.destroy(true);
+    this._pn.emit('core:destroy');
+
+    if (this.spriteManager)
+      this.spriteManager.destroy();
+    if (this.stage)
+      this.stage.destroy(true);
     if (this._pixi)
       this._pixi.destroy(true);
 
     this._spriteManager =
     this._sprites =
     this._pixi =
-    this._dataViews =
+    this._getDataFrom =
     this._data =
     this._graph =
     this._layout =
@@ -95,29 +102,36 @@ export default class Core {
     return null;
   }
 
-  _renderFrame(t) {
-    this._pn.emit('view:frame', t);
-    if (this._pn.zoom.scale() < 1 && !this._zoomedOut) {
-      this._zoomedOut = true;
-    } else if (this._pn.zoom.scale() >= 1 && this._zoomedOut) {
-      this._zoomedOut = false;
-      this._zoomSwitch = true;
-    }
-    Object.keys(this._data.nodes).forEach(this._renderNode.bind(this));
-    Object.keys(this._data.links).forEach(this._renderLine.bind(this));
-    this._zoomSwitch = false;
-
-    this._pixi.render(this._group);
+  get spriteManager() {
+    return this._spriteManager;
   }
 
-  _renderResize(dims) {
-    this._pixi.resize(dims[0], dims[1]);
+  get stage() {
+    return this._stage;
+  }
+
+  /* --- Init & Start --- */
+
+  init(g, layout) {
+    this._graph = g;
+    this._layout = layout;
+    const coloredLinksCount = {};
+    g.forEachLink(link => {
+      const linkColor = link.data.color || '#CCC';
+      coloredLinksCount[linkColor] = (coloredLinksCount[linkColor] || 0) + 1;
+    });
+    this.spriteManager.setSizes(g.getNodesCount(), coloredLinksCount);
+    g.forEachLink(this._initLink.bind(this));
+    g.forEachNode(this._initNode.bind(this));
+    this._pn.emit('core:init');
+    this._pn.emit('view:reset');
+    return g;
   }
 
   _run(t) {
-    if (this._stopped)
+    if (this._freezed)
       return;
-    this._frame = requestAnimationFrame(this._bindedRun);
+    this._frame = requestAnimationFrame(this._run);
     if (!this._layoutStopped) {
       this._layoutStopped = this._layout.step();
       if (this._layoutStopped)
@@ -126,80 +140,93 @@ export default class Core {
     this._renderFrame(t);
   }
 
-  run(layout = false) {
-    this._stopped = false;
-    if (layout)
+  run(noLayoutProcessing = false) {
+    this._freezed = false;
+    if (noLayoutProcessing)
       this._layoutStopped = true;
     this._run();
+    this._pn.emit('core:run');
   }
 
   stop() {
-    this._stopped = true;
+    this._freezed = true;
     if (this._frame)
       cancelAnimationFrame(this._frame);
   }
 
-  init(g, layout) {
-    this._graph = g;
-    this._layout = layout;
-    const colordict = {};
-    g.forEachLink(link => {
-      const clr = link.data.color || '#CCC';
-      colordict[clr] = (colordict[clr] || 0) + 1;
-    });
-    this._spriteManager.setSizes(g.getNodesCount(), colordict);
-    g.forEachLink(this._initLink.bind(this));
-    g.forEachNode(this._initNode.bind(this));
-    this._pn.emit('core:init');
-    this._pn.emit('view:reset');
-    return g;
+  stopLayout() {
+    this._layoutStopped = true;
+    this._pn.emit('layout:ready');
   }
 
-  switchScales() {
-    const x = this.xScale;
-    const y = this.yScale;
-    this.xScale = this._oldxScale || d3.scale.linear();
-    this.yScale = this._oldyScale || d3.scale.linear();
-    this._oldxScale = x;
-    this._oldyScale = y;
+  /* --- Render --- */
+
+  _renderFrame(t) {
+    this._pn.emit('view:frame', t);
+    if (this._pn.zoom.scale() < 1 && !this._zoomedOut) {
+      this._zoomedOut = true;
+    } else if (this._pn.zoom.scale() >= 1 && this._zoomedOut) {
+      this._zoomedOut = false;
+      this._zoomSwitch = true;
+    }
+    Object.keys(this._data.nodes).forEach(this._renderNode);
+    Object.keys(this._data.links).forEach(this._renderLine);
+    this._zoomSwitch = false;
+
+    this._pixi.render(this.stage);
+  }
+
+  _renderResize(dims) {
+    this._pixi.resize(dims[0], dims[1]);
   }
 
   _renderNode(id) {
-    const node = this._data.nodes[id];
-    const s = this._sprites.nodes[id];
-    s.position.x = this.xScale(node.pos.x);
-    s.position.y = this.yScale(node.pos.y);
+    const node = this.node(id);
+    const sprite = this.nodeSprite(id);
+    sprite.position.x = this.xScale(node.pos.x);
+    sprite.position.y = this.yScale(node.pos.y);
     if (this._zoomedOut)
-      s.scale.x = s.scale.y = this._pn.zoom.scale();
+      sprite.scale.x = sprite.scale.y = this._pn.zoom.scale();
     else if (!this._zoomedOut && this._zoomSwitch)
-      s.scale.x = s.scale.y = 1;
+      sprite.scale.x = sprite.scale.y = 1;
     this._pn.emit('node:render', node);
   }
 
-  selectNodes(ids) {
-    return ids.map(id => this._data.nodes[id]);
+  _renderLine(id) {
+    const link = this.link(id);
+    const dy = this.yScale(link.to.y) - this.yScale(link.from.y);
+    const dx = this.xScale(link.to.x) - this.xScale(link.from.x);
+    const angle = Math.atan2(dy, dx);
+    const angle2 = Math.atan2(-dy, -dx);
+    const d = Math.hypot(dx, dy);
+    const trg = pol2dec(angle, d - this._pn._options.nodes.radius);
+    const sprite = this.linkSprite(id);
+    const r = this._pn._options.nodes.radius;
+    sprite.scale.x = (d - (link.data.dual ? 2 : 1) * r) / DEFAULT_LINE_LENGTH;
+    sprite.scale.y = 1.0;
+    sprite.rotation = angle2;
+    sprite.position.x = trg[0] + this.xScale(link.from.x);
+    sprite.position.y = trg[1] + this.yScale(link.from.y);
+    this._pn.emit('link:render', link);
   }
 
-  selectLinks(ids) {
-    return ids.map(id => this._data.links[id]);
+  /* --- Nodes --- */
+
+  _initNode(node) {
+    const data = this._addNodeData(node);
+    this._addNodeSprite(node, data);
   }
 
-  mapNodes(fn, flat = false) {
-    return !flat ? map(this._data.nodes, fn) :
-                   flatMap(this._data.nodes, fn);
+  _addNodeData(node) {
+    const data = this._getDataFrom.node(node);
+    data.pos = this._layout.getNodePosition(node.id);
+    this._data.nodes[node.id] = data;
+    return data;
   }
 
-  mapLinks(fn, flat = false) {
-    return !flat ? map(this._data.links, fn) :
-                   flatMap(this._data.links, fn);
-  }
-
-  eachNode(fn) {
-    return Object.keys(this._data.nodes).forEach(fn);
-  }
-
-  eachLink(fn) {
-    return Object.keys(this._data.links).forEach(fn);
+  _addNodeSprite(node, data) {
+    const sprite = this.spriteManager.createNode(data);
+    this._sprites.nodes[node.id] = sprite;
   }
 
   node(id) {
@@ -210,81 +237,66 @@ export default class Core {
     return id in this._data.nodes;
   }
 
-  hasLink(id) {
-    return id in this._data.links;
-  }
-
-  link(id) {
-    return this._data.links[id];
-  }
-
   nodeSprite(id) {
     return this._sprites.nodes[id];
   }
 
-  groupContainer() {
-    return this._group;
+  selectNodes(ids) {
+    return ids.map(id => this._data.nodes[id]);
   }
 
-  spriteManager() {
-    return this._spriteManager;
+  eachNode(fn) {
+    return Object.keys(this._data.nodes).forEach(fn);
   }
 
-  _renderLine(id) {
-    const link = this._data.links[id];
-    const dy = this.yScale(link.to.y) - this.yScale(link.from.y);
-    const dx = this.xScale(link.to.x) - this.xScale(link.from.x);
-    const angle = Math.atan2(dy, dx);
-    const angle2 = Math.atan2(-dy, -dx);
-    const dist = Math.hypot(dx, dy);
-    const trg = pol2dec(angle, dist - this._pn._options.nodes.radius);
-    const s = this._sprites.links[id];
-    const r = this._pn._options.nodes.radius;
-    s.scale.x = (dist - (link.data.dual ? 2 : 1) * r) / DEFAULT_LINE_LENGTH;
-    s.scale.y = 1.0;
-    s.rotation = angle2;
-    s.position.x = trg[0] + this.xScale(link.from.x);
-    s.position.y = trg[1] + this.yScale(link.from.y);
-    this._pn.emit('link:render', link);
+  mapNodes(fn, flat = false) {
+    return (flat ? flatMap : map)(this._data.nodes, fn);
   }
 
-  _addNodeSprite(node, data) {
-    const sprite = this._spriteManager.createNode(data);
-    this._sprites.nodes[node.id] = sprite;
-  }
-
-  _addNodeData(node) {
-    const data = this._dataViews.node(node);
-    data.pos = this._layout.getNodePosition(node.id);
-    this._data.nodes[node.id] = data;
-    return data;
-  }
-
-  _addLinkSprite(link, data) {
-    const sprite = this._spriteManager.createLink(data);
-    this._sprites.links[`${link.id}`] = sprite;
-  }
-
-  _addLinkData(link) {
-    const data = this._dataViews.link(link);
-    data.from = this._layout.getNodePosition(link.fromId);
-    data.to = this._layout.getNodePosition(link.toId);
-    this._data.links[`${link.id}`] = data;
-    return data;
-  }
-
-  _initNode(node) {
-    const data = this._addNodeData(node);
-    this._addNodeSprite(node, data);
-  }
+  /* --- Links --- */
 
   _initLink(link) {
     const data = this._addLinkData(link);
     this._addLinkSprite(link, data);
   }
 
-  stopLayout() {
-    this._layoutStopped = true;
-    this._pn.emit('layout:ready');
+  _addLinkData(link) {
+    const data = this._getDataFrom.link(link);
+    Object.assign(data, {
+      from: this._layout.getNodePosition(link.fromId),
+      to: this._layout.getNodePosition(link.toId)
+    });
+    this._data.links[`${link.id}`] = data;
+    return data;
   }
+
+  _addLinkSprite(link, data) {
+    const sprite = this.spriteManager.createLink(data);
+    this._sprites.links[`${link.id}`] = sprite;
+  }
+
+  link(id) {
+    return this._data.links[id];
+  }
+
+  hasLink(id) {
+    return id in this._data.links;
+  }
+
+  linkSprite(id) {
+    return this._sprites.links[id];
+  }
+
+  selectLinks(ids) {
+    return ids.map(id => this._data.links[id]);d
+  }
+
+  eachLink(fn) {
+    return Object.keys(this._data.links).forEach(fn);
+  }
+
+  mapLinks(fn, flat = false) {
+    return (flat ? flatMap : map)(this._data.links, fn);
+  }
+
 }
