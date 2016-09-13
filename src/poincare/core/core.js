@@ -2,11 +2,12 @@
 import PIXI from 'pixi.js';
 import d3 from 'd3';
 import util from 'util';
-import { each, map, flatMap } from 'lodash';
-import { pol2dec } from '../helpers';
-
-import { DEFAULT_LINE_LENGTH } from './spritemanager.js';
 import SpriteManager from './spritemanager.js';
+
+import { each, map, flatMap } from 'lodash';
+import { pol2dec, css2pixi } from '../helpers';
+import { DEFAULT_LINE_LENGTH } from './spritemanager.js';
+
 
 // const debug = require('debug')('poincare:core');
 
@@ -117,7 +118,7 @@ export default class Core {
     this._layout = layout;
     const coloredLinksCount = {};
     g.forEachLink(link => {
-      const linkColor = link.data.color || '#CCC';
+      const linkColor = css2pixi(this._pn._options.links.color(link));
       coloredLinksCount[linkColor] = (coloredLinksCount[linkColor] || 0) + 1;
     });
     this.spriteManager.setSizes(g.getNodesCount(), coloredLinksCount);
@@ -194,19 +195,19 @@ export default class Core {
 
   _renderLine(id) {
     const link = this.link(id);
-    const dy = this.yScale(link.to.y) - this.yScale(link.from.y);
-    const dx = this.xScale(link.to.x) - this.xScale(link.from.x);
+    const src = [this.xScale(link.from.x), this.yScale(link.from.y)];
+    const dst = [this.xScale(link.to.x), this.yScale(link.to.y)];
+    const dy = dst[1] - src[1];
+    const dx = dst[0] - src[0];
     const angle = Math.atan2(dy, dx);
-    const angle2 = Math.atan2(-dy, -dx);
     const d = Math.hypot(dx, dy);
-    const trg = pol2dec(angle, d - this._pn._options.nodes.radius);
     const sprite = this.linkSprite(id);
     const r = this._pn._options.nodes.radius;
-    sprite.scale.x = (d - (link.data.dual ? 2 : 1) * r) / DEFAULT_LINE_LENGTH;
+    sprite.scale.x = (d - 2 * r) / DEFAULT_LINE_LENGTH;
     sprite.scale.y = 1.0;
-    sprite.rotation = angle2;
-    sprite.position.x = trg[0] + this.xScale(link.from.x);
-    sprite.position.y = trg[1] + this.yScale(link.from.y);
+    sprite.rotation = angle;
+    sprite.position.x = (dst[0] + src[0]) / 2;
+    sprite.position.y = (dst[1] + src[1]) / 2;
     this._pn.emit('link:render', link);
   }
 

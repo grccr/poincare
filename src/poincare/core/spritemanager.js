@@ -17,8 +17,10 @@ export const LinkSpriteGenerator = (renderer, options) => {
     gfx.moveTo(0, 0);
     gfx.lineTo(DEFAULT_LINE_LENGTH, 0);
     const texture = gfx.generateTexture(1, PIXI.SCALE_MODES.DEFAULT);
+    const sprite = new PIXI.Sprite(texture);
+    sprite.anchor.x = sprite.anchor.y = 0.5;
     return {
-      sprite: new PIXI.Sprite(texture),
+      sprite: sprite,
       color: spriteColor
     };
   };
@@ -117,6 +119,7 @@ export default class SpriteManager {
       rotation: true,
       alpha: false
     });
+    container.poincareID = id;
     this._parent.addChild(container);
     return container;
   }
