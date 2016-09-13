@@ -53,7 +53,7 @@ export default class Directions extends Plugin {
   _render() {
     const core = this._pn.core;
     const scale = this._pn.zoom.truncatedScale();
-    const offset = this.OFFSET_FACTOR * scale;
+    const offset = this._pn._options.nodes.radius;//this.OFFSET_FACTOR * scale;
     core.eachLink((id) => {
       const link = core.link(id);
 
