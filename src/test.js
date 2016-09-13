@@ -162,8 +162,6 @@ pn.on('link:out', (id) => {
   debug('Link out', id);
 });
 
-pn.zoom.alignToCenter();
-
 // debug('Poincare icons is', pn._options.icons);
 
 let n = 1;

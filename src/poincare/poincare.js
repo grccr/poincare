@@ -31,7 +31,6 @@ export default class Poincare {
     this._createContainer();
     this._createCore();
     this._installModules();
-    this._installPlugins();
     this.updateDimensions();
   }
 
@@ -260,14 +259,17 @@ export default class Poincare {
     }
 
     if (this.graph) {
+      this._uninstallPlugins();
       this.core.clear();
       this._destroyLayout();
       this._destroyGraph();
     }
 
+    this._installPlugins();
     this._graph = g;
     this._createLayout();
     this.core.init(this.graph, this.layout);
+    this.updateDimensions();
 
     return this.graph;
   }

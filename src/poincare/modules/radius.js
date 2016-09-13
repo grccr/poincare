@@ -25,27 +25,53 @@ export default class Radius extends Module {
       linkIndexFrequency: 30
     }, opts || {});
 
-    this._lastRadius = 0;
-    this._tree = {
-      'nodes': null,
-      'links': null
-    };
-
-    pn.on('layout:ready', () => {
-      this._createIndex();
-      this._calculateRadiusMedian();
-    }, this);
-    pn.on('view:reset', this._calculateRadiusMedian, this);
+    pn.on('core:init', this._init, this);
     pn.on('core:clear', this._clear, this);
   }
 
-  _clear() {
+  _init() {
+    this._lastRadius = 0;
+    this._tree = {
+      nodes: null,
+      links: null
+    };
 
+    this._pn.on('layout:ready', this._onLayoutReady, this);
+    this._pn.on('view:reset', this._calculateRadiusMedian, this);
+  }
+
+  _clear() {
+    this._pn.removeListener('view:reset', this._calculateRadiusMedian, this);
+    this._pn.removeListener('layout:ready', this._onLayoutReady, this);
+
+    const t = this._tree;
+    if (t.nodes) {
+      t.nodes.clear();
+      t.node = null;
+    }
+    if (t.links) {
+      t.links.clear();
+      t.node = null;
+    }
+
+    this._tree = 
+    this._lastRadius =
+      null;
   }
 
   destroy() {
-    this._clear();
     this._pn.removeListener('core:clear', this._clear, this);
+    this._pn.removeListener('core:init', this._init, this);
+    this._clear();
+    this._destroyMethods();
+    this._options =
+    this._pn =
+      null;
+  }
+
+  _onLayoutReady(){
+    this._createIndex();
+    this._calculateRadiusMedian();
   }
 
   _createIndex() {

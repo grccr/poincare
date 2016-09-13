@@ -8,76 +8,88 @@ const debug = require('debug')('poincare:zoom');
 export default class Zoom extends Module {
   constructor(pn, opts) {
     super();
+
     this._options = Object.assign({
       min: 0,
       max: Infinity
     }, opts || {});
-    const zoom = this._zoom = d3.behavior.zoom();
-    const $container = this._$container = d3.select(pn._container);
 
     this._pn = pn;
+    this._zoom = d3.behavior.zoom();
+    this._$container = d3.select(pn._container);
+    this._timer = null;
 
-    zoom($container);
-    zoom.scaleExtent([this._options.min, this._options.max]);
-    zoom.size([200, 200]);
+    this._pn.on('core:init', this._init, this);
+    this._pn.on('core:clear', this._clear, this);
+  }
 
-    pn.on('view:size', (dims) => {
-      zoom.size(dims);
-      pn.emit('view:reset', zoom.translate(), zoom.scale());
+  _init(){
+    this._zoom(this._$container);
+    this._zoom.scaleExtent([this._options.min, this._options.max]);
+    this._zoom.size([200, 200]);
+
+    this._pn.on('view:size', this._onViewResize, this);
+
+    this._zoom.x(this._pn.core.xScale);
+    this._zoom.y(this._pn.core.yScale);
+
+    this.alignToCenter();
+
+    this._zoom.on('zoomstart', () => {
+      this._cancelViewReset();
     });
 
-    zoom.x(pn._core.xScale);
-    zoom.y(pn._core.yScale);
-
-    // this._scaleFactor = 1;
-
-    let timer;
-
-    const cancelViewReset = () => {
-      if (timer == null)
-        return;
-      clearTimeout(timer);
-      timer = null;
-    };
-
-    const viewReset = () => {
-      cancelViewReset();
-      timer = setTimeout(() => {
-        pn.emit('view:reset', zoom.translate(), zoom.scale());
-        timer = null;
-      }, 40);
-    };
-
-    // const zoomStart = () => {
-      // pn.emit('zoom:start', zoom.translate(), zoom.scale());
-    // });
-
-    zoom.on('zoomstart', () => {
-      cancelViewReset();
-      // zoomStart();
+    this._zoom.on('zoomend', () => {
+      this._viewReset();
     });
+  }
 
-    zoom.on('zoomend', () => {
-      // pn.emit('zoom:stop', zoom.translate(), zoom.scale());
-      viewReset();
-    });
-
-    // zoom.on('zoom', throttle(() => {
-    //   pn.emit('zoom:change', zoom.translate(), zoom.scale());
-    // }, 100));
-
-    this._wasSwitch = false;
+  _clear(){
+    this._pn.removeListener('view:size', this._onViewResize, this);
+    this._zoom
+      .on('zoomstart', null)
+      .on('zoomend', null);
+    this._cancelViewReset();
   }
 
   destroy() {
+    this._pn.removeListener('core:clear', this._clear, this);
+    this._pn.removeListener('core:init', this._init, this);
+    this._clear();
     this._destroyMethods();
     this._zoom
-      .on('zoom', null)
       .on('zoomstart', null)
       .on('zoomend', null);
     this._$container.on('.zoom', null);
-    this._zoom = null;
-    this._$container = null;
+    this._$container =
+    this._options =
+    this._zoom =
+    this._pn =
+      null;
+  }
+
+  _onViewResize(dims){
+    this._zoom.size(dims);
+    this._pn.emit('view:reset', this._zoom.translate(), this._zoom.scale());
+  }
+
+  _viewReset() {
+    this._cancelViewReset();
+    this._timer = setTimeout(() => {
+      this._pn.emit(
+        'view:reset',
+        this._zoom.translate(),
+        this._zoom.scale()
+      );
+      this._timer = null;
+    }, 40);
+  }
+
+  _cancelViewReset() {
+    if (this._timer !== null) {
+      clearTimeout(this._timer);
+      this._timer = null;
+    }
   }
 
   scale() {
@@ -101,12 +113,14 @@ export default class Zoom extends Module {
   }
 
   alignToCenter(animated = false) {
+    debug('to center', this._pn.size);
     this.transform(this._pn.size.map(d => d / 2), null, animated);
   }
 
   transform(tr, sc, animated = true) {
     if (tr == null && sc == null)
       return;
+    
     debug(
       'Transforming to %o / %o',
       tr || this._zoom.translate(),
@@ -115,16 +129,15 @@ export default class Zoom extends Module {
 
     if (animated) {
       this._pn._core.stop();
-      if (tr != null)
+      if (tr !== null)
         this._zoom.translate(tr);
-      if (sc != null)
+      if (sc !== null)
         this._zoom.scale(sc);
       this._zoom.event(d3.transition().duration(1000));
-      this._pn._core.run();
     } else {
-      if (tr != null)
+      if (tr !== null)
         this._zoom.translate(tr);
-      if (sc != null)
+      if (sc !== null)
         this._zoom.scale(sc);
       this._zoom.event(d3.transition().duration(0));
     }

@@ -17,5 +17,6 @@ export default class VersionControl extends Module {
   destroy() {
     const selector = classes.split(' ').join('.');
     d3.select(`.${selector}`).remove();
+    this._destroyMethods();
   }
 }
