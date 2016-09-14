@@ -54,7 +54,7 @@ export default class Radius extends Module {
       t.node = null;
     }
 
-    this._tree = 
+    this._tree =
     this._lastRadius =
       null;
   }
@@ -69,7 +69,7 @@ export default class Radius extends Module {
       null;
   }
 
-  _onLayoutReady(){
+  _onLayoutReady() {
     this._createIndex();
     this._calculateRadiusMedian();
   }

@@ -21,7 +21,7 @@ export default class Zoom extends Module {
     this._pn.on('core:clear', this._clear, this);
   }
 
-  _init(){
+  _init() {
     this._zoom(this._$container);
     this._zoom.scaleExtent([this._options.min, this._options.max]);
     this._zoom.size([200, 200]);
@@ -42,7 +42,7 @@ export default class Zoom extends Module {
     });
   }
 
-  _clear(){
+  _clear() {
     this._pn.removeListener('view:size', this._onViewResize, this);
     this._zoom
       .on('zoomstart', null)
@@ -53,12 +53,11 @@ export default class Zoom extends Module {
   destroy() {
     this._pn.removeListener('core:clear', this._clear, this);
     this._pn.removeListener('core:init', this._init, this);
+
     this._clear();
     this._destroyMethods();
-    this._zoom
-      .on('zoomstart', null)
-      .on('zoomend', null);
     this._$container.on('.zoom', null);
+
     this._$container =
     this._options =
     this._zoom =
@@ -66,7 +65,7 @@ export default class Zoom extends Module {
       null;
   }
 
-  _onViewResize(dims){
+  _onViewResize(dims) {
     this._zoom.size(dims);
     this._pn.emit('view:reset', this._zoom.translate(), this._zoom.scale());
   }
@@ -118,7 +117,7 @@ export default class Zoom extends Module {
   transform(tr, sc, animated = true) {
     if (tr == null && sc == null)
       return;
-    
+
     debug(
       'Transforming to %o / %o',
       tr || this._zoom.translate(),

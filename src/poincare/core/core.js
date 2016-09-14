@@ -5,7 +5,7 @@ import util from 'util';
 import SpriteManager from './spritemanager.js';
 
 import { each, map, flatMap } from 'lodash';
-import { pol2dec, css2pixi } from '../helpers';
+import { css2pixi } from '../helpers';
 import { DEFAULT_LINE_LENGTH } from './spritemanager.js';
 
 
@@ -292,7 +292,7 @@ export default class Core {
   }
 
   selectLinks(ids) {
-    return ids.map(id => this._data.links[id]);d
+    return ids.map(id => this._data.links[id]);
   }
 
   eachLink(fn) {

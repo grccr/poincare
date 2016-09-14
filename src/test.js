@@ -52,7 +52,7 @@ const pn = window.PN = new Poincare({
   directions: {
     show: true
   },
-  // plugins: [Events, Cursors]
+  // plugins: [Events, Lighter, Cursors]
   plugins: [Events, Lighter, Labels, Cursors, Directions]
 });
 

@@ -28,7 +28,7 @@ export default class Tween extends Module {
     this._pn = null;
   }
 
-  _update(){
+  _update() {
     TWEEN.update();
   }
 }

@@ -19,10 +19,7 @@ export const LinkSpriteGenerator = (renderer, options) => {
     const texture = gfx.generateTexture(1, PIXI.SCALE_MODES.DEFAULT);
     const sprite = new PIXI.Sprite(texture);
     sprite.anchor.x = sprite.anchor.y = 0.5;
-    return {
-      sprite: sprite,
-      color: spriteColor
-    };
+    return { sprite, color: spriteColor };
   };
 };
 
