@@ -51,15 +51,22 @@ export default class SpriteManager {
     this._colorLinkCount = {};
   }
 
+  clear() {
+    for (const child of this._parent.children) {
+      child.destroy();
+    }
+    this._parent.removeChildren();
+    this._generator.cache.clear();
+    this._container.cache.clear();
+  }
+
   destroy() {
     this._parent =
     this._renderer =
     this._container =
     this._generator =
     this._options =
-    null;
-
-    return null;
+      null;
   }
 
   createNode(data) {

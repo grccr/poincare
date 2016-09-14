@@ -52,7 +52,7 @@ const pn = window.PN = new Poincare({
   directions: {
     show: true
   },
-  // plugins: []
+  // plugins: [Events, Cursors]
   plugins: [Events, Lighter, Labels, Cursors, Directions]
 });
 
@@ -164,7 +164,7 @@ pn.on('link:out', (id) => {
 
 // debug('Poincare icons is', pn._options.icons);
 
-let n = 1;
+let n = 0;
 const testData = [
   '/data/estoniia.graphml',
   '/data/estoniia-color.graphml',
@@ -173,15 +173,14 @@ const testData = [
   '/data/belgiia.graphml',
   null
 ];
-function nextTestGraph() {
+function nextTestGraph(reload = false) {
   axios
-    .get(testData[n++])
+    .get(testData[reload ? n : ++n])
     .then(({ data: doc }) => {
       return nGraphParse.fromGraphML(doc);
     })
     .then(graph => {
       pn.graph = graph;
-      pn.run();
       // const lighter = pn.plugins.lighter;
       // lighter && lighter.light([
       //   '552f7ccb8a432b148143e681',

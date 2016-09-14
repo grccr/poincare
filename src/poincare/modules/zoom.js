@@ -1,6 +1,4 @@
 import d3 from 'd3';
-// import throttle from 'lodash/throttle';
-
 import Module from './base';
 
 const debug = require('debug')('poincare:zoom');

@@ -70,11 +70,15 @@ export default class Core {
       this._data.nodes[id] = null;
       this._sprites.nodes[id].texture.destroy(true);
     });
+    this._data.nodes = {};
 
     each(this._data.links, (link, id) => {
       this._sprites.links[id].texture.destroy(true);
       this._data.links[id] = null;
     });
+    this._data.links = {};
+
+    this.spriteManager.clear();
   }
 
   destroy() {
@@ -143,8 +147,7 @@ export default class Core {
 
   run(noLayoutProcessing = false) {
     this._freezed = false;
-    if (noLayoutProcessing)
-      this._layoutStopped = true;
+    this._layoutStopped = noLayoutProcessing;
     this._run();
     this._pn.emit('core:run');
   }
