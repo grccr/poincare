@@ -122,8 +122,8 @@ export default class Core {
       coloredLinksCount[linkColor] = (coloredLinksCount[linkColor] || 0) + 1;
     });
     this.spriteManager.setSizes(g.getNodesCount(), coloredLinksCount);
-    g.forEachLink(this._initLink.bind(this));
-    g.forEachNode(this._initNode.bind(this));
+    g.forEachLink(this._createLink.bind(this));
+    g.forEachNode(this._createNode.bind(this));
     this._pn.emit('core:init');
     this._pn.emit('view:reset');
     return g;
@@ -213,16 +213,18 @@ export default class Core {
 
   /* --- Nodes --- */
 
-  _initNode(node) {
-    const data = this._addNodeData(node);
+  _createNode(node) {
+    const data = this._getDataFrom.node(node);
+    data.pos = this._layout.getNodePosition(node.id);
+    this._data.nodes[`${node.id}`] = data;
     this._addNodeSprite(node, data);
   }
 
-  _addNodeData(node) {
-    const data = this._getDataFrom.node(node);
-    data.pos = this._layout.getNodePosition(node.id);
-    this._data.nodes[node.id] = data;
-    return data;
+  _updateNodeData(id, data) {
+    if(!this.hasNode(id)) return;
+    Object.assign(this.node(id).data, data);
+    this._pn.emit('update:node', this.node(id));
+    return this._data.nodes[id];
   }
 
   _addNodeSprite(node, data) {
@@ -256,19 +258,21 @@ export default class Core {
 
   /* --- Links --- */
 
-  _initLink(link) {
-    const data = this._addLinkData(link);
-    this._addLinkSprite(link, data);
-  }
-
-  _addLinkData(link) {
+  _createLink(link) {
     const data = this._getDataFrom.link(link);
     Object.assign(data, {
       from: this._layout.getNodePosition(link.fromId),
       to: this._layout.getNodePosition(link.toId)
     });
     this._data.links[`${link.id}`] = data;
-    return data;
+    this._addLinkSprite(link, data);
+  }
+
+  _updateLinkData(id, data) {
+    if(!this.hasLink(id)) return;
+    Object.assign(this.link(id).data, data);
+    this._pn.emit('update:link', this.link(id));
+    return this._data.links[id];
   }
 
   _addLinkSprite(link, data) {
