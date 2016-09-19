@@ -7,7 +7,29 @@ const debug = require('debug')('poincare:transitioner');
 export default class Tween extends Module {
   constructor(pn, opts) {
     super();
-    pn.on('view:frame', TWEEN.update.bind(TWEEN));
+    this._pn = pn;
+    pn.on('core:init', this._init, this);
+    pn.on('core:clear', this._clear, this);
+  }
+
+  _init() {
+    this._pn.on('view:frame', this._update, this);
+  }
+
+  _clear() {
+    this._pn.removeListener('view:frame', this._update, this);
+  }
+
+  destroy() {
+    this._pn.removeListener('core:clear', this._clear, this);
+    this._pn.removeListener('core:init', this._init, this);
+    this._clear();
+    this._destroyMethods();
+    this._pn = null;
+  }
+
+  _update() {
+    TWEEN.update();
   }
 }
 

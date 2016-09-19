@@ -19,10 +19,7 @@ export const LinkSpriteGenerator = (renderer, options) => {
     const texture = gfx.generateTexture(1, PIXI.SCALE_MODES.DEFAULT);
     const sprite = new PIXI.Sprite(texture);
     sprite.anchor.x = sprite.anchor.y = 0.5;
-    return {
-      sprite: sprite,
-      color: spriteColor
-    };
+    return { sprite, color: spriteColor };
   };
 };
 
@@ -51,15 +48,22 @@ export default class SpriteManager {
     this._colorLinkCount = {};
   }
 
+  clear() {
+    for (const child of this._parent.children) {
+      child.destroy();
+    }
+    this._parent.removeChildren();
+    this._generator.cache.clear();
+    this._container.cache.clear();
+  }
+
   destroy() {
     this._parent =
     this._renderer =
     this._container =
     this._generator =
     this._options =
-    null;
-
-    return null;
+      null;
   }
 
   createNode(data) {

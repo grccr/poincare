@@ -11,39 +11,11 @@ export default class Events extends Plugin {
       mouseRadius: 20
     }, opts || {});
     this._pn = pn;
-    // const RADIUS = 20;
-
-    // let lastNearest = null;
-
-    // const getNearest = throttle((pos) => {
-    //   const graphPos = pn.zoom.containerToGraphPoint(pos);
-    //   // debug('MOVE', pos, graphPos);
-    //   const s = pn.zoom.scale();
-    //   const r = s > 1 ? RADIUS / s : RADIUS * s;
-    //   const nearest = pn.radius.nearest(graphPos, r);
-    //   const nearestLine = pn.lineindex.nearest(graphPos, r);
-    //   if (nearest == null && lastNearest != null) {
-    //     // we're out of any node
-    //     pn.emit('node:out', lastNearest);
-    //     lastNearest = null;
-    //   } else if (nearest !== lastNearest) {
-    //     // we're on node
-    //     if (lastNearest != null) // but moved from other node
-    //       pn.emit('node:out', lastNearest);
-    //     pn.emit('node:over', nearest);
-    //     lastNearest = nearest;
-    //   }
-    //   // debug('NEAREST', pn.radius.nearest(graphPos));
-    // }, 20);
 
     this._throttledFind = throttle(this._findNearestObjects.bind(this), 20);
     this._focusedItem = null;
 
     this._installMouseHandlers();
-    // d3.select(container).on('mousemove', throttle(function () {
-    //   const position = d3.mouse(container);
-    //   debug('MOVE', position);
-    // }, 250));
   }
 
   unplug() {

@@ -41,10 +41,6 @@ export default class Poincare {
     return this._options;
   }
 
-  run() {
-    this.core.run();
-  }
-
   stop() {
     this.core.stopLayout();
   }
@@ -270,6 +266,7 @@ export default class Poincare {
     this._createLayout();
     this.core.init(this.graph, this.layout);
     this.updateDimensions();
+    this.core.run();
 
     return this.graph;
   }
