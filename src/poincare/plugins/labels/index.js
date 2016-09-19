@@ -38,6 +38,19 @@ export default class Labels extends Plugin {
         .style({ width: `${dims[0]}px`, height: `${dims[1]}px` });
     });
 
+    pn.on('update:node', node => {
+      this._labels
+        .filter(`.label-${CSS.escape(node.id)}`)
+        .select('.label-inner')
+          .text(d => this._options.getter(d.data))
+    });
+    pn.on('update:link', link => {
+      this._labels
+        .filter(`.label-${CSS.escape(link.id)}`)
+        .select('.label-inner')
+          .text(d => this._options.getter(d.data))
+    });
+
     const offsets = this._options.offsets;
     const x = this._x = xx => this._pn._core.xScale(xx) + offsets.node[0];
     const y = this._y = yy => this._pn._core.yScale(yy) + offsets.node[1];
@@ -142,6 +155,9 @@ export default class Labels extends Plugin {
   _highlightThese(ids, locked = []) {
     const x = this._x;
     const y = this._y;
+    const linkx = this._linkx;
+    const linky = this._linky;
+
     const lockedIds = new Set(locked);
 
     const data = this._resolveData(ids);
@@ -155,6 +171,11 @@ export default class Labels extends Plugin {
         .append('div')
           .classed('label-inner', true)
           .style('opacity', 0)
+          .style('border', d => { 
+            return d.from? 
+            `1px solid ${d.data.color}`: 
+            '1px solid black'
+          })
           .text(d => this._options.getter(d.data))
           .transition()
             .duration(1000)
@@ -177,8 +198,8 @@ export default class Labels extends Plugin {
       .classed('locked-label', d => lockedIds.has(d.id))
       .style('transform', (d) => {
         const pos = d.from ? {
-          x: Math.round(x((d.from.x + d.to.x) / 2)),
-          y: Math.round(y((d.from.y + d.to.y) / 2))
+          x: Math.round(linkx((d.from.x + d.to.x) / 2)),
+          y: Math.round(linky((d.from.y + d.to.y) / 2))
         } : {
           x: Math.round(x(d.pos.x)),
           y: Math.round(y(d.pos.y))
