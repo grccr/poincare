@@ -19,6 +19,7 @@ export default class Cursors extends Plugin {
   }
 
   unplug() {
+    this._destroyMethods();
     this._pn
       .removeListener('item:focus', this._toggle)
       .removeListener('item:blur', this._toggle);

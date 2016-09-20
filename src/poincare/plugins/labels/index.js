@@ -9,12 +9,12 @@ import './labels.less';
 
 // const debug = require('debug')('poincare:labels');
 
-
 export default class Labels extends Plugin {
 
   constructor(pn, opts) {
     super();
 
+    this._pn = pn;
     this._options = Object.assign({
       template: '<b><%- label %></b>',
       getter: 'label',
@@ -23,98 +23,43 @@ export default class Labels extends Plugin {
         node: [-50, 16]
       }
     }, opts || {});
-
-    this._locked = [];
-    this._pn = pn;
-    this._parentContainer = pn.container;
-
     if (typeof this._options.getter !== 'function')
       this._options.getter = fieldGetter(this._options.getter);
 
-    this._initLayer();
-
-    pn.on('view:size', dims => {
-      this._layer
-        .style({ width: `${dims[0]}px`, height: `${dims[1]}px` });
-    });
+    this._initLayer(pn.container);
 
     const offsets = this._options.offsets;
-    const x = this._x = xx => this._pn._core.xScale(xx) + offsets.node[0];
-    const y = this._y = yy => this._pn._core.yScale(yy) + offsets.node[1];
-    const linkx = this._linkx = xx =>
-      this._pn._core.xScale(xx) + offsets.link[0];
-    const linky = this._linky = yy =>
-      this._pn._core.yScale(yy) + offsets.link[1];
+    this._x = xx => this._pn._core.xScale(xx) + offsets.node[0];
+    this._y = yy => this._pn._core.yScale(yy) + offsets.node[1];
+    this._linkx = xx => this._pn._core.xScale(xx) + offsets.link[0];
+    this._linky = yy => this._pn._core.yScale(yy) + offsets.link[1];
 
-    const THRESHOLD = 70;
-
-    const hide = () => {
-      this._labels && this._labels
-        .transition()
-          .duration(250)
-          .style('opacity', 0)
-          .remove();
-      this._labels = null;
-
-      this._currentIDs = {
-        'nodes': [],
-        'links': []
-      };
-    };
-
-    pn.on('view:elements', (ids, r) => {
-      if (r < THRESHOLD)
-        return hide();
-      this._currentIDs = ids;
-      this._highlightThese(ids);
-    });
-
-    pn.on('view:frame', () => {
-      // TODO: здесь можно пересчитывать радиус от scale и
-      // убрать лейблы во время зума
-      this._labels && this._labels
-        .style('transform', d => {
-          const pos = d.from ? {
-            x: Math.round(linkx((d.from.x + d.to.x) / 2)),
-            y: Math.round(linky((d.from.y + d.to.y) / 2))
-          } : {
-            x: Math.round(x(d.pos.x)),
-            y: Math.round(y(d.pos.y))
-          };
-          return `translate(${pos.x}px, ${pos.y}px)`;
-        });
-    });
+    pn.on('view:size', this._resizeLayer, this);
+    pn.on('view:elements', this._onNewElements, this);
+    pn.on('view:frame', this._render, this);
 
     const nodeOuts = most.fromEvent('node:out', pn);
     const nodeOvers = most.fromEvent('node:over', pn);
-
     const linkOuts = most.fromEvent('link:out', pn);
     const linkOvers = most.fromEvent('link:over', pn);
-
     this._createTooltipEvents(nodeOvers, nodeOuts, 'node:tip');
     this._createTooltipEvents(linkOvers, linkOuts, 'link:tip');
   }
 
-  _createTooltipEvents(overStream, outStream, name) {
-    const pn = this._pn;
-    const activator = overStream
-      .concatMap(id => most.of(id).delay(1000).until(outStream));
+  unplug() {
+    this._pn
+      .removeListener('view:size', this._resizeLayer)
+      .removeListener('view:elements', this._onNewElements)
+      .removeListener('view:frame', this._render);
+    this._destroyMethods();
+    this._layer.remove();
 
-    activator.observe(id => {
-      pn.emit(`${name}:show`, id);
-      pn.emit(`${name}:hover`, id);
-    });
-
-    const deactivator = outStream
-      .concatMap(id => most.of(id).delay(1000).until(overStream));
-
-    deactivator.observe(id => pn.emit(`${name}:hide`, id));
-
-    const time = activator.constant(deactivator.take(1));
-
-    activator
-      .concatMap(id => overStream.during(time))
-      .observe(id => pn.emit(`${name}.over`, id));
+    this._currentIDs =
+    this._options =
+    this._labels =
+    this._layer =
+    this._pn =
+      null;
   }
 
   _resolveData(ids) {
@@ -139,14 +84,99 @@ export default class Labels extends Plugin {
     return { nodes, links };
   }
 
+  _createTooltipEvents(overStream, outStream, name) {
+    const pn = this._pn;
+
+    const activator = overStream.concatMap(
+      id => most.of(id).delay(1000).until(outStream)
+    );
+    activator.observe(id => {
+      pn.emit(`${name}:show`, id);
+      pn.emit(`${name}:hover`, id);
+    });
+
+    const deactivator = outStream.concatMap(
+      id => most.of(id).delay(1000).until(overStream)
+    );
+    deactivator.observe(id => pn.emit(`${name}:hide`, id));
+
+    const time = activator.constant(deactivator.take(1));
+    activator
+      .concatMap(id => overStream.during(time))
+      .observe(id => pn.emit(`${name}.over`, id));
+  }
+
+  _initLayer(container) {
+    this._layer = d3.select(container)
+      .append('div')
+      .style({
+        width: '200px',
+        height: '200px',
+        overflow: 'hidden',
+        position: 'absolute',
+        left: 0,
+        top: 0
+      })
+      .classed('poincare-labels', true);
+  }
+
+  _resizeLayer(dims) {
+    this._layer.style({
+      height: `${dims[1]}px`,
+      width: `${dims[0]}px`
+    });
+  }
+
+  _onNewElements(ids, r) {
+    const THRESHOLD = 70;
+    if (r < THRESHOLD)
+      return this._hide();
+    this._currentIDs = ids;
+    this._highlightThese(ids);
+  }
+
+  _render() {
+    // TODO: здесь можно пересчитывать радиус от scale и
+    // убрать лейблы во время зума
+    this._labels &&
+    this._labels
+      .style('transform', d => {
+        const pos = d.from ? {
+          x: Math.round(this._linkx((d.from.x + d.to.x) / 2)),
+          y: Math.round(this._linky((d.from.y + d.to.y) / 2))
+        } : {
+          x: Math.round(this._x(d.pos.x)),
+          y: Math.round(this._y(d.pos.y))
+        };
+        return `translate(${pos.x}px, ${pos.y}px)`;
+      });
+  }
+
+  _hide() {
+    this._labels &&
+    this._labels
+      .transition()
+        .duration(250)
+        .style('opacity', 0)
+        .remove();
+    this._labels = null;
+
+    this._currentIDs = {
+      nodes: [],
+      links: []
+    };
+  }
+
   _highlightThese(ids, locked = []) {
     const x = this._x;
     const y = this._y;
     const lockedIds = new Set(locked);
 
     const data = this._resolveData(ids);
-    const labels = this._labels = this._layer.selectAll('.label')
-      .data(data.nodes.concat(data.links), d => d.id);
+    const labels = this._labels = this._layer.selectAll('.label').data(
+      data.nodes.concat(data.links),
+      d => d.id
+    );
 
     labels.enter()
       .append('div')
@@ -185,20 +215,6 @@ export default class Labels extends Plugin {
         };
         return `translate(${pos.x}px, ${pos.y}px)`;
       });
-  }
-
-  _initLayer() {
-    this._layer = d3.select(this._parentContainer)
-      .append('div')
-      .style({
-        width: '200px',
-        height: '200px',
-        overflow: 'hidden',
-        position: 'absolute',
-        left: 0,
-        top: 0
-      })
-      .classed('poincare-labels', true);
   }
 
   highlight(ids) {

@@ -1,13 +1,12 @@
 'use strict';
 
-import d3 from 'd3';
-import { debounce } from 'lodash';
 import axios from 'axios';
 
 import Poincare from './poincare';
 import * as nGraphParse from './poincare/parsers/ngraph';
-import { Lighter, Labels, Events,
-          Cursors, Directions } from './poincare/plugins';
+import {
+  AutoResize, Cursors, Directions, Events, Labels, Lighter
+} from './poincare/plugins';
 
 const debug = require('debug')('poincare:app');
 
@@ -52,8 +51,7 @@ const pn = window.PN = new Poincare({
   directions: {
     show: true
   },
-  // plugins: [Events, Lighter, Cursors]
-  plugins: [Events, Lighter, Labels, Cursors, Directions]
+  plugins: [AutoResize, Events, Lighter, Labels, Cursors, Directions]
 });
 
 pn.on('zoom:start', () => debug('zoomstart'));
@@ -65,7 +63,7 @@ pn.on('zoom:change', () => debug('zoom'));
 // pn.on('view:elements', (nodes, r) => {
 //   if (nodes.length < 32) {
 //     const lighter = pn.plugins.lighter;
-//     lighter && lighter.light(nodes);
+//     lighter && lighter.lightNodes(nodes);
 //   }
 //   debug('Median radius is %o [%o]', r, nodes.length);
 // });
@@ -109,14 +107,14 @@ pn.on('node:tip:hover', id => {
 
 pn.on('node:over', (id) => {
   const lighter = pn.plugins.lighter;
-  lighter && lighter.light([id]);
+  lighter && lighter.lightNodes([id]);
   // debug('Node over', id);
 });
 
 pn.on('node:out', (id) => {
   const lighter = pn.plugins.lighter;
   const labels = pn.plugins.labels;
-  lighter && lighter.light([]);
+  lighter && lighter.lightNodes([]);
   labels && labels.highlight([]);
   // debug('Node out', id);
 });
@@ -149,15 +147,15 @@ pn.on('link:tip:hover', (id) => {
 pn.on('link:over', (id) => {
   const item = pn.core.link(id);
   const lighter = pn.plugins.lighter;
-  lighter && lighter.lightLink([id]);
-  lighter && lighter.light([item.fromId, item.toId]);
+  lighter && lighter.lightLinks([id]);
+  lighter && lighter.lightNodes([item.fromId, item.toId]);
   debug('Link over', id);
 });
 pn.on('link:out', (id) => {
   const lighter = pn.plugins.lighter;
   const labels = pn.plugins.labels;
-  lighter && lighter.lightLink([]);
-  lighter && lighter.light([]);
+  lighter && lighter.lightLinks([]);
+  lighter && lighter.lightNodes([]);
   labels && labels.highlight([]);
   debug('Link out', id);
 });
@@ -182,7 +180,7 @@ function nextTestGraph(reload = false) {
     .then(graph => {
       pn.graph = graph;
       // const lighter = pn.plugins.lighter;
-      // lighter && lighter.light([
+      // lighter && lighter.lightNodes([
       //   '552f7ccb8a432b148143e681',
       //   '552f7ccb8a432b148143e63e'
       // ]);
@@ -190,9 +188,3 @@ function nextTestGraph(reload = false) {
 }
 nextTestGraph();
 window.nextGraph = nextTestGraph;
-
-
-d3.select(window).on('resize', debounce(() => {
-  pn.updateDimensions();
-}, 100));
-

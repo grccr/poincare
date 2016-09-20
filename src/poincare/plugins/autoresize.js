@@ -5,9 +5,13 @@ import { setGlobally, Plugin } from './base';
 export default class AutoResize extends Plugin {
   constructor(pn, opts) {
     super();
-    d3.select(window).on('resize', debounce(() => {
+    d3.select(window).on('resize.view', debounce(() => {
       pn.updateDimensions();
     }, 100));
+  }
+
+  unplug() {
+    d3.select(window).on('resize.view', null);
   }
 }
 

@@ -32,21 +32,29 @@ export default class LineIndex extends Module {
   }
 
   _init() {
+    this._tree = null;
     this._bbox = { x0: 0, y0: 0, x1: 0, y1: 0 };
     this._pn.on('layout:ready', this._createLinkIndex, this);
   }
 
   _clear() {
-    this._pn.removeListener('layout:ready', this._createLinkIndex, this);
-    this._bbox = null;
+    this._pn.removeListener('layout:ready', this._createLinkIndex);
+    if (this._tree)
+      this._tree.clear();
+    this._tree =
+    this._bbox =
+      null;
   }
 
   destroy() {
-    this._pn.removeListener('core:clear', this._clear, this);
-    this._pn.removeListener('core:init', this._init, this);
+    this._pn
+      .removeListener('core:clear', this._clear)
+      .removeListener('core:init', this._init);
     this._clear();
     this._destroyMethods();
-    this._pn = null;
+    this._tree =
+    this._pn =
+      null;
   }
 
   _createLinkIndex() {

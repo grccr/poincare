@@ -25,16 +25,38 @@ export default class Directions extends Plugin {
       this._pn.on('core:init', this._init, this);
       this._pn.on('view:frame', this._render, this);
     }
+  }
 
-    this.OFFSET_FACTOR = 12;
+  unplug() {
+    this._pn
+      .removeListener('view:frame', this._render)
+      .removeListener('core:init', this._init);
+    this._destroyMethods();
+
+    this._pn.core.eachLink((id) => {
+      const arrow = this._arrows[id];
+      arrow.normal.texture.destroy(true);
+      if (arrow.reverse)
+        arrow.reverse.texture.destroy(true);
+      this._arrows[id] = null;
+    });
+    // container is destroyed by spritemanager.destroy
+
+    this._container =
+    this._options =
+    this._arrows =
+    this._pn =
+      null;
   }
 
   _init() {
     const makeArrowSprite = this._arrowGenerator();
-    const mgr = this._pn.core.spriteManager;
-    const container = mgr.createSpriteContainer(3, 'links', 2);
     const core = this._pn.core;
+    const SM = core.spriteManager;
+
+    const container = this._container = SM.createSpriteContainer(3, 'links', 2);
     this._arrows = {};
+
     core.eachLink((id) => {
       this._arrows[id] = {};
       let arrow = this._arrows[id].normal = makeArrowSprite();
@@ -54,7 +76,6 @@ export default class Directions extends Plugin {
     const core = this._pn.core;
     const scale = this._pn.zoom.truncatedScale();
     const offset = this._pn._options.nodes.radius;
-                    // this.OFFSET_FACTOR * scale;
     core.eachLink((id) => {
       const link = core.link(id);
 

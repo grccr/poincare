@@ -63,7 +63,7 @@ export default class Core {
     this._pn.emit('core:clear');
 
     this.stop();
-    this._pn.removeListener('view:size', this._renderResize, this);
+    this._pn.removeListener('view:size', this._renderResize);
 
     each(this._data.nodes, (node, id) => {
       node.links = null;
@@ -224,7 +224,7 @@ export default class Core {
   }
 
   _updateNodeData(id, data) {
-    if(!this.hasNode(id)) return;
+    if (!this.hasNode(id)) return;
     Object.assign(this.node(id).data, data);
     this._pn.emit('update:node', this.node(id));
     return this._data.nodes[id];
@@ -232,7 +232,7 @@ export default class Core {
 
   _addNodeSprite(node, data) {
     const sprite = this.spriteManager.createNode(data);
-    this._sprites.nodes[node.id] = sprite;
+    this._sprites.nodes[`${node.id}`] = sprite;
   }
 
   node(id) {
@@ -272,7 +272,7 @@ export default class Core {
   }
 
   _updateLinkData(id, data) {
-    if(!this.hasLink(id)) return;
+    if (!this.hasLink(id)) return;
     Object.assign(this.link(id).data, data);
     this._pn.emit('update:link', this.link(id));
     return this._data.links[id];

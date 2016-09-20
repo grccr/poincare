@@ -17,12 +17,13 @@ export default class Tween extends Module {
   }
 
   _clear() {
-    this._pn.removeListener('view:frame', this._update, this);
+    this._pn.removeListener('view:frame', this._update);
   }
 
   destroy() {
-    this._pn.removeListener('core:clear', this._clear, this);
-    this._pn.removeListener('core:init', this._init, this);
+    this._pn
+      .removeListener('core:clear', this._clear)
+      .removeListener('core:init', this._init);
     this._clear();
     this._destroyMethods();
     this._pn = null;

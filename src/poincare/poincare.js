@@ -273,6 +273,7 @@ export default class Poincare {
 
   _destroyGraph() {
     this.graph.off();
+    this.graph.clear();
     this._graph = null;
   }
 }
