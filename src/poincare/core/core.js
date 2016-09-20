@@ -226,7 +226,7 @@ export default class Core {
   _updateNodeData(id, data) {
     if (!this.hasNode(id)) return;
     Object.assign(this.node(id).data, data);
-    this._pn.emit('update:node', this.node(id));
+    this._pn.emit('node:update', this.node(id));
     return this._data.nodes[id];
   }
 
@@ -274,7 +274,7 @@ export default class Core {
   _updateLinkData(id, data) {
     if (!this.hasLink(id)) return;
     Object.assign(this.link(id).data, data);
-    this._pn.emit('update:link', this.link(id));
+    this._pn.emit('link:update', this.link(id));
     return this._data.links[id];
   }
 

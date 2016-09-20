@@ -28,19 +28,6 @@ export default class Labels extends Plugin {
 
     this._initLayer(pn.container);
 
-    pn.on('update:node', node => {
-      this._labels
-        .filter(`.label-${CSS.escape(node.id)}`)
-        .select('.label-inner')
-          .text(d => this._options.getter(d.data))
-    });
-    pn.on('update:link', link => {
-      this._labels
-        .filter(`.label-${CSS.escape(link.id)}`)
-        .select('.label-inner')
-          .text(d => this._options.getter(d.data))
-    });
-
     const offsets = this._options.offsets;
     this._x = xx => this._pn._core.xScale(xx) + offsets.node[0];
     this._y = yy => this._pn._core.yScale(yy) + offsets.node[1];
@@ -50,6 +37,8 @@ export default class Labels extends Plugin {
     pn.on('view:size', this._resizeLayer, this);
     pn.on('view:elements', this._onNewElements, this);
     pn.on('view:frame', this._render, this);
+    pn.on('node:update', this._onNodeUpdate, this);
+    pn.on('link:update', this._onLinkUpdate, this);
 
     const nodeOuts = most.fromEvent('node:out', pn);
     const nodeOvers = most.fromEvent('node:over', pn);
@@ -63,7 +52,9 @@ export default class Labels extends Plugin {
     this._pn
       .removeListener('view:size', this._resizeLayer)
       .removeListener('view:elements', this._onNewElements)
-      .removeListener('view:frame', this._render);
+      .removeListener('view:frame', this._render)
+      .removeListener('node:update', this._onNodeUpdate)
+      .removeListener('link:update', this._onLinkUpdate, this);
     this._destroyMethods();
     this._layer.remove();
 
@@ -148,6 +139,20 @@ export default class Labels extends Plugin {
     this._highlightThese(ids);
   }
 
+  _onNodeUpdate(node) {
+    this._labels
+      .filter(`.label-${CSS.escape(node.id)}`)
+      .select('.label-inner')
+      .text(d => this._options.getter(d.data));
+  }
+
+  _onLinkUpdate(link) {
+    this._labels
+      .filter(`.label-${CSS.escape(link.id)}`)
+      .select('.label-inner')
+      .text(d => this._options.getter(d.data));
+  }
+
   _render() {
     // TODO: здесь можно пересчитывать радиус от scale и
     // убрать лейблы во время зума
@@ -201,10 +206,9 @@ export default class Labels extends Plugin {
         .append('div')
           .classed('label-inner', true)
           .style('opacity', 0)
-          .style('border', d => { 
-            return d.from? 
-            `1px solid ${d.data.color}`: 
-            '1px solid black'
+          .style('border', d => {
+            const color = d.from ? d.data.color : 'black';
+            return `1px solid ${color}`;
           })
           .text(d => this._options.getter(d.data))
           .transition()
