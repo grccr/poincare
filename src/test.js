@@ -162,7 +162,7 @@ pn.on('link:out', (id) => {
 
 // debug('Poincare icons is', pn._options.icons);
 
-let n = 1;
+let n = 0;
 const testData = [
   '/data/estoniia.graphml',
   '/data/estoniia-color.graphml',

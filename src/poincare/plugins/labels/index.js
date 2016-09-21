@@ -167,7 +167,13 @@ export default class Labels extends Plugin {
           y: Math.round(this._y(d.pos.y))
         };
         return `translate(${pos.x}px, ${pos.y}px)`;
+      }) &&
+    this._labels.select('.label-inner')
+      .style('transform', d => {
+        const rot = d.from ? this._pn.core.linkSprite(d.id).rotation : 0;
+        return `rotate(${rot}rad)`;
       });
+
   }
 
   _hide() {
@@ -203,13 +209,12 @@ export default class Labels extends Plugin {
       .append('div')
       .attr('class', (d) => `label-${d.id}`)
       .classed('label', true)
+      .classed('node', d => !d.from)
+      .classed('link', d => !!d.from)
         .append('div')
           .classed('label-inner', true)
           .style('opacity', 0)
-          .style('border', d => {
-            const color = d.from ? d.data.color : 'black';
-            return `1px solid ${color}`;
-          })
+          .style('color', d => d.from ? d.data.color : 'black')
           .text(d => this._options.getter(d.data))
           .transition()
             .duration(1000)
@@ -238,7 +243,8 @@ export default class Labels extends Plugin {
           x: Math.round(x(d.pos.x)),
           y: Math.round(y(d.pos.y))
         };
-        return `translate(${pos.x}px, ${pos.y}px)`;
+        const rot = d.from ? this._pn.core.linkSprite(d.id).rotation : 0;
+        return `translate(${pos.x}px, ${pos.y}px) rotate(${rot}rad)`;
       });
   }
 
