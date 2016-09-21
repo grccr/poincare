@@ -52,11 +52,6 @@ export default class Core {
 
     for (const m of ['_run', '_renderNode', '_renderLine'])
       this[m] = this[m].bind(this);
-
-    this.xScale = d3.scale.linear();
-    this.yScale = d3.scale.linear();
-
-    pn.on('view:size', this._renderResize, this);
   }
 
   clear() {
@@ -120,6 +115,8 @@ export default class Core {
   init(g, layout) {
     this._graph = g;
     this._layout = layout;
+    this.xScale = d3.scale.linear();
+    this.yScale = d3.scale.linear();
     const coloredLinksCount = {};
     g.forEachLink(link => {
       const linkColor = css2pixi(this._pn._options.links.color(link));
@@ -128,8 +125,11 @@ export default class Core {
     this.spriteManager.setSizes(g.getNodesCount(), coloredLinksCount);
     g.forEachLink(this._createLink.bind(this));
     g.forEachNode(this._createNode.bind(this));
+
+    this._pn.on('view:size', this._renderResize, this);
     this._pn.emit('core:init');
     this._pn.emit('view:reset');
+
     return g;
   }
 
