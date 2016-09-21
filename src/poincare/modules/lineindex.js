@@ -38,7 +38,7 @@ export default class LineIndex extends Module {
   }
 
   _clear() {
-    this._pn.removeListener('layout:ready', this._createLinkIndex);
+    this._pn.off('layout:ready', this._createLinkIndex);
     if (this._tree)
       this._tree.clear();
     this._tree =
@@ -48,8 +48,8 @@ export default class LineIndex extends Module {
 
   destroy() {
     this._pn
-      .removeListener('core:clear', this._clear)
-      .removeListener('core:init', this._init);
+      .off('core:clear', this._clear)
+      .off('core:init', this._init);
     this._clear();
     this._destroyMethods();
     this._tree =

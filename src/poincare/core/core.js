@@ -63,7 +63,7 @@ export default class Core {
     this._pn.emit('core:clear');
 
     this.stop();
-    this._pn.removeListener('view:size', this._renderResize);
+    this._pn.off('view:size', this._renderResize);
 
     each(this._data.nodes, (node, id) => {
       node.links = null;

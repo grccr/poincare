@@ -42,8 +42,8 @@ export default class Radius extends Module {
 
   _clear() {
     this._pn
-      .removeListener('view:reset', this._calculateRadiusMedian)
-      .removeListener('layout:ready', this._onLayoutReady);
+      .off('view:reset', this._calculateRadiusMedian)
+      .off('layout:ready', this._onLayoutReady);
 
     const t = this._tree;
     if (t.nodes) {
@@ -62,8 +62,8 @@ export default class Radius extends Module {
 
   destroy() {
     this._pn
-      .removeListener('core:clear', this._clear)
-      .removeListener('core:init', this._init);
+      .off('core:clear', this._clear)
+      .off('core:init', this._init);
     this._clear();
     this._destroyMethods();
     this._options =

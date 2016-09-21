@@ -50,11 +50,11 @@ export default class Labels extends Plugin {
 
   unplug() {
     this._pn
-      .removeListener('view:size', this._resizeLayer)
-      .removeListener('view:elements', this._onNewElements)
-      .removeListener('view:frame', this._render)
-      .removeListener('node:update', this._onNodeUpdate)
-      .removeListener('link:update', this._onLinkUpdate, this);
+      .off('view:size', this._resizeLayer)
+      .off('view:elements', this._onNewElements)
+      .off('view:frame', this._render)
+      .off('node:update', this._onNodeUpdate)
+      .off('link:update', this._onLinkUpdate, this);
     this._destroyMethods();
     this._layer.remove();
 

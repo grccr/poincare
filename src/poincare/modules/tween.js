@@ -17,13 +17,13 @@ export default class Tween extends Module {
   }
 
   _clear() {
-    this._pn.removeListener('view:frame', this._update);
+    this._pn.off('view:frame', this._update);
   }
 
   destroy() {
     this._pn
-      .removeListener('core:clear', this._clear)
-      .removeListener('core:init', this._init);
+      .off('core:clear', this._clear)
+      .off('core:init', this._init);
     this._clear();
     this._destroyMethods();
     this._pn = null;
@@ -47,14 +47,24 @@ export class Transitioner {
     this._backDuration = this._duration;
 
     this._subscribed = false;
-    this._bindedRender = this._render.bind(this);
 
-    this._createTweenBinded = this._createTween.bind(this);
-    this._rollbackTweenBinded = this._rollbackTween.bind(this);
+    this._createTween = this._createTween.bind(this);
+    this._rollbackTween = this._rollbackTween.bind(this);
   }
 
-  render(renderCallback) {
-    this._renderItem = renderCallback;
+  destroy() {
+    this._unsubscribe();
+    Module.prototype._destroyMethods.call(this);
+    this._pn = null;
+  }
+
+  beforeRendering(clb) {
+    this._beforeRendering = clb;
+    return this;
+  }
+
+  render(clb) {
+    this._renderItem = clb;
     return this;
   }
 
@@ -80,10 +90,17 @@ export class Transitioner {
     return this;
   }
 
-  _removeTween(id) {
-    debug('remove tween', id);
-    this._tweens[id].stop();
-    TWEEN.remove(this._tweens[id]);
+  transition(ids) {
+    const subsets = venn(this._current, ids);
+    this._current = ids;
+    this._createNewTweens(subsets.added);
+    this._rollbackRemovedTweens(subsets.removed);
+    this._subscribe();
+  }
+
+  _createNewTweens(ids) {
+    if (ids.length > 0)
+      ids.forEach(this._createTween);
   }
 
   _createTween(id) {
@@ -97,11 +114,15 @@ export class Transitioner {
       .start();
   }
 
-  _removeProp(id) {
-    delete this._props[id];
-    delete this._tweens[id];
-    if (Object.keys(this._props).length === 0)
-      this._unsubscribe();
+  _removeTween(id) {
+    debug('remove tween', id);
+    this._tweens[id].stop();
+    TWEEN.remove(this._tweens[id]);
+  }
+
+  _rollbackRemovedTweens(ids) {
+    if (ids.length > 0)
+      ids.forEach(this._rollbackTween);
   }
 
   _rollbackTween(id) {
@@ -117,20 +138,17 @@ export class Transitioner {
       .start();
   }
 
-  _createNewTweens(ids) {
-    if (ids.length > 0)
-      ids.forEach(this._createTweenBinded);
-  }
-
-  _rollbackRemovedTweens(ids) {
-    if (ids.length > 0)
-      ids.forEach(this._rollbackTweenBinded);
+  _removeProp(id) {
+    delete this._props[id];
+    delete this._tweens[id];
+    if (Object.keys(this._props).length === 0)
+      this._unsubscribe();
   }
 
   _subscribe() {
     if (this._subscribed)
       return;
-    this._pn.on('view:frame', this._bindedRender, this);
+    this._pn.on('view:frame', this._render, this);
     this._subscribed = true;
     debug('Subscribed to rendering');
   }
@@ -139,13 +157,8 @@ export class Transitioner {
     if (!this._subscribed)
       return;
     this._subscribed = false;
-    this._pn.off('view:frame', this._bindedRender, this);
+    this._pn.off('view:frame', this._render);
     debug('Unsubscribed from rendering');
-  }
-
-  beforeRendering(clb) {
-    this._beforeRendering = clb;
-    return this;
   }
 
   _render() {
@@ -157,13 +170,5 @@ export class Transitioner {
       const prop = this._props[key];
       this._renderItem(key, prop, X, Y);
     });
-  }
-
-  transition(ids) {
-    const subsets = venn(this._current, ids);
-    this._current = ids;
-    this._createNewTweens(subsets.added);
-    this._rollbackRemovedTweens(subsets.removed);
-    this._subscribe();
   }
 }
