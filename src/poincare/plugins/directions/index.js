@@ -29,8 +29,8 @@ export default class Directions extends Plugin {
 
   unplug() {
     this._pn
-      .removeListener('view:frame', this._render)
-      .removeListener('core:init', this._init);
+      .off('view:frame', this._render)
+      .off('core:init', this._init);
     this._destroyMethods();
 
     this._pn.core.eachLink((id) => {

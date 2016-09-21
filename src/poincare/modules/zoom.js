@@ -43,7 +43,7 @@ export default class Zoom extends Module {
   }
 
   _clear() {
-    this._pn.removeListener('view:size', this._onViewResize);
+    this._pn.off('view:size', this._onViewResize);
     this._zoom
       .on('zoomstart', null)
       .on('zoomend', null);
@@ -52,8 +52,8 @@ export default class Zoom extends Module {
 
   destroy() {
     this._pn
-      .removeListener('core:clear', this._clear)
-      .removeListener('core:init', this._init);
+      .off('core:clear', this._clear)
+      .off('core:init', this._init);
 
     this._clear();
     this._destroyMethods();

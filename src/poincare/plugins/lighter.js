@@ -31,8 +31,8 @@ export default class Lighter extends Plugin {
 
   unplug() {
     this._destroyMethods();
-    this._nodetrans._unsubscribe();
-    this._linktrans._unsubscribe();
+    this._nodetrans.destroy();
+    this._linktrans.destroy();
     for (const gfx of ['_nodeGfx', '_linkGfx']) {
       this._pn.core.stage.removeChild(this[gfx]);
       this[gfx].destroy();
