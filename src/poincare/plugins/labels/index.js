@@ -17,22 +17,24 @@ export default class Labels extends Plugin {
     this._pn = pn;
     this._options = Object.assign({
       template: '<b><%- label %></b>',
-      getter: 'label',
-      offsets: {
-        link: [-50, -10],
-        node: [-50, 16]
-      }
+      getter: 'label'
     }, opts || {});
     if (typeof this._options.getter !== 'function')
       this._options.getter = fieldGetter(this._options.getter);
 
     this._initLayer(pn.container);
 
-    const offsets = this._options.offsets;
-    this._x = xx => this._pn._core.xScale(xx) + offsets.node[0];
-    this._y = yy => this._pn._core.yScale(yy) + offsets.node[1];
-    this._linkx = xx => this._pn._core.xScale(xx) + offsets.link[0];
-    this._linky = yy => this._pn._core.yScale(yy) + offsets.link[1];
+    this._nodeXScale = (x, offset = -50) =>
+      Math.round(this._pn._core.xScale(x) + offset);
+    this._nodeYScale = (y, offset = 20 * .75) =>
+      Math.round(this._pn._core.yScale(y) + offset);
+    this._linkXScale = (x, offset = -50) =>
+      Math.round(this._pn._core.xScale(x) + offset);
+    this._linkYScale = (y, offset = -20 * 1.25 / 2) =>
+      Math.round(this._pn._core.yScale(y) + offset);
+
+    this._getLabelWidth = this._getLabelWidth.bind(this);
+    this._getLabelTransform = this._getLabelTransform.bind(this);
 
     pn.on('view:size', this._resizeLayer, this);
     pn.on('view:elements', this._onNewElements, this);
@@ -142,15 +144,54 @@ export default class Labels extends Plugin {
   _onNodeUpdate(node) {
     this._labels
       .filter(`.label-${CSS.escape(node.id)}`)
-      .select('.label-inner')
+      .select('.inner.label')
       .text(d => this._options.getter(d.data));
   }
 
   _onLinkUpdate(link) {
     this._labels
       .filter(`.label-${CSS.escape(link.id)}`)
-      .select('.label-inner')
+      .select('.inner.label')
       .text(d => this._options.getter(d.data));
+  }
+
+  _getLabelWidth(d) {
+    if (!d.from)
+      return '100px';
+    const xScale = this._pn.core.xScale;
+    const yScale = this._pn.core.yScale;
+    const r = this._pn._options.nodes.radius;
+    const width = Math.round(Math.hypot(
+      xScale(d.from.x) - xScale(d.to.x),
+      yScale(d.from.y) - yScale(d.to.y)
+    )) - 4 * r;
+    d.width = width;
+    return `${width}px`;
+  }
+
+  _getLabelTransform(d) {
+    if (!d.from) {
+      // node
+      const pos = {
+        x: this._nodeXScale(d.pos.x),
+        y: this._nodeYScale(d.pos.y)
+      };
+      return `translate(${pos.x}px, ${pos.y}px)`;
+    }
+    // link
+    let rot = this._pn.core.linkSprite(d.id).rotation;
+    // d.rotation = rot;
+    // if (rot < 0) {
+    //   rot = Math.abs(Math.PI - rot);
+    // } else {
+    //   rot = Math.abs(rot + Math.PI);
+    // }
+    const pos = {
+      x: this._linkXScale((d.from.x + d.to.x) / 2, -d.width / 2),
+      y: this._linkYScale((d.from.y + d.to.y) / 2)
+    };
+    delete d.width;
+    return `translate(${pos.x}px, ${pos.y}px) rotate(${rot}rad)`;
   }
 
   _render() {
@@ -158,22 +199,8 @@ export default class Labels extends Plugin {
     // убрать лейблы во время зума
     this._labels &&
     this._labels
-      .style('transform', d => {
-        const pos = d.from ? {
-          x: Math.round(this._linkx((d.from.x + d.to.x) / 2)),
-          y: Math.round(this._linky((d.from.y + d.to.y) / 2))
-        } : {
-          x: Math.round(this._x(d.pos.x)),
-          y: Math.round(this._y(d.pos.y))
-        };
-        return `translate(${pos.x}px, ${pos.y}px)`;
-      }) &&
-    this._labels.select('.label-inner')
-      .style('transform', d => {
-        const rot = d.from ? this._pn.core.linkSprite(d.id).rotation : 0;
-        return `rotate(${rot}rad)`;
-      });
-
+      .style('width', this._getLabelWidth)
+      .style('transform', this._getLabelTransform);
   }
 
   _hide() {
@@ -192,40 +219,42 @@ export default class Labels extends Plugin {
   }
 
   _highlightThese(ids, locked = []) {
-    const x = this._x;
-    const y = this._y;
-    const linkx = this._linkx;
-    const linky = this._linky;
+    const nodex = this._nodeXScale;
+    const nodey = this._nodeYScale;
+    const linkx = this._linkXScale;
+    const linky = this._linkYScale;
 
     const lockedIds = new Set(locked);
 
     const data = this._resolveData(ids);
-    const labels = this._labels = this._layer.selectAll('.label').data(
-      data.nodes.concat(data.links),
-      d => d.id
-    );
+    const labels = this._labels = this._layer.selectAll(
+      '.node.label, .link.label'
+    ).data(data.nodes.concat(data.links), d => d.id);
 
     labels.enter()
       .append('div')
-      .attr('class', (d) => `label-${d.id}`)
-      .classed('label', true)
-      .classed('node', d => !d.from)
-      .classed('link', d => !!d.from)
+        .attr('class', d => {
+          const type = d.from ? 'link' : 'node';
+          return `label-${d.id} ${type} label`
+        })
         .append('div')
-          .classed('label-inner', true)
+          .classed('inner label', true)
           .style('opacity', 0)
-          .style('color', d => d.from ? d.data.color : 'black')
-          .text(d => this._options.getter(d.data))
+          .style('color', d => {
+            const c = d3.rgb(d.from ? d.data.color : 'black').darker(.7);
+            return `rgb(${c.r},${c.g},${c.b})`;
+          })
+          .text(d => Array(4).join(this._options.getter(d.data) + ' '))
           .transition()
             .duration(1000)
             .style('opacity', 100);
 
     labels.exit()
-        .classed('exiting', true)
-        .transition()
-          .duration(250)
-          .style('opacity', 0)
-          .remove();
+      .classed('exiting', true)
+      .transition()
+        .duration(250)
+        .style('opacity', 0)
+        .remove();
 
     labels.filter('.exiting')
       .classed('exiting', false)
@@ -234,18 +263,9 @@ export default class Labels extends Plugin {
         .style('opacity', 100);
 
     labels
-      .classed('locked-label', d => lockedIds.has(d.id))
-      .style('transform', (d) => {
-        const pos = d.from ? {
-          x: Math.round(linkx((d.from.x + d.to.x) / 2)),
-          y: Math.round(linky((d.from.y + d.to.y) / 2))
-        } : {
-          x: Math.round(x(d.pos.x)),
-          y: Math.round(y(d.pos.y))
-        };
-        const rot = d.from ? this._pn.core.linkSprite(d.id).rotation : 0;
-        return `translate(${pos.x}px, ${pos.y}px) rotate(${rot}rad)`;
-      });
+      .classed('locked', d => lockedIds.has(d.id))
+      .style('width', this._getLabelWidth)
+      .style('transform', this._getLabelTransform);
   }
 
   highlight(ids) {
