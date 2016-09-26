@@ -58,57 +58,51 @@
 
   .label {
     cursor: default;
-    overflow: hidden;
     text-align: center;
-    text-overflow: ellipsis;
 
     &.node, &.link {
-      background-color: lightblue;
       height: 100px;
+      overflow: hidden;
       position: absolute;
-      transform-origin: center;
-      width: 100px;
+      text-overflow: ellipsis;
       will-change: transform;
     }
 
     &.inner {
-      background-color: lightcoral;
       border-radius: 4px;
       color: @color;
+      display: inline;
       font-family: 'Fira Sans';
       font-size: .75em;
       font-weight: 300;
-      padding: .25em .55em;
+      padding: .2rem .5rem;
       transition: background-color .25s ease;
+        
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
     }
 
     &.node {
-      display: none;
+      height: 5.75em;
 
       .inner {
         background-color: @bgcolor;
-        display: inline;
-        line-height: .25em;
-        
-        box-decoration-break: clone;
-        -webkit-box-decoration-break: clone;
       }
     }
 
     &.link {
-      @h: 1.25em;
-      height: @h;
-      margin-top: -@h / 2;
+      height: 1.15em;
 
       .inner {
-        // background-color: white;
-        display: block;
-        padding: .25em .5em;
-        white-space: nowrap;
+        background-color: white;
+        padding: .2em .4em;
+        // vertical-align: bottom;
       }
     }
 
     &.locked {
+      height: auto;
+      overflow: visible;
       
       .inner {
         background-color: @bghighlighted !important;

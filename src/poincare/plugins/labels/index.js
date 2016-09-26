@@ -9,6 +9,9 @@ import './labels.less';
 
 // const debug = require('debug')('poincare:labels');
 
+const BASE_WIDTH = 200;
+const EM_SIZE = 20;
+
 export default class Labels extends Plugin {
 
   constructor(pn, opts) {
@@ -24,13 +27,13 @@ export default class Labels extends Plugin {
 
     this._initLayer(pn.container);
 
-    this._nodeXScale = (x, offset = -50) =>
+    this._nodeXScale = (x, offset = - BASE_WIDTH / 2) =>
       Math.round(this._pn._core.xScale(x) + offset);
-    this._nodeYScale = (y, offset = 20 * .75) =>
+    this._nodeYScale = (y, offset = EM_SIZE * .75) =>
       Math.round(this._pn._core.yScale(y) + offset);
-    this._linkXScale = (x, offset = -50) =>
+    this._linkXScale = (x, offset = 0) =>
       Math.round(this._pn._core.xScale(x) + offset);
-    this._linkYScale = (y, offset = -20 * 1.25 / 2) =>
+    this._linkYScale = (y, offset = -EM_SIZE * 1.15 / 2) =>
       Math.round(this._pn._core.yScale(y) + offset);
 
     this._getLabelWidth = this._getLabelWidth.bind(this);
@@ -157,7 +160,7 @@ export default class Labels extends Plugin {
 
   _getLabelWidth(d) {
     if (!d.from)
-      return '100px';
+      return `${BASE_WIDTH}px`;
     const xScale = this._pn.core.xScale;
     const yScale = this._pn.core.yScale;
     const r = this._pn._options.nodes.radius;
@@ -179,17 +182,18 @@ export default class Labels extends Plugin {
       return `translate(${pos.x}px, ${pos.y}px)`;
     }
     // link
-    let rot = this._pn.core.linkSprite(d.id).rotation;
-    // d.rotation = rot;
-    // if (rot < 0) {
-    //   rot = Math.abs(Math.PI - rot);
-    // } else {
-    //   rot = Math.abs(rot + Math.PI);
-    // }
-    const pos = {
+    let pos = {
       x: this._linkXScale((d.from.x + d.to.x) / 2, -d.width / 2),
       y: this._linkYScale((d.from.y + d.to.y) / 2)
     };
+    const PI = Math.PI;
+    let rot = this._pn.core.linkSprite(d.id).rotation;
+    // d.rotation = rot;
+    // if (rot < 0) {
+    //   // pos = {x: 0, y: 0};
+    // } else {
+    //   // rot = Math.abs(rot + Math.PI);
+    // }
     delete d.width;
     return `translate(${pos.x}px, ${pos.y}px) rotate(${rot}rad)`;
   }
@@ -244,7 +248,8 @@ export default class Labels extends Plugin {
             const c = d3.rgb(d.from ? d.data.color : 'black').darker(.7);
             return `rgb(${c.r},${c.g},${c.b})`;
           })
-          .text(d => Array(4).join(this._options.getter(d.data) + ' '))
+          .text(d => this._options.getter(d.data))
+          // .text(d => Array(16).join(this._options.getter(d.data) + ' '))
           .transition()
             .duration(1000)
             .style('opacity', 100);
