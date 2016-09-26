@@ -182,19 +182,18 @@ export default class Labels extends Plugin {
       return `translate(${pos.x}px, ${pos.y}px)`;
     }
     // link
-    let pos = {
+    const pos = {
       x: this._linkXScale((d.from.x + d.to.x) / 2, -d.width / 2),
       y: this._linkYScale((d.from.y + d.to.y) / 2)
     };
-    const PI = Math.PI;
-    let rot = this._pn.core.linkSprite(d.id).rotation;
-    // d.rotation = rot;
-    // if (rot < 0) {
-    //   // pos = {x: 0, y: 0};
-    // } else {
-    //   // rot = Math.abs(rot + Math.PI);
-    // }
     delete d.width;
+    let rot = this._pn.core.linkSprite(d.id).rotation;
+    d.rotationOriginal = rot.toFixed(3);
+    if (rot < -Math.PI/2) {
+      rot += 2*Math.PI;
+      // wtf no effect??
+      d.rotationOriginal = rot.toFixed(3);
+    }
     return `translate(${pos.x}px, ${pos.y}px) rotate(${rot}rad)`;
   }
 
@@ -248,8 +247,11 @@ export default class Labels extends Plugin {
             const c = d3.rgb(d.from ? d.data.color : 'black').darker(.7);
             return `rgb(${c.r},${c.g},${c.b})`;
           })
-          .text(d => this._options.getter(d.data))
-          // .text(d => Array(16).join(this._options.getter(d.data) + ' '))
+          // .text(d => this._options.getter(d.data))
+          .text(d => d.from ?
+            d.rotationOriginal :
+            this._options.getter(d.data)
+          )
           .transition()
             .duration(1000)
             .style('opacity', 100);
