@@ -2,57 +2,6 @@
 @bgcolor: #F3F3F3;
 @bghighlighted: #F6F7BB;
 
-.poincare-labels-old {
-  pointer-events: none;
-
-  .label {
-    cursor: default;
-    height: 3.4rem;
-    overflow: hidden;
-    position: absolute;
-    text-align: center;
-    text-overflow: ellipsis;
-    user-select: none;
-    width: 100px;
-
-    .label-inner {
-      background-color: @bgcolor;
-      border-radius: 4px;
-      color: @color;
-      display: inline;
-      font-family: 'Fira Sans';
-      font-size: .75em;
-      font-weight: 300;
-      line-height: .25em;
-      padding: .25em .55em;
-      transition: background-color .25s ease;
-
-      box-decoration-break: clone;
-      -webkit-box-decoration-break: clone;
-    }
-
-    &.locked-label {
-      height: auto;
-      overflow: visible;
-      
-      .label-inner {
-        background-color: #F6F7BB;
-      }
-    }
-
-    &.link {
-
-      .label-inner {
-        background-color: white;
-        transform-origin: 50% 50%;
-        will-change: transform;
-      }
-    }
-
-
-  }
-}
-
 .poincare-labels {
   pointer-events: none;
 
@@ -96,7 +45,6 @@
       .inner {
         background-color: white;
         padding: .2em .4em;
-        // vertical-align: bottom;
       }
     }
 
