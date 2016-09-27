@@ -188,11 +188,10 @@ export default class Labels extends Plugin {
     };
     delete d.width;
     let rot = this._pn.core.linkSprite(d.id).rotation;
-    d.rotationOriginal = rot.toFixed(3);
     if (rot < -Math.PI/2) {
-      rot += 2*Math.PI;
-      // wtf no effect??
-      d.rotationOriginal = rot.toFixed(3);
+      rot += Math.PI;
+    } else if (rot > Math.PI/2) {
+      rot -= Math.PI;
     }
     return `translate(${pos.x}px, ${pos.y}px) rotate(${rot}rad)`;
   }
@@ -247,11 +246,7 @@ export default class Labels extends Plugin {
             const c = d3.rgb(d.from ? d.data.color : 'black').darker(.7);
             return `rgb(${c.r},${c.g},${c.b})`;
           })
-          // .text(d => this._options.getter(d.data))
-          .text(d => d.from ?
-            d.rotationOriginal :
-            this._options.getter(d.data)
-          )
+          .text(d => this._options.getter(d.data))
           .transition()
             .duration(1000)
             .style('opacity', 100);
