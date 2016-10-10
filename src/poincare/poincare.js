@@ -9,6 +9,7 @@ import { isFunction, isString } from 'lodash';
 
 import Options from './options';
 import Core from './core';
+import './core/api.js';
 
 import './poincare.less';
 
@@ -31,6 +32,7 @@ export default class Poincare {
     this._createContainer();
     this._createCore();
     this._installModules();
+    //this._installAPI();
     this.updateDimensions();
   }
 
@@ -275,5 +277,46 @@ export default class Poincare {
     this.graph.off();
     this.graph.clear();
     this._graph = null;
+  }
+
+  createNode(id, data){
+    const node = this.graph.addNode(id, data || {});
+    this.core._createNode(node);
+    this.emit('node:create', node);
+    return node;
+  }
+
+  updateNode(id, data){
+    const node = this.graph.addNode(id, data || {});
+    this.core._updateNodeData(id, data);
+    this.emit('node:update', node);
+    return node;
+  }
+
+  removeNode(id){
+    this.emit('node:remove', id);
+    this.graph.removeNode(id);
+    return this.core._removeNode(id);
+  }
+
+  createLink(to, from, data){
+    let link = this.graph.addLink(to, from, data || {});
+    link = this.core._createLink(link);
+    this.emit('link:create', link);
+    return link;
+  }
+
+  updateLink(id, data){
+    const link = this._core.link(id);
+    this.graph.addLink(link.toId, link.fromId, data || {});
+    this.core._updateLinkData(id, data);
+    this.emit('link:update', link);
+    return link;
+  }
+
+  removeLink(id){
+    this.emit('link:remove', id);
+    this.graph.removeLink(id);
+    return this.core._removeLink(id);
   }
 }

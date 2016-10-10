@@ -29,6 +29,8 @@ export default class LineIndex extends Module {
 
     pn.on('core:init', this._init, this);
     pn.on('core:clear', this._clear, this);
+    pn.on('link:create', this._onLinkCreate, this);
+    pn.on('link:remove', this._onLinkRemove, this);
   }
 
   _init() {
@@ -55,6 +57,29 @@ export default class LineIndex extends Module {
     this._tree =
     this._pn =
       null;
+  }
+
+  _onLinkCreate(link) {
+    const bbox = makeNormalLineBBox(link);
+    this._tree.insert({ 
+      id: link.id, 
+      x0: bbox[0], 
+      y0: bbox[1], 
+      x1: bbox[2],
+      y1: bbox[3]
+    });
+  }
+
+  _onLinkRemove(id) {
+    const link = this._pn.core.link(id);
+    const bbox = makeNormalLineBBox(link);
+    this._tree.remove({ 
+      id: link.id, 
+      x0: bbox[0], 
+      y0: bbox[1], 
+      x1: bbox[2],
+      y1: bbox[3]
+    });
   }
 
   _createLinkIndex() {

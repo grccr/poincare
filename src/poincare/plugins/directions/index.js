@@ -24,7 +24,32 @@ export default class Directions extends Plugin {
     if (this._options.show) {
       this._pn.on('core:init', this._init, this);
       this._pn.on('view:frame', this._render, this);
+      this._pn.on('link:create', this._onLinkCreate, this);
+      this._pn.on('link:update', this._onLinkCreate, this);
+      this._pn.on('link:remove', this._onLinkRemove, this);
     }
+  }
+
+  _onLinkCreate(link){
+    const makeArrowSprite = this._arrowGenerator();
+    const id = link.id;
+    this._arrows[id] = {};
+    let arrow = this._arrows[id].normal = makeArrowSprite();
+    arrow.anchor.x = 0.5;
+    arrow.anchor.y = 0.5;
+    this._container.addChild(arrow);
+    if (this._options.getter(link.data)) {
+      arrow = this._arrows[id].reverse = makeArrowSprite();
+      arrow.anchor.x = 0.5;
+      arrow.anchor.y = 0.5;
+      this._container.addChild(arrow);
+    }
+  }
+
+  _onLinkRemove(id){
+    this._container.removeChild(this._arrows[id].normal);
+    this._container.removeChild(this._arrows[id].reverse);
+    delete this._arrows[id];
   }
 
   unplug() {
