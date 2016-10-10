@@ -27,7 +27,7 @@ export default class Labels extends Plugin {
 
     this._initLayer(pn.container);
 
-    this._nodeXScale = (x, offset = - BASE_WIDTH / 2) =>
+    this._nodeXScale = (x, offset = -BASE_WIDTH / 2) =>
       Math.round(this._pn._core.xScale(x) + offset);
     this._nodeYScale = (y, offset = EM_SIZE * .75) =>
       Math.round(this._pn._core.yScale(y) + offset);
@@ -188,9 +188,9 @@ export default class Labels extends Plugin {
     };
     delete d.width;
     let rot = this._pn.core.linkSprite(d.id).rotation;
-    if (rot < -Math.PI/2) {
+    if (rot < -Math.PI / 2) {
       rot += Math.PI;
-    } else if (rot > Math.PI/2) {
+    } else if (rot > Math.PI / 2) {
       rot -= Math.PI;
     }
     return `translate(${pos.x}px, ${pos.y}px) rotate(${rot}rad)`;
@@ -221,11 +221,6 @@ export default class Labels extends Plugin {
   }
 
   _highlightThese(ids, locked = []) {
-    const nodex = this._nodeXScale;
-    const nodey = this._nodeYScale;
-    const linkx = this._linkXScale;
-    const linky = this._linkYScale;
-
     const lockedIds = new Set(locked);
 
     const data = this._resolveData(ids);
@@ -237,7 +232,7 @@ export default class Labels extends Plugin {
       .append('div')
         .attr('class', d => {
           const type = d.from ? 'link' : 'node';
-          return `label-${d.id} ${type} label`
+          return `label-${d.id} ${type} label`;
         })
         .append('div')
           .classed('inner label', true)
