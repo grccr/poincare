@@ -106,6 +106,8 @@ export default class Events extends Plugin {
       pn.emit(`${nearest.type}:over`, nearest.id);
     }
 
+    // debug(focused && focused.id, nearest && nearest.id);
+
     this._focusedItem = nearest;
 
     // const blured = (nearest == null &&
