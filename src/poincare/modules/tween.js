@@ -48,6 +48,7 @@ export class Transitioner {
 
     this._subscribed = false;
 
+    this._render = this._render.bind(this);
     this._createTween = this._createTween.bind(this);
     this._rollbackTween = this._rollbackTween.bind(this);
   }
@@ -148,7 +149,7 @@ export class Transitioner {
   _subscribe() {
     if (this._subscribed)
       return;
-    this._pn.on('view:frame', this._render, this);
+    this._pn.on('view:frame', this._render);
     this._subscribed = true;
     debug('Subscribed to rendering');
   }
