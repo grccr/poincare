@@ -108,7 +108,7 @@ pn.on('node:tip:hover', id => {
 pn.on('node:over', (id) => {
   const lighter = pn.plugins.lighter;
   lighter && lighter.lightNodes([id]);
-  // debug('Node over', id);
+  debug('Node over', id);
 });
 
 pn.on('node:out', (id) => {
@@ -116,7 +116,7 @@ pn.on('node:out', (id) => {
   const labels = pn.plugins.labels;
   lighter && lighter.lightNodes([]);
   labels && labels.highlight([]);
-  // debug('Node out', id);
+  debug('Node out', id);
 });
 
 
