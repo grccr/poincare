@@ -9,7 +9,6 @@ import { isFunction, isString } from 'lodash';
 
 import Options from './options';
 import Core from './core';
-import './core/api.js';
 
 import './poincare.less';
 
