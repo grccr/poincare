@@ -14,6 +14,7 @@ const stationIcon = require('../assets/icons/electric-icon.png');
 const poleIcon = require('../assets/icons/pole-icon.png');
 const plantIcon = require('../assets/icons/powerplant-icon.png');
 const homeIcon = require('../assets/icons/home-icon.png');
+const userIcon = require('../assets/icons/user-icon.png');
 
 const types = {
   'infrastructure/powersubstation': stationIcon,
@@ -28,6 +29,9 @@ const pn = window.PN = new Poincare({
     max: 60
   },
   transparent: true,
+  nodes: {
+    radius: 16
+  },
   links: {
     color: (l) => {
       return l.data.color || '#CCC';
@@ -168,12 +172,11 @@ const testData = [
   '/data/estoniia-color.graphml',
   '/data/belgiia-dual.graphml',
   '/data/belgiia-big.graphml',
-  '/data/belgiia.graphml',
-  null
+  '/data/belgiia.graphml'
 ];
 function nextTestGraph(reload = false) {
   axios
-    .get(testData[reload ? n : ++n])
+    .get(testData[reload ? n : ++n % testData.length])
     .then(({ data: doc }) => {
       return nGraphParse.fromGraphML(doc);
     })

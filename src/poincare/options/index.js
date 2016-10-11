@@ -19,7 +19,7 @@ const Options = {
     background: 'white',
     transparent: false,
 
-    nodes:{
+    nodes: {
       radius: 13,
       view: 'icons'
     },

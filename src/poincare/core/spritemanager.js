@@ -28,9 +28,28 @@ export const IconSpriteGenerator = (renderer, options) => {
 
   return (node) => {
     const icon = options.source(node);
+    const size = options.size(node);
     const hash = md5.hex(`${icon}`);
     const sprite = PIXI.Sprite.fromImage(icon);
-    sprite.anchor.x = sprite.anchor.y = 0.5;
+    
+    sprite.anchor.x = sprite.anchor.y = 0.5; 
+    sprite.texture.baseTexture.on('loaded', () => {
+      const f = sprite.texture.frame;
+      const h = f.height;
+      const w = f.width;
+
+      if (h <= size && w <= size)
+        return;
+
+      if (h > w) {
+        f.height = size;
+        f.width = size * w / h;
+      } else {
+        f.width = size;
+        f.height = size * h / w;
+      }
+    });
+
     return [hash, sprite];
   };
 };
@@ -90,10 +109,21 @@ export default class SpriteManager {
   }
 
   _getGenerator(name) {
-    if (name === 'icons')
-      return IconSpriteGenerator(this._renderer, this._options[name]);
-    if (name === 'links')
-      return LinkSpriteGenerator(this._renderer, this._options[name]);
+    let Generator = null;
+
+    switch (name) {
+      case 'icons':
+        Generator = IconSpriteGenerator;
+        break;
+      
+      case 'links':
+        Generator = LinkSpriteGenerator;
+        break;
+    }
+
+    if (Generator)
+      return Generator(this._renderer, this._options[name]);
+    
     throw new PoincareCoreError(`No available views with name "${name}"`);
   }
 
