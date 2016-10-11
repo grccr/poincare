@@ -124,21 +124,21 @@ pn.on('node:out', (id) => {
 });
 
 
-pn.on('node:click', (id) => {
+pn.on('node:click', (id, event) => {
   const item = pn.graph.getNode(id);
-  debug('Node clicked', id, item);
+  debug('Node clicked', id, item, event);
 });
-pn.on('node:menu', (id) => {
+pn.on('node:menu', (id, event) => {
   const item = pn.graph.getNode(id);
-  debug('Node menu clicked', id, item);
+  debug('Node menu clicked', id, item, event);
 });
-pn.on('link:click', (id) => {
+pn.on('link:click', (id, event) => {
   const item = pn.core.link(id);
-  debug('Just link clicked', id, item);
+  debug('Just link clicked', id, item, event);
 });
-pn.on('link:menu', (id) => {
+pn.on('link:menu', (id, event) => {
   const item = pn.core.link(id);
-  debug('Link menu clicked', id, item);
+  debug('Link menu clicked', id, item, event);
   return false;
 });
 
