@@ -43,8 +43,11 @@ export default class Events extends Plugin {
           return;
         if (this._focusedItem != null) {
           d3.event.stopImmediatePropagation();
-          this._pn.emit(`${this._focusedItem.type}:click`,
-                        this._focusedItem.id);
+          this._pn.emit(
+            `${this._focusedItem.type}:click`,
+            this._focusedItem.id,
+            d3.event
+          );
           return false;
         }
       })
@@ -55,8 +58,11 @@ export default class Events extends Plugin {
         if (this._focusedItem != null) {
           // d3.event.stopImmediatePropagation();
           d3.event.preventDefault();
-          this._pn.emit(`${this._focusedItem.type}:menu`,
-                        this._focusedItem.id);
+          this._pn.emit(
+            `${this._focusedItem.type}:menu`,
+            this._focusedItem.id,
+            d3.event
+          );
           return false;
         }
       })

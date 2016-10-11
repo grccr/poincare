@@ -3,12 +3,10 @@ import PIXI from 'pixi.js';
 import d3 from 'd3';
 import util from 'util';
 import SpriteManager from './spritemanager.js';
-//import API from './api.js';
 
 import { each, map, flatMap } from 'lodash';
 import { css2pixi } from '../helpers';
 import { DEFAULT_LINE_LENGTH } from './spritemanager.js';
-
 
 // const debug = require('debug')('poincare:core');
 
