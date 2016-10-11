@@ -27,6 +27,12 @@ export default class Radius extends Module {
 
     pn.on('core:init', this._init, this);
     pn.on('core:clear', this._clear, this);
+    pn.on('node:create', this._onNodeCreate, this);
+    pn.on('node:update', this._calculateRadiusMedian, this);
+    pn.on('node:remove', this._onNodeRemove, this);
+    pn.on('link:create', this._onLinkCreate, this);
+    pn.on('link:update', this._calculateRadiusMedian, this);
+    pn.on('link:remove', this._onLinkRemove, this);
   }
 
   _init() {
@@ -63,7 +69,13 @@ export default class Radius extends Module {
   destroy() {
     this._pn
       .off('core:clear', this._clear)
-      .off('core:init', this._init);
+      .off('core:init', this._init)
+      .off('node:create', this._onNodeCreate)
+      .off('node:remove', this._onNodeRemove)
+      .off('node:update', this._calculateRadiusMedian)
+      .off('link:remove', this._onLinkRemove)
+      .off('link:create', this._onLinkCreate)
+      .off('link:update', this._calculateRadiusMedian);
     this._clear();
     this._destroyMethods();
     this._options =
@@ -73,6 +85,28 @@ export default class Radius extends Module {
 
   _onLayoutReady() {
     this._createIndex();
+    this._calculateRadiusMedian();
+  }
+
+  _onNodeCreate(node) {
+    this._tree.nodes.insert({ id: node.id, ...node.pos });
+    this._calculateRadiusMedian();
+  }
+
+  _onNodeRemove(id) {
+    const node = this._pn.core.node(id);
+    this._tree.nodes.remove({ id: node.id, ...node.pos });
+    this._calculateRadiusMedian();
+  }
+
+  _onLinkCreate(link) {
+    this._tree.links.insert({ id: link.id, ...mid(link.to, link.from) });
+    this._calculateRadiusMedian();
+  }
+
+  _onLinkRemove(id) {
+    const link = this._pn.core.link(id);
+    this._tree.links.remove({ id: link.id, ...mid(link.to, link.from) });
     this._calculateRadiusMedian();
   }
 

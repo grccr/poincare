@@ -145,14 +145,14 @@ export default class Labels extends Plugin {
   }
 
   _onNodeUpdate(node) {
-    this._labels
+    this._labels && this._labels
       .filter(`.label-${CSS.escape(node.id)}`)
       .select('.inner.label')
       .text(d => this._options.getter(d.data));
   }
 
   _onLinkUpdate(link) {
-    this._labels
+    this._labels && this._labels
       .filter(`.label-${CSS.escape(link.id)}`)
       .select('.inner.label')
       .text(d => this._options.getter(d.data));

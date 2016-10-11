@@ -55,13 +55,14 @@ export const IconSpriteGenerator = (renderer, options) => {
 };
 
 export default class SpriteManager {
-  constructor(parentContainer, renderer, opts) {
+  constructor(core, opts) {
     this._options = opts;
     this._getName = opts.nodes.view;
     this._generator = memoize(this._getGenerator.bind(this));
     this._container = memoize(this._getNewContainer.bind(this));
-    this._renderer = renderer;
-    this._parent = parentContainer;
+    this._core = core;
+    this._renderer = core._pixi;
+    this._parent = core._stage;
 
     this._nodeCount = 5000;
     this._colorLinkCount = {};
@@ -101,6 +102,20 @@ export default class SpriteManager {
     );
     container.addChild(sprite);
     return sprite;
+  }
+
+  removeNode(id){
+    const md5 = new MD5();
+    const node = this._core.node(id);
+    const icon = this._options['icons'].source(node);
+    const hash = md5.hex(`${icon}`);
+    this._container(hash).removeChild(this._core._sprites.nodes[id]);
+  }
+
+  removeLink(id){
+    const link = this._core.link(id);
+    const color = css2pixi(this._options['links'].color(link));
+    this._container(`links${color}`).removeChild(this._core._sprites.links[id]);
   }
 
   setSizes(nodeCount, colorDict) {
@@ -147,7 +162,8 @@ export default class SpriteManager {
   }
 
   _getNewContainer(id, sz) {
-    const container = new PIXI.ParticleContainer(sz || this._nodeCount * 2, {
+    //const container = new PIXI.ParticleContainer(sz || this._nodeCount * 2, {
+    const container = new PIXI.ParticleContainer(15000, {
       scale: true,
       position: true,
       rotation: true,

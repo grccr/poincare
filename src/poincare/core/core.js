@@ -3,6 +3,7 @@ import PIXI from 'pixi.js';
 import d3 from 'd3';
 import util from 'util';
 import SpriteManager from './spritemanager.js';
+//import API from './api.js';
 
 import { each, map, flatMap } from 'lodash';
 import { css2pixi } from '../helpers';
@@ -48,7 +49,7 @@ export default class Core {
     this._container.appendChild(this._pixi.view);
 
     this._stage = new PIXI.Container();
-    this._spriteManager = new SpriteManager(this._stage, this._pixi, options);
+    this._spriteManager = new SpriteManager(this, options);
 
     for (const m of ['_run', '_renderNode', '_renderLine'])
       this[m] = this[m].bind(this);
@@ -115,6 +116,7 @@ export default class Core {
   init(g, layout) {
     this._graph = g;
     this._layout = layout;
+    //this._api = new API(this);
     this.xScale = d3.scale.linear();
     this.yScale = d3.scale.linear();
     const coloredLinksCount = {};
@@ -123,9 +125,10 @@ export default class Core {
       coloredLinksCount[linkColor] = (coloredLinksCount[linkColor] || 0) + 1;
     });
     this.spriteManager.setSizes(g.getNodesCount(), coloredLinksCount);
+    g.beginUpdate();
     g.forEachLink(this._createLink.bind(this));
     g.forEachNode(this._createNode.bind(this));
-
+    g.endUpdate();
     this._pn.on('view:size', this._renderResize, this);
     this._pn.emit('core:init');
     this._pn.emit('view:reset');
@@ -226,13 +229,18 @@ export default class Core {
   _updateNodeData(id, data) {
     if (!this.hasNode(id)) return;
     Object.assign(this.node(id).data, data);
-    this._pn.emit('node:update', this.node(id));
     return this._data.nodes[id];
   }
 
   _addNodeSprite(node, data) {
     const sprite = this.spriteManager.createNode(data);
     this._sprites.nodes[`${node.id}`] = sprite;
+  }
+
+  _removeNode(id) {
+    this.spriteManager.removeNode(id);
+    delete this._data.nodes[id];
+    delete this._sprites.nodes[id];
   }
 
   node(id) {
@@ -269,18 +277,24 @@ export default class Core {
     });
     this._data.links[`${link.id}`] = data;
     this._addLinkSprite(link, data);
+    return data;
   }
 
   _updateLinkData(id, data) {
     if (!this.hasLink(id)) return;
     Object.assign(this.link(id).data, data);
-    this._pn.emit('link:update', this.link(id));
     return this._data.links[id];
   }
 
   _addLinkSprite(link, data) {
     const sprite = this.spriteManager.createLink(data);
     this._sprites.links[`${link.id}`] = sprite;
+  }
+
+  _removeLink(id) {
+    this.spriteManager.removeLink(id);
+    delete this._data.links[id];
+    delete this._sprites.links[id];
   }
 
   link(id) {
