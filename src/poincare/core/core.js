@@ -187,6 +187,8 @@ export default class Core {
     this._pixi.resize(dims[0], dims[1]);
   }
 
+  /* --- Nodes --- */
+
   _renderNode(id) {
     const node = this.node(id);
     const sprite = this.nodeSprite(id);
@@ -198,26 +200,6 @@ export default class Core {
       sprite.scale.x = sprite.scale.y = 1;
     this._pn.emit('node:render', node);
   }
-
-  _renderLine(id) {
-    const link = this.link(id);
-    const src = [this.xScale(link.from.x), this.yScale(link.from.y)];
-    const dst = [this.xScale(link.to.x), this.yScale(link.to.y)];
-    const dy = dst[1] - src[1];
-    const dx = dst[0] - src[0];
-    const angle = Math.atan2(dy, dx);
-    const d = Math.hypot(dx, dy);
-    const sprite = this.linkSprite(id);
-    const r = this._pn._options.nodes.radius;
-    sprite.scale.x = (d - 2 * r) / DEFAULT_LINE_LENGTH;
-    sprite.scale.y = 1.0;
-    sprite.rotation = angle;
-    sprite.position.x = (dst[0] + src[0]) / 2;
-    sprite.position.y = (dst[1] + src[1]) / 2;
-    this._pn.emit('link:render', link);
-  }
-
-  /* --- Nodes --- */
 
   _createNode(node) {
     const data = this._getDataFrom.node(node);
@@ -269,6 +251,24 @@ export default class Core {
 
   /* --- Links --- */
 
+  _renderLine(id) {
+    const link = this.link(id);
+    const src = [this.xScale(link.from.x), this.yScale(link.from.y)];
+    const dst = [this.xScale(link.to.x), this.yScale(link.to.y)];
+    const dy = dst[1] - src[1];
+    const dx = dst[0] - src[0];
+    const angle = Math.atan2(dy, dx);
+    const d = Math.hypot(dx, dy);
+    const sprite = this.linkSprite(id);
+    const r = this._pn._options.nodes.radius;
+    sprite.scale.x = (d - 2 * r) / DEFAULT_LINE_LENGTH;
+    sprite.scale.y = 1.0;
+    sprite.rotation = angle;
+    sprite.position.x = (dst[0] + src[0]) / 2;
+    sprite.position.y = (dst[1] + src[1]) / 2;
+    this._pn.emit('link:render', link);
+  }
+
   _createLink(link) {
     const data = this._getDataFrom.link(link);
     Object.assign(data, {
@@ -276,25 +276,29 @@ export default class Core {
       to: this._layout.getNodePosition(link.toId)
     });
     this._data.links[`${link.id}`] = data;
-    this._addLinkSprite(link, data);
+    this._addLinkSprite(data);
     return data;
   }
 
-  _updateLinkData(id, data) {
-    if (!this.hasLink(id)) return;
-    Object.assign(this.link(id).data, data);
-    return this._data.links[id];
-  }
-
-  _addLinkSprite(link, data) {
-    const sprite = this.spriteManager.createLink(data);
-    this._sprites.links[`${link.id}`] = sprite;
+  _updateLink(id, data) {
+    let link = this._data.links[`${id}`];
+    const oldLink = _.cloneDeep(link),
+          oldSprite = this.linkSprite(id);
+    Object.assign(link.data, data);
+    this._createLink(link);
+    this.spriteManager.removeOldLink(oldLink, oldSprite);
+    return link;
   }
 
   _removeLink(id) {
     this.spriteManager.removeLink(id);
-    delete this._data.links[id];
     delete this._sprites.links[id];
+    delete this._data.links[id];
+  }
+
+  _addLinkSprite(link) {
+    const sprite = this.spriteManager.createLink(link);
+    this._sprites.links[`${link.id}`] = sprite;
   }
 
   link(id) {

@@ -75,6 +75,14 @@ export default class SpriteManager {
     return sprite;
   }
 
+  removeNode(id){
+    const md5 = new MD5();
+    const node = this._core.node(id);
+    const icon = this._options['icons'].source(node);
+    const hash = md5.hex(`${icon}`);
+    this._container(hash).removeChild(this._core._sprites.nodes[id]);
+  }
+
   createLink(link) {
     const { sprite, color } = this._generator('links')(link);
     const container = this._container(
@@ -85,18 +93,38 @@ export default class SpriteManager {
     return sprite;
   }
 
-  removeNode(id){
-    const md5 = new MD5();
-    const node = this._core.node(id);
-    const icon = this._options['icons'].source(node);
-    const hash = md5.hex(`${icon}`);
-    this._container(hash).removeChild(this._core._sprites.nodes[id]);
+  updateLinkSprite(id) {
+    const oldColor = this._options['links'].color({ data: oldData });
+    this._container(`links${color}`).removeChild(this._core._sprites.links[id]);
   }
 
-  removeLink(id){
+  removeLink(id) {
     const link = this._core.link(id);
     const color = css2pixi(this._options['links'].color(link));
     this._container(`links${color}`).removeChild(this._core._sprites.links[id]);
+    if(!this._container(`links${color}`).children.length){
+      let container = this._container(`links${color}`);
+      this._parent.removeChild(container);
+      container.destroy();
+      this._container.cache.delete(`links${color}`);
+    }
+  }
+
+  removeOldLink(link, sprite) {
+    const color = css2pixi(this._options['links'].color(link));
+    this._container(`links${color}`).removeChild(sprite);
+    if(!this._container(`links${color}`).children.length){
+      let container = this._container(`links${color}`);
+      this._parent.removeChild(container);
+      container.destroy();
+      this._container.cache.delete(`links${color}`);
+    }
+  }
+
+  getSpriteIndex(id) {
+    const link = this._core.link(id);
+    const color = css2pixi(this._options['links'].color(link));
+    return this._container(`links${color}`).getChildIndex(this._core._sprites.links[id]);
   }
 
   setSizes(nodeCount, colorDict) {

@@ -25,7 +25,7 @@ export default class Directions extends Plugin {
       this._pn.on('core:init', this._init, this);
       this._pn.on('view:frame', this._render, this);
       this._pn.on('link:create', this._onLinkCreate, this);
-      this._pn.on('link:update', this._onLinkCreate, this);
+      //this._pn.on('link:update', this._onLinkCreate, this);
       this._pn.on('link:remove', this._onLinkRemove, this);
     }
   }
@@ -46,10 +46,10 @@ export default class Directions extends Plugin {
     }
   }
 
-  _onLinkRemove(id){
-    this._container.removeChild(this._arrows[id].normal);
-    this._container.removeChild(this._arrows[id].reverse);
-    delete this._arrows[id];
+  _onLinkRemove(link){
+    this._container.removeChild(this._arrows[`${link.id}`].normal);
+    this._container.removeChild(this._arrows[`${link.id}`].reverse);
+    delete this._arrows[`${link.id}`];
   }
 
   unplug() {

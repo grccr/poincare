@@ -9,7 +9,7 @@ import { isFunction, isString } from 'lodash';
 
 import Options from './options';
 import Core from './core';
-import './core/api.js';
+//import './core/api.js';
 
 import './poincare.less';
 
@@ -299,24 +299,31 @@ export default class Poincare {
     return this.core._removeNode(id);
   }
 
-  createLink(to, from, data){
-    let link = this.graph.addLink(to, from, data || {});
+  createLink(from, to, data){
+    let link = this.graph.addLink(from, to, data || {});
     link = this.core._createLink(link);
     this.emit('link:create', link);
     return link;
   }
 
   updateLink(id, data){
-    const link = this._core.link(id);
-    this.graph.addLink(link.toId, link.fromId, data || {});
-    this.core._updateLinkData(id, data);
+    const link = this.core._updateLink(id, data);
     this.emit('link:update', link);
     return link;
   }
 
   removeLink(id){
-    this.emit('link:remove', id);
-    this.graph.removeLink(id);
-    return this.core._removeLink(id);
+    const link = _.cloneDeep(this.core.link(id));
+    this.graph.removeLink(link.formId, link.toId);
+    this.core._removeLink(id);
+    this.emit('link:remove', link);
+  }
+
+  test(){
+    let a = this.createNode('a', {label:'a'});
+    let b = this.createNode('b', {label:'b'});
+    let l = this.createLink('a', 'b', {label:'ab'});
+    l = this.updateLink(l.id, {label:'asdf', color:'#FF0000'});
+    this.removeLink(l.id);
   }
 }

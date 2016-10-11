@@ -51,7 +51,9 @@ export default class LineIndex extends Module {
   destroy() {
     this._pn
       .off('core:clear', this._clear)
-      .off('core:init', this._init);
+      .off('core:init', this._init)
+      .off('link:create', this._onLinkCreate)
+      .off('link:remove', this._onLinkRemove);
     this._clear();
     this._destroyMethods();
     this._tree =
@@ -70,8 +72,7 @@ export default class LineIndex extends Module {
     });
   }
 
-  _onLinkRemove(id) {
-    const link = this._pn.core.link(id);
+  _onLinkRemove(link) {
     const bbox = makeNormalLineBBox(link);
     this._tree.remove({ 
       id: link.id, 
@@ -79,7 +80,7 @@ export default class LineIndex extends Module {
       y0: bbox[1], 
       x1: bbox[2],
       y1: bbox[3]
-    });
+    }, function (a, b) {return a.id === b.id;});
   }
 
   _createLinkIndex() {

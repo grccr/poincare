@@ -95,7 +95,7 @@ export default class Radius extends Module {
 
   _onNodeRemove(id) {
     const node = this._pn.core.node(id);
-    this._tree.nodes.remove({ id: node.id, ...node.pos });
+    this._tree.nodes.remove({ id: node.id, ...node.pos }, function (a, b) {return a.id === b.id;});
     this._calculateRadiusMedian();
   }
 
@@ -104,9 +104,9 @@ export default class Radius extends Module {
     this._calculateRadiusMedian();
   }
 
-  _onLinkRemove(id) {
-    const link = this._pn.core.link(id);
-    this._tree.links.remove({ id: link.id, ...mid(link.to, link.from) });
+  _onLinkRemove(link) {
+    const item = { id: link.id, ...mid(link.to, link.from) };
+    this._tree.links.remove(item, function (a, b) {return a.id === b.id;});
     this._calculateRadiusMedian();
   }
 
@@ -154,7 +154,7 @@ export default class Radius extends Module {
     ids.forEach(id => {
       const element = this._pn.core[t](id);
       const pos = t === 'node' ? element.pos : mid(element.to, element.from);
-      const neighbor = knn(this._tree[`${t}s`], [pos.x, pos.y], 2)[1];
+      const neighbor = knn(this._tree[`${t}s`], pos.x, pos.y, 2)[1];
       sum += dist(pos, neighbor);
     });
     return sum / ids.length;
@@ -162,12 +162,12 @@ export default class Radius extends Module {
 
   getElementsByBbox(bbox, t = 'nodes') {
     const result = this._tree[t]
-      .search([
-        bbox.x,
-        bbox.y,
-        bbox.x + bbox.w,
-        bbox.y + bbox.h
-      ])
+      .search({
+        minX: bbox.x,
+        minY: bbox.y,
+        maxX: bbox.x + bbox.w,
+        maxY: bbox.y + bbox.h
+      })
       .map(e => e.id);
     return result;
   }

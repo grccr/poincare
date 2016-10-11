@@ -155,6 +155,10 @@ export default class Labels extends Plugin {
     this._labels && this._labels
       .filter(`.label-${CSS.escape(link.id)}`)
       .select('.inner.label')
+      .style('color', d => {
+        const c = d3.rgb(d.from ? d.data.color : 'black').darker(.7);
+        return `rgb(${c.r},${c.g},${c.b})`;
+      })
       .text(d => this._options.getter(d.data));
   }
 
@@ -187,7 +191,8 @@ export default class Labels extends Plugin {
       y: this._linkYScale((d.from.y + d.to.y) / 2)
     };
     delete d.width;
-    let rot = this._pn.core.linkSprite(d.id).rotation;
+    const sprite = this._pn.core.linkSprite(d.id);
+    let rot = sprite.rotation;
     if (rot < -Math.PI / 2) {
       rot += Math.PI;
     } else if (rot > Math.PI / 2) {
