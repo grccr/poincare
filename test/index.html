@@ -30,75 +30,102 @@
   }
 
   if (poincare.env == 'production' || poincare.env == 'stage') {
-
     var pn = new poincare.Poincare({
       container: '.graph',
+      zoom: {
+        min: 0.1,
+        max: 60
+      },
+      transparent: true,
+      nodes: {
+        radius: 16
+      },
+      links: {
+        color: (l) => {
+          return l.data.color || '#CCC';
+        }
+      },
       icons: {
         source: '/assets/icons/electric-icon.png',
         size: 16
       },
-      directions: {
-        show: true
-      },
       physics: {
-        stableThreshold: 100,
+        // stableThreshold: 0.001
         springLength: 100,
+        stableThreshold: 100
+      },
+      directions: {
+        show: true,
+        style: 'horizontal', // 'acute', 'tapered', 'expanded'
+        size: [6, 8] // [width, height]
       },
       plugins: [
-        poincare.plugins.Tween, poincare.plugins.Events,
-        poincare.plugins.Zoom, poincare.plugins.Lighter,
-        poincare.plugins.Radius, poincare.plugins.Labels,
-        poincare.plugins.Cursors, poincare.plugins.AutoResize,
-        poincare.plugins.LineIndex, poincare.plugins.Directions
+        poincare.plugins.AutoResize, 
+        poincare.plugins.Events, 
+        poincare.plugins.Lighter, 
+        poincare.plugins.Labels, 
+        poincare.plugins.Cursors, 
+        poincare.plugins.Directions
       ]
     });
-
-    // SOME GRAPH EVENT HANDLERS
-
-    pn.on('nodetip.over', id => pn.labels.highlight([id]));
-    pn.on('linktip.over', (id) => {
-      const item = pn._core.link(id);
-      pn.labels.highlight([item.fromId, item.toId]);
+    pn.on('zoom:start', () => console.debug('zoomstart'));
+    pn.on('zoom:stop', () => console.debug('zoomend'));
+    pn.on('view:reset', () => console.debug('viewreset'));
+    pn.on('core:run', () => console.debug('run'));
+    pn.on('layout:ready', () => console.debug('layoutstop'));
+    pn.on('zoom:change', () => console.debug('zoom'));
+    
+    pn.on('node:tip:hover', id => {
+      const labels = pn.plugins.labels;
+      labels && labels.highlight([id]);
     });
-
-    pn.on('nodemenu', (id) => {
-      const item = pn.graph().getNode(id);
-      console.debug('Node menu clicked', id, item);
-    });
-
-    pn.on('linkmenu', (id) => {
-      const item = pn._core.link(id);
-      console.debug('Link menu clicked', id, item);
-      return false;
-    });
-
-    pn.on('nodeclick', (id) => {
-      const item = pn.graph().getNode(id);
-      console.debug('Node clicked', id, item);
-    });
-    pn.on('linkclick', (id) => {
-      const item = pn._core.link(id);
-      console.debug('Link clicked', id, item);
-    });
-    pn.on('nodeover', (id) => {
-      pn.lighter.light([id]);
+    pn.on('node:over', (id) => {
+      const lighter = pn.plugins.lighter;
+      lighter && lighter.lightNodes([id]);
       console.debug('Node over', id);
     });
-    pn.on('nodeout', (id) => {
-      pn.lighter.light([]);
-      pn.labels.highlight([]);
+    pn.on('node:out', (id) => {
+      const lighter = pn.plugins.lighter;
+      const labels = pn.plugins.labels;
+      lighter && lighter.lightNodes([]);
+      labels && labels.highlight([]);
       console.debug('Node out', id);
     });
-    pn.on('linkover', (id) => {
-      const item = pn._core.link(id);
-      pn.lighter.lightLink([id]);
-      pn.lighter.light([item.fromId, item.toId]);
+    pn.on('node:click', (id, event) => {
+      const item = pn.graph.getNode(id);
+      console.debug('Node clicked', id, item, event);
+    });
+    pn.on('node:menu', (id, event) => {
+      const item = pn.graph.getNode(id);
+      console.debug('Node menu clicked', id, item, event);
+    });
+    pn.on('link:click', (id, event) => {
+      const item = pn.core.link(id);
+      console.debug('Just link clicked', id, item, event);
+    });
+    pn.on('link:menu', (id, event) => {
+      const item = pn.core.link(id);
+      console.debug('Link menu clicked', id, item, event);
+      return false;
+    });
+    pn.on('link:tip:hover', (id) => {
+      const item = pn.core.link(id);
+      const labels = pn.plugins.labels;
+      labels && labels.highlight([item.fromId, item.toId]);
+    });
+    pn.on('link:over', (id) => {
+      const item = pn.core.link(id);
+      const lighter = pn.plugins.lighter;
+      lighter && lighter.lightLinks([id]);
+      lighter && lighter.lightNodes([item.fromId, item.toId]);
       console.debug('Link over', id);
     });
-    pn.on('linkout', (id) => {
-      pn.lighter.lightLink([]);
-      pn.lighter.light([]);
-      pn.labels.highlight([]);
+    pn.on('link:out', (id) => {
+      const lighter = pn.plugins.lighter;
+      const labels = pn.plugins.labels;
+      lighter && lighter.lightLinks([]);
+      lighter && lighter.lightNodes([]);
+      labels && labels.highlight([]);
       console.debug('Link out', id);
     });
 
@@ -113,9 +140,17 @@
       options: { directed: true }
     };
 
-    pn.graph(poincare.parsers.NGraph.fromJSON(myGraph));
-    pn.zoom.alignToCenter();
-    pn.run();
+    pn.graph = poincare.parsers.NGraph.fromJSON(myGraph);
+
+    // Примеры API
+    // pn.on('layout:ready', () => {
+    //   let aNode = pn.createNode('a', {label:'a'});
+    //   // pn.updateNode('a', {label: 'newlabel'})
+    //   let bNode = pn.createNode('b', {label:'b'});
+    //   let l = pn.createLink('a', 'b', {label:'ab'});
+    //   l = pn.updateLink(l.id, {label:'newlink', color:'#FF0000'});
+    //   //pn.removeLink(l.id);
+    // });
   }
   </script>
 </body>
