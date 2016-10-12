@@ -316,12 +316,4 @@ export default class Poincare {
     this.core._removeLink(id);
     this.emit('link:remove', link);
   }
-
-  test(){
-    let a = this.createNode('a', {label:'a'});
-    let b = this.createNode('b', {label:'b'});
-    let l = this.createLink('a', 'b', {label:'ab'});
-    l = this.updateLink(l.id, {label:'asdf', color:'#FF0000'});
-    this.removeLink(l.id);
-  }
 }
