@@ -13,7 +13,7 @@ export const LinkSpriteGenerator = (renderer, options) => {
   return (link) => {
     const gfx = new PIXI.Graphics();
     const spriteColor = css2pixi(options.color(link));
-    gfx.lineStyle(1, spriteColor, 1);
+    gfx.lineStyle(0.5, spriteColor, 1);
     gfx.moveTo(0, 0);
     gfx.lineTo(DEFAULT_LINE_LENGTH, 0);
     const texture = gfx.generateTexture(1, PIXI.SCALE_MODES.DEFAULT);

@@ -130,17 +130,19 @@ export default class LineIndex extends Module {
     );
   }
 
-  nearest(pos, radius = 30) {
+  nearest(pos, radius = 20) {
     if (this._tree == null)
       return null;
-    const bbox = [
-      pos[0] - radius, pos[1] - radius,
-      pos[0] + radius, pos[1] + radius
-    ];
-    this._bbox.x0 = bbox[0];
-    this._bbox.y0 = bbox[1];
-    this._bbox.x1 = bbox[2];
-    this._bbox.y1 = bbox[3];
+    const bbox = {
+      minX: pos[0] - radius, 
+      minY: pos[1] - radius,
+      maxX: pos[0] + radius, 
+      maxY: pos[1] + radius
+    };
+    this._bbox.x0 = bbox.minX;
+    this._bbox.y0 = bbox.minY;
+    this._bbox.x1 = bbox.maxX;
+    this._bbox.y1 = bbox.maxY;
     const found = this._tree.search(bbox);
     if (found.length < 1)
       return null;

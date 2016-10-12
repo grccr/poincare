@@ -175,7 +175,7 @@ export default class Radius extends Module {
   nearest(pos, radius = 30) {
     if (null === this._tree.nodes || null === this._tree.links)
       return null;
-    const [nearest] = knn(this._tree.nodes, pos, 1);
+    const [nearest] = knn(this._tree.nodes, pos[0], pos[1], 1);
     if (nearest) {
       const distance = Math.hypot(nearest.x - pos[0], nearest.y - pos[1]);
       if (distance <= radius) {

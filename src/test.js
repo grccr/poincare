@@ -1,5 +1,6 @@
 'use strict';
 
+import d3 from 'd3';
 import axios from 'axios';
 
 import Poincare from './poincare';
@@ -21,6 +22,9 @@ const types = {
   'infrastructure/powerline': poleIcon,
   'infrastructure/powerplant': plantIcon
 };
+
+
+//const scale = d3.scale.category20();
 
 const pn = window.PN = new Poincare({
   container: '.graph',

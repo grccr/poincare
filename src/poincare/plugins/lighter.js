@@ -78,7 +78,7 @@ export default class Lighter extends Plugin {
         const ln = this._pn.core.link(id);
         this._linkGfx.lineStyle(
           prop.width * this._pn.zoom.truncatedScale(),
-          css2pixi(ln.data.color),
+          css2pixi(d3.hcl(ln.data.color).brighter(0.5)),
           prop.opacity
         );
         this._linkGfx.moveTo(X(ln.from.x), Y(ln.from.y));
