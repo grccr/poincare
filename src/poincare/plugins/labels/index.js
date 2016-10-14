@@ -26,7 +26,10 @@ export default class Labels extends Plugin {
       this._options.getter = fieldGetter(this._options.getter);
 
     this._initLayer(pn.container);
-
+    this._currentIDs = {
+      nodes: [],
+      links: []
+    };
     this._nodeXScale = (x, offset = -BASE_WIDTH / 2) =>
       Math.round(this._pn._core.xScale(x) + offset);
     this._nodeYScale = (y, offset = EM_SIZE * .75) =>

@@ -56,7 +56,7 @@
       },
       directions: {
         show: true,
-        style: 'horizontal', // 'acute', 'tapered', 'expanded'
+        style: 'acute', // 'acute', 'tapered', 'expanded'
         size: [6, 8] // [width, height]
       },
       plugins: [
@@ -142,6 +142,7 @@
 
     pn.graph = poincare.parsers.NGraph.fromJSON(myGraph);
 
+    Window.PN = pn;
     // Примеры API
     // pn.on('layout:ready', () => {
     //   let aNode = pn.createNode('a', {label:'a'});
