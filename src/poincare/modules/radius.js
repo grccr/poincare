@@ -1,4 +1,3 @@
-
 import rbush from 'rbush';
 import knn from 'rbush-knn';
 import Module from './base';
@@ -154,8 +153,8 @@ export default class Radius extends Module {
     ids.forEach(id => {
       const element = this._pn.core[t](id);
       const pos = t === 'node' ? element.pos : mid(element.to, element.from);
-      const neighbor = knn(this._tree[`${t}s`], pos.x, pos.y, 2)[1];
-      sum += dist(pos, neighbor);
+      const [neighbor1, neighbor2] = knn(this._tree[`${t}s`], pos.x, pos.y, 2);
+      sum += dist(pos, neighbor2 || neighbor1);
     });
     return sum / ids.length;
   }

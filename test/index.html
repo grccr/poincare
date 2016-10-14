@@ -37,12 +37,17 @@
         max: 60
       },
       transparent: true,
+      directions: {
+        show: true,
+        style: 'acute', // 'acute', 'tapered', 'expanded'
+        size: [6, 8] // [width, height]
+      },
       nodes: {
         radius: 16
       },
       links: {
-        color: (l) => {
-          return l.data.color || '#CCC';
+        color: (link) => {
+          return link.data.color || '#CCC';
         }
       },
       icons: {
@@ -53,11 +58,6 @@
         // stableThreshold: 0.001
         springLength: 100,
         stableThreshold: 100
-      },
-      directions: {
-        show: true,
-        style: 'acute', // 'acute', 'tapered', 'expanded'
-        size: [6, 8] // [width, height]
       },
       plugins: [
         poincare.plugins.AutoResize, 
@@ -142,16 +142,16 @@
 
     pn.graph = poincare.parsers.NGraph.fromJSON(myGraph);
 
-    Window.PN = pn;
+    //Window.PN = pn;
     // Примеры API
-    // pn.on('layout:ready', () => {
-    //   let aNode = pn.createNode('a', {label:'a'});
-    //   // pn.updateNode('a', {label: 'newlabel'})
-    //   let bNode = pn.createNode('b', {label:'b'});
-    //   let l = pn.createLink('a', 'b', {label:'ab'});
-    //   l = pn.updateLink(l.id, {label:'newlink', color:'#FF0000'});
-    //   //pn.removeLink(l.id);
-    // });
+    pn.on('layout:ready', () => {
+      let aNode = pn.createNode('a', {label:'a'});
+      pn.updateNode('a', {label: 'new'})
+      let bNode = pn.createNode('b', {label:'b'});
+      let l = pn.createLink('a', 'b', {label:'ab', dual:true});
+      l = pn.updateLink(l.id, {label:'asd', color:'#FF0000'});
+      //pn.removeLink(l.id);
+    });
   }
   </script>
 </body>

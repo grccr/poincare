@@ -38,7 +38,7 @@ export default class Directions extends Plugin {
     arrow.anchor.x = 0.5;
     arrow.anchor.y = 0.5;
     this._container.addChild(arrow);
-    if (this._options.getter(link)) {
+    if (this._options.getter(link.data)) {
       arrow = this._arrows[id].reverse = makeArrowSprite();
       arrow.anchor.x = 0.5;
       arrow.anchor.y = 0.5;
@@ -88,7 +88,7 @@ export default class Directions extends Plugin {
       arrow.anchor.x = 0.5;
       arrow.anchor.y = 0.5;
       container.addChild(arrow);
-      if (this._options.getter(core.link(id))) {
+      if (this._options.getter(core.link(id).data)) {
         arrow = this._arrows[id].reverse = makeArrowSprite();
         arrow.anchor.x = 0.5;
         arrow.anchor.y = 0.5;

@@ -15,7 +15,7 @@
     "nibble": "node ./node_modules/.bin/eslint-nibble src",
     "summary": "node ./node_modules/.bin/eslint --format ./node_modules/eslint-summary/summary.js src"
   },
-  "author": "Nick Ts. <fbd@yawny.ru>",
+  "author": "Nick Ts. <fbd@yawny.ru>, Dann <sharth23@gmail.com>, Alex <>",
   "license": "MIT",
   "devDependencies": {
     "autoprefixer": "^6.3.4",
