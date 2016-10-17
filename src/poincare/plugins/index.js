@@ -6,6 +6,7 @@ import Directions from './directions';
 import Events from './events';
 import Labels from './labels';
 import Lighter from './lighter';
+import Visualizer from './visualizer';
 
 export {
   Plugin,
@@ -14,5 +15,6 @@ export {
   Directions,
   Events,
   Labels,
-  Lighter
+  Lighter,
+  Visualizer
 };

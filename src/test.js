@@ -6,7 +6,7 @@ import axios from 'axios';
 import Poincare from './poincare';
 import * as nGraphParse from './poincare/parsers/ngraph';
 import {
-  AutoResize, Cursors, Directions, Events, Labels, Lighter
+  AutoResize, Cursors, Directions, Events, Labels, Lighter, Visualizer
 } from './poincare/plugins';
 
 const debug = require('debug')('poincare:app');
@@ -39,6 +39,9 @@ const pn = window.PN = new Poincare({
   links: {
     color: (l) => {
       return l.data.color || '#CCC';
+    },
+    width: (l) => {
+      return l.data.width || 0.5;
     }
   },
   icons: {
@@ -59,7 +62,10 @@ const pn = window.PN = new Poincare({
   directions: {
     show: true
   },
-  plugins: [AutoResize, Events, Lighter, Labels, Cursors, Directions]
+  visualizer: {
+    show: false
+  },
+  plugins: [AutoResize, Events, Lighter, Labels, Cursors, Directions, Visualizer]
 });
 
 pn.on('zoom:start', () => debug('zoomstart'));

@@ -47,6 +47,7 @@ export default class Core {
     this._container.appendChild(this._pixi.view);
 
     this._stage = new PIXI.Container();
+    this._stage.interactive = true;
     this._spriteManager = new SpriteManager(this, options);
 
     for (const m of ['_run', '_renderNode', '_renderLine'])
