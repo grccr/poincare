@@ -41,7 +41,7 @@ const pn = window.PN = new Poincare({
       return l.data.color || '#CCC';
     },
     width: (l) => {
-      return l.data.width || 0.5;
+      return Math.random()*15 + 0.5;
     }
   },
   icons: {
@@ -179,7 +179,7 @@ pn.on('link:out', (id) => {
 
 // debug('Poincare icons is', pn._options.icons);
 
-let n = 0;
+let n = 1;
 const testData = [
   '/data/estoniia.graphml',
   '/data/estoniia-color.graphml',

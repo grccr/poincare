@@ -19,4 +19,6 @@ export default class Module {
       if ('constructor' !== m && 'function' === typeof proto[m])
         this[m] = throwError.bind(null, m);
   }
+
+  update() {}
 }
