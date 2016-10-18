@@ -25,18 +25,26 @@ PoincareError.prototype.name = 'PoincareError';
 export default class Poincare {
   constructor(opts = {}) {
     this._options = Options.defaults;
-    this.options(opts);
+    this.options(opts, false);
     this._createEmitter();
     this._createContainer();
     this._createCore();
     this._installModules();
-    //this._installAPI();
     this.updateDimensions();
   }
 
-  options(opts) {
+  options(opts, update = true) {
     if (opts !== null) {
       this._options = Options.merge(this._options, opts);
+    } 
+    if(update) { 
+      this._updatePlugins(opts);
+      this.emit('view:start'); // for visualizer
+      this.zoom && this.emit(
+        'view:reset',
+        this.zoom._zoom.translate(),
+        this.zoom._zoom.scale()
+      );
     }
     return this._options;
   }
@@ -171,6 +179,16 @@ export default class Poincare {
       const name = plugin.name.toLowerCase();
       this[pluginsListProp][name] = new plugin(this, this._options[name]);
       debug(`${plugin.name} plugin is installed`);
+    }
+  }
+
+  _updatePlugins(opts) {
+    const plugins = this.plugins;
+    for (const name in plugins) {
+      if(opts[name]) {
+        this.plugins[name].update(this, opts[name]);
+        debug(`${name} plugin is updated`);
+      }
     }
   }
 

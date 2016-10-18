@@ -102,6 +102,13 @@ export default class LineIndex extends Module {
     debug('Link index created', tree.all());
   }
 
+  _getLinksByBbox(bbox) {
+    if(this._tree) 
+      return this._tree.search(bbox);
+    else
+      return [];
+  }
+
   _renderSquares() {
     this._gfx.clear();
     this._gfx.lineStyle(1, 0x000000);

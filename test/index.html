@@ -50,6 +50,9 @@
           return link.data.color || '#CCC';
         }
       },
+      labels: {
+        getter: (d) => { return d.name; }
+      },
       icons: {
         source: '/assets/icons/electric-icon.png',
         size: 16
@@ -146,10 +149,10 @@
     // Примеры API
     pn.on('layout:ready', () => {
       let aNode = pn.createNode('a', {label:'a'});
-      pn.updateNode('a', {label: 'new'})
+      pn.updateNode('a', {label: 'new', name:'AA'})
       let bNode = pn.createNode('b', {label:'b'});
       let l = pn.createLink('a', 'b', {label:'ab', dual:true});
-      l = pn.updateLink(l.id, {label:'asd', color:'#FF0000'});
+      l = pn.updateLink(l.id, {label:'asd', color:'#FF0000', name: 'link'});
       //pn.removeLink(l.id);
     });
   }

@@ -56,6 +56,13 @@ export default class Labels extends Plugin {
     this._createTooltipEvents(linkOvers, linkOuts, 'link:tip');
   }
 
+  update(pn, opts) {
+    Object.assign(this._options, opts || {});
+    if (typeof this._options.getter !== 'function')
+      this._options.getter = fieldGetter(this._options.getter);
+    this._labels.remove();
+  }
+
   unplug() {
     this._pn
       .off('view:size', this._resizeLayer)
@@ -249,7 +256,9 @@ export default class Labels extends Plugin {
             const c = d3.rgb(d.from? that._pn._options.links.color(d): 'black').darker(.5);
             return `rgb(${c.r},${c.g},${c.b})`;
           })
-          .text(d => this._options.getter(d.data))
+          .text(d => {
+            return that._options.getter(d.data);
+          })
           .transition()
             .duration(1000)
             .style('opacity', 100);

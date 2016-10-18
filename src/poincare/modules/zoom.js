@@ -34,6 +34,7 @@ export default class Zoom extends Module {
     this.alignToCenter();
 
     this._zoom.on('zoomstart', () => {
+      this._pn.emit('view:start');
       this._cancelViewReset();
     });
 

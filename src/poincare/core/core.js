@@ -130,7 +130,7 @@ export default class Core {
     g.endUpdate();
     this._pn.on('view:size', this._renderResize, this);
     this._pn.emit('core:init');
-    this._pn.emit('view:reset');
+    //this._pn.emit('view:reset');
 
     return g;
   }

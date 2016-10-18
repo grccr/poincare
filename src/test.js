@@ -54,6 +54,9 @@ const pn = window.PN = new Poincare({
     },
     size: 16
   },
+  // labels: {
+  //   getter: (d) => { return d.label; }
+  // },
   physics: {
     // stableThreshold: 0.001
     springLength: 100,
@@ -63,7 +66,7 @@ const pn = window.PN = new Poincare({
     show: true
   },
   visualizer: {
-    show: false
+    show: true
   },
   plugins: [AutoResize, Events, Lighter, Labels, Cursors, Directions, Visualizer]
 });
