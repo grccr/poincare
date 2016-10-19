@@ -8,7 +8,8 @@ export default class Visualizer extends Plugin {
   constructor(pn, opts) {
     super();
     this._options = Object.assign({
-      show: false
+      show: false,
+      arrows: false
     }, opts || {});
 
     this._pn = pn;
@@ -51,6 +52,9 @@ export default class Visualizer extends Plugin {
       offset = this._pn._options.nodes.radius;
     _.each(links, (l) => {
       const link = core.link(l.id);
+      const w = that._pn.zoom.truncatedScale() * that._pn._options.links.width(link);
+      if(!!w && w <= 0) return;
+
       const src = [core.xScale(link.from.x), core.yScale(link.from.y)];
       const dst = [core.xScale(link.to.x), core.yScale(link.to.y)];
       const dy = dst[1] - src[1];
@@ -66,10 +70,14 @@ export default class Visualizer extends Plugin {
       this._drawLine({
         src: _.zipWith(src, trg, _.add),
         dst: _.zipWith(dst, trg2, _.add),
-        w: that._pn._options.links.width(link), 
+        w: w, 
         c: css2pixi(that._pn._options.links.color(link)), 
         a: 0.3
       });
+
+      if(that._options.arrows) {
+
+      }
     });
   }
 
@@ -78,6 +86,10 @@ export default class Visualizer extends Plugin {
     graphics.lineStyle(opts.w, opts.c, opts.a);
     graphics.moveTo(opts.src[0], opts.src[1]);
     graphics.lineTo(opts.dst[0], opts.dst[1]);
+  }
+
+  _drawArrow(opts) {
+
   }
 }
 

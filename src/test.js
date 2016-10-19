@@ -37,11 +37,11 @@ const pn = window.PN = new Poincare({
     radius: 16
   },
   links: {
-    color: (l) => {
-      return l.data.color || '#CCC';
+    lineColor: (l) => {
+      return '#CCC';
     },
     width: (l) => {
-      return Math.random()*15 + 0.5;
+      return l.data.width || 0;
     }
   },
   icons: {
@@ -66,7 +66,18 @@ const pn = window.PN = new Poincare({
     show: true
   },
   visualizer: {
-    show: true
+    show: true,
+
+  },
+  linkRanger: {
+    show: true,
+    colors: ['#232332', '#555', '#111'],
+    // width: [1, 20]
+    width: 1
+  },
+  linkClassifier: {
+    show: true,
+    colors: ['#232332', '#555', '#111'],
   },
   plugins: [AutoResize, Events, Lighter, Labels, Cursors, Directions, Visualizer]
 });
@@ -179,7 +190,7 @@ pn.on('link:out', (id) => {
 
 // debug('Poincare icons is', pn._options.icons);
 
-let n = 1;
+let n = 0;
 const testData = [
   '/data/estoniia.graphml',
   '/data/estoniia-color.graphml',
