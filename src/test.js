@@ -38,10 +38,10 @@ const pn = window.PN = new Poincare({
   },
   links: {
     color: (l) => {
-      return '#CCC';
+      return l.data.color || '#CCC';
     },
     width: (l) => {
-      return (l.data && l.data.width) || 0.5;
+      return l.data.width || 0.5;
     }
   },
   icons: {
@@ -75,7 +75,7 @@ const pn = window.PN = new Poincare({
     show: true,
     colors: 'category10',
     colorGetter: 'voltage',
-    width: [1, 15],
+    width: [1, 12],
     widthGetter: 'voltage'
   },
   plugins: [AutoResize, Events, Lighter, Labels, Cursors, Directions, LinkClassifier]
