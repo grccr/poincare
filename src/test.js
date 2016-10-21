@@ -6,7 +6,7 @@ import axios from 'axios';
 import Poincare from './poincare';
 import * as nGraphParse from './poincare/parsers/ngraph';
 import {
-  AutoResize, Cursors, Directions, Events, Labels, Lighter, Visualizer
+  AutoResize, Cursors, Directions, Events, Labels, Lighter, LinkClassifier
 } from './poincare/plugins';
 
 const debug = require('debug')('poincare:app');
@@ -37,11 +37,11 @@ const pn = window.PN = new Poincare({
     radius: 16
   },
   links: {
-    lineColor: (l) => {
+    color: (l) => {
       return '#CCC';
     },
     width: (l) => {
-      return l.data.width || 0;
+      return (l.data && l.data.width) || 0.5;
     }
   },
   icons: {
@@ -65,21 +65,20 @@ const pn = window.PN = new Poincare({
   directions: {
     show: true
   },
-  visualizer: {
+  // linkRanger: {
+  //   show: true,
+  //   colors: ['#232332', '#555', '#111'],
+  //   // width: [1, 20]
+  //   width: 1
+  // },
+  linkclassifier: {
     show: true,
-
+    colors: 'category10',
+    colorGetter: 'voltage',
+    width: [1, 15],
+    widthGetter: 'voltage'
   },
-  linkRanger: {
-    show: true,
-    colors: ['#232332', '#555', '#111'],
-    // width: [1, 20]
-    width: 1
-  },
-  linkClassifier: {
-    show: true,
-    colors: ['#232332', '#555', '#111'],
-  },
-  plugins: [AutoResize, Events, Lighter, Labels, Cursors, Directions, Visualizer]
+  plugins: [AutoResize, Events, Lighter, Labels, Cursors, Directions, LinkClassifier]
 });
 
 pn.on('zoom:start', () => debug('zoomstart'));
@@ -190,7 +189,7 @@ pn.on('link:out', (id) => {
 
 // debug('Poincare icons is', pn._options.icons);
 
-let n = 0;
+let n = 3;
 const testData = [
   '/data/estoniia.graphml',
   '/data/estoniia-color.graphml',

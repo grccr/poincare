@@ -259,7 +259,7 @@ export default class Core {
     const angle = Math.atan2(dy, dx);
     const d = Math.hypot(dx, dy);
     const sprite = this.linkSprite(id);
-    const r = this._pn._options.nodes.radius;
+    const r = this._pn._options.nodes.radius * this._pn.zoom.truncatedScale();
     sprite.scale.x = (d - 2 * r) / DEFAULT_LINE_LENGTH;
     sprite.scale.y = 1.0;
     sprite.rotation = angle;

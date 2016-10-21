@@ -6,7 +6,7 @@ import Directions from './directions';
 import Events from './events';
 import Labels from './labels';
 import Lighter from './lighter';
-import Visualizer from './visualizer';
+import LinkClassifier from './linkclassifier';
 
 export {
   Plugin,
@@ -16,5 +16,5 @@ export {
   Events,
   Labels,
   Lighter,
-  Visualizer
+  LinkClassifier
 };
