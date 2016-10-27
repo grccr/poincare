@@ -37,39 +37,47 @@
         max: 60
       },
       transparent: true,
-      directions: {
-        show: true,
-        style: 'acute', // 'acute', 'tapered', 'expanded'
-        size: [6, 8] // [width, height]
-      },
       nodes: {
         radius: 16
       },
       links: {
-        color: (link) => {
-          return link.data.color || '#CCC';
+        color: (l) => {
+          return l.data.color || '#CCC';
+        },
+        width: (l) => {
+          return l.data.width || 0.5;
         }
       },
-      labels: {
-        getter: (d) => { return d.name; }
-      },
       icons: {
-        source: '/assets/icons/electric-icon.png',
+        source: (d) => {
+          if (d.data.type === 'infrastructure/powerline' && d.links.length < 2)
+            return homeIcon;
+          if (d.data.type in types)
+            return types[d.data.type];
+          return stationIcon;
+        },
         size: 16
       },
+      // labels: {
+      //   getter: (d) => { return d.label; }
+      // },
       physics: {
         // stableThreshold: 0.001
         springLength: 100,
         stableThreshold: 100
       },
-      plugins: [
-        poincare.plugins.AutoResize, 
-        poincare.plugins.Events, 
-        poincare.plugins.Lighter, 
-        poincare.plugins.Labels, 
-        poincare.plugins.Cursors, 
-        poincare.plugins.Directions
-      ]
+      directions: {
+        show: true
+      },
+      linkclassifier: {
+        show: true,
+        alpha: 0.3, 
+        colors: 'category10',
+        colorGetter: (d) => d.voltage,
+        width: [2, 20],
+        widthGetter: 'voltage',
+      },
+      plugins: [AutoResize, Events, Lighter, Labels, Cursors, Directions, LinkClassifier]
     });
     pn.on('zoom:start', () => console.debug('zoomstart'));
     pn.on('zoom:stop', () => console.debug('zoomend'));
@@ -154,6 +162,13 @@
       let l = pn.createLink('a', 'b', {label:'ab', dual:true});
       l = pn.updateLink(l.id, {label:'asd', color:'#FF0000', name: 'link'});
       //pn.removeLink(l.id);
+    });
+
+    pn.options({
+      linkclassifier: {
+        alpha: 0.3,
+        colors: 'category20c'
+      }
     });
   }
   </script>

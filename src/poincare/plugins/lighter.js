@@ -12,7 +12,11 @@ export default class Lighter extends Plugin {
     super();
     this._options = Object.assign({
       nodeColor: '#F2EF42',
-      linkColor: '#F1D0F5',
+      linkColor: pn.manager._options.color,
+      fromWidth: 15,
+      fromOpacity: 0,
+      toWidth: 5,
+      toOpacity: 0.3,
       radius: pn._options.nodes.radius
     }, opts || {});
 
@@ -29,6 +33,12 @@ export default class Lighter extends Plugin {
     this._initLinkTransitioner();
   }
 
+  update(pn, opts) {
+    Object.assign(this._options, opts || {});
+    for (const opt of ['nodeColor', 'linkColor'])
+      this._options[opt] = css2pixi(this._options[opt]);
+  }
+  
   unplug() {
     this._destroyMethods();
     this._nodetrans.destroy();
@@ -69,8 +79,14 @@ export default class Lighter extends Plugin {
     this._linktrans = new Transitioner(this._pn)
       .easing(TWEEN.Easing.Sinusoidal.Out)
       .duration(250, 750)
-      .from(() => ({ opacity: 0, width: 21 }))
-      .to(() => ({ opacity: 0.3, width: 11 }))
+      .from((id) => ({ 
+        opacity: this._options.fromOpacity, 
+        width: this._pn.manager.width(id) + this._options.fromWidth
+      }))
+      .to((id) => ({ 
+        opacity: this._options.toOpacity, 
+        width: this._pn.manager.width(id) + this._options.toWidth 
+      }))
       .beforeRendering(() => {
         this._linkGfx.clear();
       })
@@ -78,7 +94,7 @@ export default class Lighter extends Plugin {
         const ln = this._pn.core.link(id);
         this._linkGfx.lineStyle(
           prop.width * this._pn.zoom.truncatedScale(),
-          css2pixi(this._pn.plugins.linkclassifier.linkColor(id)),
+          css2pixi(this._pn.manager.color(id)),
           prop.opacity
         );
         this._linkGfx.moveTo(X(ln.from.x), Y(ln.from.y));

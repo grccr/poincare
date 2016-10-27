@@ -10,14 +10,11 @@ export default class LinkClassifier extends Plugin {
     super();
     this._options = Object.assign({
       show: false,
-      arrows: false,
-      alpha: 0.3,
+      alpha: 0.3, 
       colors: 'category20',
       colorGetter: null,
-      onlyColor: false,
       width: 1,
       widthGetter: null,
-      onlyWidth: false
     }, opts || {});
 
     this._pn = pn;
@@ -33,6 +30,8 @@ export default class LinkClassifier extends Plugin {
       //this._pn.on('link:remove', this._onLinkRemove, this);
     }
   }
+
+  get options() { return this._options; } 
 
   update(pn, opts) {
     Object.assign(this._options, opts || {});
@@ -109,11 +108,11 @@ export default class LinkClassifier extends Plugin {
     }
   }
 
-  linkColor(id) {
+  color(id) {
     return this._color(this._options.colorGetter(this._core.link(id).data));
   }
 
-  linkWidth(id) {
+  width(id) {
     return this._width(this._options.widthGetter(this._core.link(id).data));
   }
 
@@ -125,7 +124,7 @@ export default class LinkClassifier extends Plugin {
   }
 
   _clear() {
-    this._graphics.clear();
+    this._graphics && this._graphics.clear();
   }
 
   _firstRender() {
@@ -162,8 +161,8 @@ export default class LinkClassifier extends Plugin {
       this._drawLine({
         src: _.zipWith(src, trg, _.add),
         dst: _.zipWith(dst, trg2, _.add),
-        w: this._pn.zoom.truncatedScale() * this.linkWidth(l.id), 
-        c: css2pixi(this.linkColor(l.id)), 
+        w: this._pn.zoom.truncatedScale() * this.width(l.id), 
+        c: css2pixi(this.color(l.id)), 
         a: this._options.alpha
       });
 

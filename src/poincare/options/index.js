@@ -1,5 +1,5 @@
 
-import { LineIndex, Radius, Tween, VersionControl, Zoom } from '../modules';
+import { Manager, LineIndex, Radius, Tween, VersionControl, Zoom } from '../modules';
 import { Events } from '../plugins';
 import { isFunction, merge } from 'lodash';
 import { css2pixi } from '../helpers';
@@ -23,10 +23,8 @@ const Options = {
       radius: 13,
       view: 'icons'
     },
-
-    links: {
-      color: '#CCC'
-    },
+    
+    links: {},
 
     icons: {
       source: worldIcon,
@@ -43,7 +41,7 @@ const Options = {
 
     plugins: [Events],
 
-    _modules: [VersionControl, Zoom, Radius, LineIndex, Tween]
+    _modules: [VersionControl, Zoom, Radius, LineIndex, Tween, Manager]
   },
 
   check(v) {
@@ -65,9 +63,6 @@ const Options = {
     const check = this.check.bind(this);
     const convertable = {
       background: css2pixi(opts.background),
-      links: {
-        color: check(opts.links.color)
-      },
       nodes: {
         view: check(opts.nodes.view)
       },

@@ -12,14 +12,13 @@ export const DEFAULT_LINE_LENGTH = 1000;
 export const LinkSpriteGenerator = (renderer, options) => {
   return (link) => {
     const gfx = new PIXI.Graphics();
-    const spriteColor = css2pixi(options.color(link));
-    gfx.lineStyle(0.5, spriteColor, 1);
+    gfx.lineStyle(0.5, '#CCC', 0.3);
     gfx.moveTo(0, 0);
     gfx.lineTo(DEFAULT_LINE_LENGTH, 0);
     const texture = gfx.generateTexture(1, PIXI.SCALE_MODES.DEFAULT);
     const sprite = new PIXI.Sprite(texture);
     sprite.anchor.x = sprite.anchor.y = 0.5;
-    return { sprite, color: spriteColor };
+    return sprite;
   };
 };
 
@@ -103,11 +102,8 @@ export default class SpriteManager {
   }
 
   createLink(link) {
-    const { sprite, color } = this._generator('links')(link);
-    const container = this._container(
-      `links${color}`,
-      this._colorLinkCount[color]
-    );
+    const sprite = this._generator('links')(link);
+    const container = this._container(`links`);
     container.addChild(sprite);
     return sprite;
   }

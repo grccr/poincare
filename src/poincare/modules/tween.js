@@ -108,9 +108,9 @@ export class Transitioner {
     if (id in this._tweens)
       this._removeTween(id);
     else
-      this._props[id] = this._initProp();
+      this._props[id] = this._initProp(id);
     this._tweens[id] = new TWEEN.Tween(this._props[id])
-      .to(this._destProp(), this._duration)
+      .to(this._destProp(id), this._duration)
       .easing(this._easing)
       .start();
   }

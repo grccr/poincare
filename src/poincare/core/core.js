@@ -118,12 +118,7 @@ export default class Core {
     //this._api = new API(this);
     this.xScale = d3.scale.linear();
     this.yScale = d3.scale.linear();
-    const coloredLinksCount = {};
-    g.forEachLink(link => {
-      const linkColor = css2pixi(this._pn._options.links.color(link));
-      coloredLinksCount[linkColor] = (coloredLinksCount[linkColor] || 0) + 1;
-    });
-    this.spriteManager.setSizes(g.getNodesCount(), coloredLinksCount);
+    this.spriteManager.setSizes(g.getNodesCount(), {});
     g.beginUpdate();
     g.forEachLink(this._createLink.bind(this));
     g.forEachNode(this._createNode.bind(this));

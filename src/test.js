@@ -23,9 +23,6 @@ const types = {
   'infrastructure/powerplant': plantIcon
 };
 
-
-//const scale = d3.scale.category20();
-
 const pn = window.PN = new Poincare({
   container: '.graph',
   zoom: {
@@ -36,14 +33,10 @@ const pn = window.PN = new Poincare({
   nodes: {
     radius: 16
   },
-  links: {
-    color: (l) => {
-      return l.data.color || '#CCC';
-    },
-    width: (l) => {
-      return l.data.width || 0.5;
-    }
-  },
+  // links: {
+  //   //color: (d) => { return d.voltage || 1000; },
+  //   width: (d) => { return d.width || 0.5; }
+  // },
   icons: {
     source: (d) => {
       if (d.data.type === 'infrastructure/powerline' && d.links.length < 2)
@@ -65,18 +58,12 @@ const pn = window.PN = new Poincare({
   directions: {
     show: true
   },
-  // linkRanger: {
-  //   show: true,
-  //   colors: ['#232332', '#555', '#111'],
-  //   // width: [1, 20]
-  //   width: 1
-  // },
   linkclassifier: {
     show: true,
     colors: 'category10',
-    colorGetter: 'voltage',
-    width: [1, 12],
-    widthGetter: 'voltage'
+    colorGetter: (d) => d.voltage,
+    width: [2, 20],
+    widthGetter: 'voltage',
   },
   plugins: [AutoResize, Events, Lighter, Labels, Cursors, Directions, LinkClassifier]
 });
@@ -189,7 +176,7 @@ pn.on('link:out', (id) => {
 
 // debug('Poincare icons is', pn._options.icons);
 
-let n = 3;
+let n = 1;
 const testData = [
   '/data/estoniia.graphml',
   '/data/estoniia-color.graphml',

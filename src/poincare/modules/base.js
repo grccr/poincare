@@ -20,5 +20,5 @@ export default class Module {
         this[m] = throwError.bind(null, m);
   }
 
-  update() {}
+  
 }
