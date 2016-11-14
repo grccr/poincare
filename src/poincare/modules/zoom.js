@@ -142,24 +142,26 @@ export default class Zoom extends Module {
     }
   }
 
-  fitBounds(bbox, padding = 100, maxZoom = 3) {
+  fitBounds(bbox, padding = 100, maxZoom = 12) {
     const dims = this._pn._dims;
     const pDims = dims.map(d => (d - padding * 2));
     const center = dims.map(d => d / 2);
     const { width: w, height: h, x, y } = bbox;
-    const calcScale = (pA, pB, a, b) => {
-      let sc = pA / a;
-      if (b * sc >= pB)
-        sc = pB / b * sc * sc;
-      return sc;
-    };
+    // const calcScale = (pA, pB, a, b) => {
+    //   let sc = pA / a;
+    //   if (b * sc >= pB)
+    //     sc = pB / b * sc * sc;
+    //   return sc;
+    // };
 
-    let sc = (w > h) ? calcScale(pDims[0], pDims[1], w, h) :
-                       calcScale(pDims[1], pDims[0], h, w);
-    sc = Math.min(sc, maxZoom);
+    // let sc = (w > h) ? calcScale(pDims[0], pDims[1], w, h) :
+    //                    calcScale(pDims[1], pDims[0], h, w);
+    // sc = Math.min(sc, maxZoom);
 
-    const bboxCenter = [(x + w / 2) * sc, (y + h / 2) * sc];
-    const tr = center.map((d, i) => (d - bboxCenter[i]));
+    // const bboxCenter = [(x + w / 2) * sc, (y + h / 2) * sc];
+    // const tr = center.map((d, i) => (d - bboxCenter[i]));
+    let sc = Math.max(1, Math.min(8, 0.9 / Math.max(w / dims[0], h / dims[1])));
+    let tr = [dims[0] / 2 - sc * x, dims[1] / 2 - sc * y];
 
     this.transform(tr, sc);
   }

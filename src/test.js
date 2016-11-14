@@ -60,7 +60,7 @@ const pn = window.PN = new Poincare({
   },
   linkclassifier: {
     show: true,
-    colors: 'category10',
+    colors: 'category20c',
     colorGetter: (d) => d.voltage,
     width: [2, 20],
     widthGetter: 'voltage',

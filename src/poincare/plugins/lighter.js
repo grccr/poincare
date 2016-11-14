@@ -13,9 +13,9 @@ export default class Lighter extends Plugin {
     this._options = Object.assign({
       nodeColor: '#F2EF42',
       linkColor: pn.manager._options.color,
-      fromWidth: 15,
+      fromWidth: 20,
       fromOpacity: 0,
-      toWidth: 5,
+      toWidth: 10,
       toOpacity: 0.3,
       radius: pn._options.nodes.radius
     }, opts || {});
@@ -38,7 +38,7 @@ export default class Lighter extends Plugin {
     for (const opt of ['nodeColor', 'linkColor'])
       this._options[opt] = css2pixi(this._options[opt]);
   }
-  
+
   unplug() {
     this._destroyMethods();
     this._nodetrans.destroy();

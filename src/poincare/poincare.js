@@ -295,6 +295,13 @@ export default class Poincare {
     this._graph = null;
   }
 
+  // Zoom
+
+  zoomTo(bbox) {
+    this.zoom.fitBounds(bbox);
+  }
+  
+  // API
   createNode(id, data){
     const node = this.graph.addNode(id, data || {});
     this.core._createNode(node);
