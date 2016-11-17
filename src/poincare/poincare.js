@@ -302,9 +302,10 @@ export default class Poincare {
   }
   
   // API
-  createNode({id, data}){
+  createNode({id, data, pos}){
     const node = this.graph.addNode(id, data || {});
     this.core._createNode(node);
+    pos && this._moveNode(id, pos);
     this.emit('node:create', node);
     return node;
   }
@@ -313,9 +314,24 @@ export default class Poincare {
     _.each(nodes, (node) => this.createNode(node));
   }
 
-  updateNode(id, data){
+  moveNode(id, {x, y}) {
+    this._layout.setNodePosition(id, this.core.xScale.invert(x), this.core.xScale.invert(y));
+    this.emit('view:start'); // for visualizer
+    this.zoom && this.emit(
+      'view:reset',
+      this.zoom._zoom.translate(),
+      this.zoom._zoom.scale()
+    );
+  }
+
+  moveNodes(nodes) {
+    _.each(nodes, (node) => this.moveNode(node));
+  }
+
+  updateNode({id, data, pos}){
     const node = this.graph.addNode(id, data || {});
     this.core._updateNodeData(id, data);
+    pos && this._moveNode(id, pos);
     this.emit('node:update', node);
     return node;
   }
