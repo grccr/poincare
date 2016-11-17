@@ -173,7 +173,9 @@ pn.on('link:out', (id) => {
   labels && labels.highlight([]);
   debug('Link out', id);
 });
-
+pn.on('layout:ready', () => {
+  debug('Layout is ready.');
+});
 // debug('Poincare icons is', pn._options.icons);
 
 let n = 1;

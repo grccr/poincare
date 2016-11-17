@@ -302,11 +302,15 @@ export default class Poincare {
   }
   
   // API
-  createNode(id, data){
+  createNode({id, data}){
     const node = this.graph.addNode(id, data || {});
     this.core._createNode(node);
     this.emit('node:create', node);
     return node;
+  }
+
+  createNodes(nodes){
+    _.each(nodes, (node) => this.createNode(node));
   }
 
   updateNode(id, data){
@@ -316,23 +320,39 @@ export default class Poincare {
     return node;
   }
 
+  updateNodes(nodes){
+    _.each(nodes, (node) => this.updateNode(node));
+  }
+
   removeNode(id){
     this.emit('node:remove', id);
     this.graph.removeNode(id);
     return this.core._removeNode(id);
   }
 
-  createLink(from, to, data){
+  removeNodes(nodes){
+    _.each(nodes, (node) => this.removeNode(node));
+  }
+
+  createLink({from, to, data}){
     let link = this.graph.addLink(from, to, data || {});
     link = this.core._createLink(link);
     this.emit('link:create', link);
     return link;
   }
 
-  updateLink(id, data){
+  createLinks(links){
+    _.each(links, (link) => this.createLink(link));
+  }
+
+  updateLink({id, data}){
     const link = this.core._updateLink(id, data);
     this.emit('link:update', link);
     return link;
+  }
+
+  updateLinks(links){
+    _.each(links, (link) => this.updateLink(link));
   }
 
   removeLink(id){
@@ -340,5 +360,9 @@ export default class Poincare {
     this.graph.removeLink(link.formId, link.toId);
     this.core._removeLink(id);
     this.emit('link:remove', link);
+  }
+
+  removeLinks(links){
+    _.each(links, (link) => this.removeLink(link));
   }
 }

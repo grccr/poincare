@@ -276,11 +276,7 @@ export default class Core {
 
   _updateLink(id, data) {
     let link = this._data.links[`${id}`];
-    const oldLink = _.cloneDeep(link),
-          oldSprite = this.linkSprite(id);
     Object.assign(link.data, data);
-    this._createLink(link);
-    this.spriteManager.removeOldLink(oldLink, oldSprite);
     return link;
   }
 

@@ -166,7 +166,7 @@ export default class Labels extends Plugin {
       .filter(`.label-${CSS.escape(link.id)}`)
       .select('.inner.label')
       .style('color', d => {
-        const c = this._pn.options.links.color(d).darker(.5);
+        const c = d3.rgb(this._pn.manager.color(d.id)).darker(.5);
         return `rgb(${c.r},${c.g},${c.b})`;
       })
       .text(d => this._options.getter(d.data));
@@ -253,7 +253,7 @@ export default class Labels extends Plugin {
           .classed('inner label', true)
           .style('opacity', 0)
           .style('color', d => {
-            const c = d3.rgb(d.from? that._pn._options.links.color(d): 'black').darker(.5);
+            const c = d3.rgb(d.from? this._pn.manager.color(d.id): 'black').darker(.5);
             return `rgb(${c.r},${c.g},${c.b})`;
           })
           .text(d => {

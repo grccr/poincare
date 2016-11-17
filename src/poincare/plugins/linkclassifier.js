@@ -127,9 +127,37 @@ export default class LinkClassifier extends Plugin {
     this._graphics && this._graphics.clear();
   }
 
+  _clearAndRender() {
+    this._clear();
+    this._render();
+  }
+
   _firstRender() {
     this._render();
     this._pn.on('view:reset', this._render, this);
+    this._pn.on('link:create', this._onLinkCreate, this);
+    this._pn.on('link:update', this._onLinkCreate, this);
+    this._pn.on('link:remove', this._clearAndRender, this);
+  }
+
+  _onLinkCreate(link) {
+    const c = this._options.colorGetter(link.data),
+          w = this._options.widthGetter(link.data);
+    this._color(c);
+    this._width(w);
+    let colordomain = this._color.domain(),
+        widthdomain = this._width.domain();
+    if (typeof colordomain[0] === 'number') {
+      this._color.domain(colordomain.sort((a,b) => a - b));
+    } else {
+      this._color.domain(colordomain.sort());
+    }
+    if (typeof widthdomain[0] === 'number') {
+      this._width.domain(widthdomain.sort((a,b) => a - b));
+    } else {
+      this._width.domain(widthdomain.sort());
+    }
+    this._clearAndRender();
   }
 
   _render() {

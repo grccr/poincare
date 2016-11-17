@@ -49,20 +49,11 @@
         }
       },
       icons: {
-        source: (d) => {
-          if (d.data.type === 'infrastructure/powerline' && d.links.length < 2)
-            return homeIcon;
-          if (d.data.type in types)
-            return types[d.data.type];
-          return stationIcon;
-        },
+        source: '/assets/icons/electric-icon.png',
         size: 16
       },
-      // labels: {
-      //   getter: (d) => { return d.label; }
-      // },
       physics: {
-        // stableThreshold: 0.001
+        stableThreshold: 0.001,
         springLength: 100,
         stableThreshold: 100
       },
@@ -77,7 +68,15 @@
         width: [2, 20],
         widthGetter: 'voltage',
       },
-      plugins: [AutoResize, Events, Lighter, Labels, Cursors, Directions, LinkClassifier]
+      plugins: [
+        poincare.plugins.AutoResize, 
+        poincare.plugins.Events, 
+        poincare.plugins.Lighter, 
+        poincare.plugins.Labels, 
+        poincare.plugins.Cursors, 
+        poincare.plugins.Directions, 
+        poincare.plugins.LinkClassifier
+      ]
     });
     pn.on('zoom:start', () => console.debug('zoomstart'));
     pn.on('zoom:stop', () => console.debug('zoomend'));
