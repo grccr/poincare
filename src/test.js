@@ -104,14 +104,14 @@ pn.on('zoom:change', () => debug('zoom'));
 //     labels && labels.highlight([id]);
 //   });
 
-pn.on('node:tip:hover', id => {
-  const labels = pn.plugins.labels;
-  labels && labels.highlight([id]);
-});
-// pn.on('node:tip:show', id => {
+// pn.on('node:tip:hover', id => {
 //   const labels = pn.plugins.labels;
-//   labels && labels.highlight([id]);
+//   labels && labels.highlight({nodes: []});
 // });
+pn.on('node:tip:show', id => {
+  const labels = pn.plugins.labels;
+  labels && labels.highlight({nodes: [id]});
+});
 
 // delayedOverClicks.observe((id) => {
 //   const labels = pn.plugins.labels;
@@ -122,8 +122,6 @@ pn.on('node:tip:hover', id => {
 pn.on('node:over', (id) => {
   const lighter = pn.plugins.lighter;
   lighter && lighter.lightNodes([id]);
-  const labels = pn.plugins.labels;
-  labels && labels.highlight({nodes: [id]});
   debug('Node over', id);
 });
 

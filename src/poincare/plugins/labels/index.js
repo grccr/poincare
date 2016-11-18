@@ -122,7 +122,7 @@ export default class Labels extends Plugin {
     const time = activator.constant(deactivator.take(1));
     activator
       .concatMap(id => overStream.during(time))
-      .observe(id => pn.emit(`${name}.over`, id));
+      .observe(id => pn.emit(`${name}:over`, id));
   }
 
   _initLayer(container) {
@@ -291,9 +291,11 @@ export default class Labels extends Plugin {
       nodes: [],
       links: []
     }, ids || {});
-    this._currentIDs.nodes = union(this._currentIDs.nodes.concat(newIds.nodes));
-    this._currentIDs.links = union(this._currentIDs.links.concat(newIds.links));
-    this._highlightThese(this._currentIDs, newIds);
+    if (newIds.nodes.length !== 0) {
+      this._currentIDs.nodes = union(this._currentIDs.nodes.concat(newIds.nodes));
+      this._currentIDs.links = union(this._currentIDs.links.concat(newIds.links));
+      this._highlightThese(this._currentIDs, newIds);
+    }
   }
 }
 
