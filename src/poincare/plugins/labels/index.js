@@ -235,8 +235,12 @@ export default class Labels extends Plugin {
     };
   }
 
-  _highlightThese(ids, locked = []) {
-    const lockedIds = new Set(locked);
+  _highlightThese(ids, locked) {
+    const lckd = Object.assign({
+      nodes: [],
+      links: []
+    }, locked || {});
+    const lockedIds = new Set(lckd.nodes.concat(lckd.links));
 
     const data = this._resolveData(ids);
     const labels = this._labels = this._layer.selectAll(
@@ -283,9 +287,13 @@ export default class Labels extends Plugin {
   }
 
   highlight(ids) {
-    this._currentIDs.nodes = union(this._currentIDs.nodes.concat(ids.nodes));
-    this._currentIDs.links = union(this._currentIDs.links.concat(ids.links));
-    this._highlightThese(this._currentIDs, ids);
+    const newIds = Object.assign({
+      nodes: [],
+      links: []
+    }, ids || {});
+    this._currentIDs.nodes = union(this._currentIDs.nodes.concat(newIds.nodes));
+    this._currentIDs.links = union(this._currentIDs.links.concat(newIds.links));
+    this._highlightThese(this._currentIDs, newIds);
   }
 }
 

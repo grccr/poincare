@@ -23,7 +23,8 @@ export default class Events extends Plugin {
       .on('mousemove.events', null)
       .on('click.events', null)
       .on('contextmenu.events', null)
-      .on('mousedown.events', null);
+      .on('mousedown.events', null)
+      .on('mouseup.events', null);
 
     this._throttledFind = null;
     this._pn = null;
@@ -36,6 +37,10 @@ export default class Events extends Plugin {
       .on('mousemove.events', () => {
         const position = d3.mouse(container);
         this._throttledFind(position);
+        this._pn.emit(
+          'mousemove',
+          d3.event
+        );
       })
       .on('click.events', () => {
         debug('CLICK');
@@ -70,7 +75,20 @@ export default class Events extends Plugin {
         debug('MOUSEDOWN');
         if (this._focusedItem != null) {
           d3.event.stopImmediatePropagation();
+          this._pn.emit(
+            `${this._focusedItem.type}:mousedown`,
+            this._focusedItem.id,
+            d3.event
+          );
+          return false;
         }
+      })
+      .on('mouseup.events', () => {
+        debug('MOUSEUP');
+        this._pn.emit(
+          'mouseup',
+          d3.event
+        );
       });
   }
 

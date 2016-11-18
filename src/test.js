@@ -122,6 +122,8 @@ pn.on('node:tip:hover', id => {
 pn.on('node:over', (id) => {
   const lighter = pn.plugins.lighter;
   lighter && lighter.lightNodes([id]);
+  const labels = pn.plugins.labels;
+  labels && labels.highlight({nodes: [id]});
   debug('Node over', id);
 });
 
@@ -129,10 +131,9 @@ pn.on('node:out', (id) => {
   const lighter = pn.plugins.lighter;
   const labels = pn.plugins.labels;
   lighter && lighter.lightNodes([]);
-  labels && labels.highlight([]);
+  labels && labels.highlight({nodes: []});
   debug('Node out', id);
 });
-
 
 pn.on('node:click', (id, event) => {
   const item = pn.graph.getNode(id);
@@ -177,6 +178,22 @@ pn.on('layout:ready', () => {
   debug('Layout is ready.');
 });
 // debug('Poincare icons is', pn._options.icons);
+
+let move = null;
+pn.on('node:mousedown', (id) => {
+  move = id;
+});
+pn.on('mouseup', () => {
+  move = null;
+});
+pn.on('mousemove', (e) => {
+  if (move) {
+    pn.moveNode(move, {x: e.clientX, y: e.clientY});
+    debug('Moving node', move, e.clientX, e.clientY);
+  }
+});
+
+
 
 let n = 1;
 const testData = [

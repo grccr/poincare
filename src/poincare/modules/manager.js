@@ -46,7 +46,7 @@ export default class Manager extends Module {
       }
       const getter = this._pn._options.links.width; 
       if(getter) {
-        return widthGetter(this._core.link(id).data);
+        return getter(this._core.link(id).data);
       }
       return this._options.width;
     }
