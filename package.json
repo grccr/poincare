@@ -1,6 +1,6 @@
 {
   "name": "poincare",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A webgl-based graph visualization library. The successor of Ashberry",
   "main": "src/index.js",
   "scripts": {

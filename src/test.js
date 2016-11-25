@@ -47,13 +47,18 @@ const pn = window.PN = new Poincare({
     },
     size: 16
   },
-  // labels: {
-  //   getter: (d) => { return d.label; }
-  // },
+  labels: {
+    nodeGetter: (d) => { return d.label; },
+    linkGetter: (d) => { return d.voltage; }
+  },
   physics: {
-    // stableThreshold: 0.001
     springLength: 100,
-    stableThreshold: 100
+    // stableThreshold: 0.001
+    stableThreshold: 100, 
+    gravity: -3.5,
+    theta: 1.0,
+    dragCoeff: 0.025,
+    //timeStep: 20
   },
   directions: {
     show: true
@@ -210,11 +215,6 @@ function nextTestGraph(reload = false) {
     })
     .then(graph => {
       pn.graph = graph;
-      // const lighter = pn.plugins.lighter;
-      // lighter && lighter.lightNodes([
-      //   '552f7ccb8a432b148143e681',
-      //   '552f7ccb8a432b148143e63e'
-      // ]);
     });
 }
 nextTestGraph();

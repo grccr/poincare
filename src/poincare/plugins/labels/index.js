@@ -2,7 +2,7 @@ import d3 from 'd3';
 import { fieldGetter } from '../../helpers';
 import most from 'most';
 import { setGlobally, Plugin } from '../base';
-import union from 'lodash/union';
+import { union, throttle } from 'lodash';
 
 import 'mozilla-fira-pack/Fira/fira.css';
 import './labels.less';
@@ -20,16 +20,23 @@ export default class Labels extends Plugin {
     this._pn = pn;
     this._options = Object.assign({
       template: '<b><%- label %></b>',
-      getter: 'label'
+      nodeGetter: 'label',
+      linkGetter: 'label'
     }, opts || {});
-    if (typeof this._options.getter !== 'function')
-      this._options.getter = fieldGetter(this._options.getter);
+    if (typeof this._options.nodeGetter !== 'function') {
+      this._options.nodeGetter = fieldGetter(this._options.nodeGetter);
+    }
+    if (typeof this._options.linkGetter !== 'function') {
+      this._options.linkGetter = fieldGetter(this._options.linkGetter);
+    }
 
     this._initLayer(pn.container);
     this._currentIDs = {
       nodes: [],
       links: []
     };
+    this._zooming = false;
+
     this._nodeXScale = (x, offset = -BASE_WIDTH / 2) =>
       Math.round(this._pn._core.xScale(x) + offset);
     this._nodeYScale = (y, offset = EM_SIZE * .75) =>
@@ -45,6 +52,8 @@ export default class Labels extends Plugin {
     pn.on('view:size', this._resizeLayer, this);
     pn.on('view:elements', this._onNewElements, this);
     pn.on('view:frame', this._render, this);
+    pn.on('view:start', this._onViewStart, this);
+    pn.on('view:reset', this._onViewReset, this)
     pn.on('node:update', this._onNodeUpdate, this);
     pn.on('link:update', this._onLinkUpdate, this);
 
@@ -58,8 +67,12 @@ export default class Labels extends Plugin {
 
   update(pn, opts) {
     Object.assign(this._options, opts || {});
-    if (typeof this._options.getter !== 'function')
-      this._options.getter = fieldGetter(this._options.getter);
+    if (typeof this._options.nodeGetter !== 'function') {
+      this._options.nodeGetter = fieldGetter(this._options.nodeGetter);
+    }
+    if (typeof this._options.linkGetter !== 'function') {
+      this._options.linkGetter = fieldGetter(this._options.linkGetter);
+    }
     this._labels.remove();
   }
 
@@ -85,7 +98,7 @@ export default class Labels extends Plugin {
     const nodes = this._pn._core.selectNodes(ids.nodes)
       .filter(n => {
         try {
-          return this._options.getter(n.data);
+          return this._options.nodeGetter(n.data);
         } catch (err) {
           //
         }
@@ -94,7 +107,7 @@ export default class Labels extends Plugin {
     const links = this._pn._core.selectLinks(ids.links)
       .filter(l => {
         try {
-          return this._options.getter(l.data);
+          return this._options.linkGetter(l.data);
         } catch (err) {
           //
         }
@@ -149,16 +162,26 @@ export default class Labels extends Plugin {
   _onNewElements(ids, r) {
     const THRESHOLD = 70;
     if (r < THRESHOLD)
-      return this._hide();
+      return this._remove();
     this._currentIDs = ids;
     this._highlightThese(ids);
+  }
+
+  _onViewStart() {
+    this._zooming = true;
+    this._hide();
+  }
+
+  _onViewReset() {
+    this._zooming = false;
+    this._show();
   }
 
   _onNodeUpdate(node) {
     this._labels && this._labels
       .filter(`.label-${CSS.escape(node.id)}`)
       .select('.inner.label')
-      .text(d => this._options.getter(d.data));
+      .text(d => this._options.nodeGetter(d.data));
   }
 
   _onLinkUpdate(link) {
@@ -169,7 +192,7 @@ export default class Labels extends Plugin {
         const c = d3.rgb(this._pn.manager.color(d.id)).darker(.5);
         return `rgb(${c.r},${c.g},${c.b})`;
       })
-      .text(d => this._options.getter(d.data));
+      .text(d => this._options.linkGetter(d.data));
   }
 
   _getLabelWidth(d) {
@@ -214,13 +237,27 @@ export default class Labels extends Plugin {
   _render() {
     // TODO: здесь можно пересчитывать радиус от scale и
     // убрать лейблы во время зума
-    this._labels &&
+    this._labels && !this._zooming &&
     this._labels
       .style('width', this._getLabelWidth)
       .style('transform', this._getLabelTransform);
   }
 
   _hide() {
+    this._labels && this._labels
+      .transition()
+        .duration(100)
+        .style('opacity', 0);
+  }
+
+  _show() {
+    this._labels && this._labels
+      .transition()
+        .duration(25)
+        .style('opacity', 1);
+  }
+
+  _remove() {
     this._labels &&
     this._labels
       .transition()
@@ -261,7 +298,7 @@ export default class Labels extends Plugin {
             return `rgb(${c.r},${c.g},${c.b})`;
           })
           .text(d => {
-            return that._options.getter(d.data);
+            return d.from? this._options.linkGetter(d.data) : this._options.nodeGetter(d.data);
           })
           .transition()
             .duration(1000)
