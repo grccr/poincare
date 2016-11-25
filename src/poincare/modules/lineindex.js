@@ -22,6 +22,11 @@ function makeNormalLineBBox(ln) {
   return makeNormalBBox(ln.from.x, ln.from.y, ln.to.x, ln.to.y);
 }
 
+function idCompare(a, b) {
+  const res = a.id === b.id;
+  return res;
+}
+
 export default class LineIndex extends Module {
   constructor(pn, opts) {
     super();
@@ -31,6 +36,8 @@ export default class LineIndex extends Module {
     pn.on('core:clear', this._clear, this);
     pn.on('link:create', this._onLinkCreate, this);
     pn.on('link:remove', this._onLinkRemove, this);
+    pn.on('node:movestart', this._onNodeStartMove, this);
+    pn.on('node:movestop', this._onNodeStopMove, this);
   }
 
   _init() {
@@ -52,6 +59,7 @@ export default class LineIndex extends Module {
     this._pn
       .off('core:clear', this._clear)
       .off('core:init', this._init)
+      .off('node:movestop', this._onNodeMove)
       .off('link:create', this._onLinkCreate)
       .off('link:remove', this._onLinkRemove);
     this._clear();
@@ -73,14 +81,20 @@ export default class LineIndex extends Module {
   }
 
   _onLinkRemove(link) {
-    const bbox = makeNormalLineBBox(link);
-    this._tree.remove({ 
-      id: link.id, 
-      x0: bbox[0], 
-      y0: bbox[1], 
-      x1: bbox[2],
-      y1: bbox[3]
-    }, function (a, b) {return a.id === b.id;});
+    const item = this._tree.all().find((l) => { return l.id === link.id; });
+    this._tree.remove(item, idCompare);
+  }
+
+  _onNodeStartMove(node) {
+    for (const link of node.links) {
+      this._onLinkRemove(link);
+    }
+  }
+
+  _onNodeStopMove(node) {
+    for (const link of node.links) {
+      this._onLinkCreate(link);
+    }
   }
 
   _createLinkIndex() {

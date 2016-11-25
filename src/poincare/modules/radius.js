@@ -15,6 +15,10 @@ function mid(pos1, pos2) {
   };
 }
 
+function idCompare(a, b) {
+  return a.id === b.id;
+}
+
 export default class Radius extends Module {
   constructor(pn, opts) {
     super();
@@ -24,10 +28,12 @@ export default class Radius extends Module {
       linkIndexFrequency: 30
     }, opts || {});
 
-    pn.on('core:init', this._init, this);
-    pn.on('core:clear', this._clear, this);
+    pn.on('core:init'  , this._init, this);
+    pn.on('core:clear' , this._clear, this);
     pn.on('node:create', this._onNodeCreate, this);
     pn.on('node:update', this._calculateRadiusMedian, this);
+    pn.on('node:movestart', this._onNodeStartMove, this);
+    pn.on('node:movestop', this._onNodeStopMove, this);
     pn.on('node:remove', this._onNodeRemove, this);
     pn.on('link:create', this._onLinkCreate, this);
     pn.on('link:update', this._calculateRadiusMedian, this);
@@ -71,6 +77,7 @@ export default class Radius extends Module {
       .off('core:init', this._init)
       .off('node:create', this._onNodeCreate)
       .off('node:remove', this._onNodeRemove)
+      .off('node:movestop'  , this._onNodeMove)
       .off('node:update', this._calculateRadiusMedian)
       .off('link:remove', this._onLinkRemove)
       .off('link:create', this._onLinkCreate)
@@ -92,9 +99,27 @@ export default class Radius extends Module {
     this._calculateRadiusMedian();
   }
 
+  _onNodeStartMove(node) {
+    let item = this._tree.nodes.all().find((n) => { return n.id === node.id; });
+    this._tree.nodes.remove(item, idCompare);
+    for (const link of node.links) {
+      item = this._tree.links.all().find((l) => { return l.id === link.id; });
+      this._tree.links.remove(item, idCompare);
+    }
+  }
+
+  _onNodeStopMove(node) {
+    let item = { id: node.id, ...node.pos };
+    this._tree.nodes.insert(item);
+    for (const link of node.links) {
+      item = { id: link.id, ...mid(link.to, link.from) };
+      this._tree.links.insert(item);
+    }
+  }
+
   _onNodeRemove(id) {
-    const node = this._pn.core.node(id);
-    this._tree.nodes.remove({ id: node.id, ...node.pos }, function (a, b) {return a.id === b.id;});
+    const item = this._tree.nodes.all().find((n) => { return n.id === id; });
+    this._tree.nodes.remove(item, idCompare);
     this._calculateRadiusMedian();
   }
 
@@ -104,8 +129,8 @@ export default class Radius extends Module {
   }
 
   _onLinkRemove(link) {
-    const item = { id: link.id, ...mid(link.to, link.from) };
-    this._tree.links.remove(item, function (a, b) {return a.id === b.id;});
+    const item = this._tree.links.all().find((l) => { return l.id === link.id; });
+    this._tree.links.remove(item, idCompare);
     this._calculateRadiusMedian();
   }
 
@@ -116,15 +141,15 @@ export default class Radius extends Module {
       id: node.id, ...node.pos
     }));
     nodesTree.load(nodesData);
-    debug('Nodes index is created', nodesData);
+    debug('Nodes index is created', nodesData.length, nodesData);
 
-    debug('Gonna create link mids\' index');
+    debug('Gonna create link\'s mid index');
     const linksTree = this._tree.links = rbush(9, ['.x', '.y', '.x', '.y']);
     const linksData = this._pn.core.mapLinks(link => ({
       id: link.id, ...mid(link.to, link.from)
     }));
     linksTree.load(linksData);
-    debug('Links index is created', linksData);
+    debug('Links index is created', linksData.length, linksData);
   }
 
   _calculateRadiusMedian() {

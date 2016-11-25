@@ -138,6 +138,8 @@ export default class LinkClassifier extends Plugin {
     this._pn.on('link:create', this._onLinkCreate, this);
     this._pn.on('link:update', this._onLinkCreate, this);
     this._pn.on('link:remove', this._clearAndRender, this);
+    this._pn.on('node:movestart', this._clear, this);
+    this._pn.on('node:movestop', this._render, this);
   }
 
   _onLinkCreate(link) {

@@ -5,7 +5,7 @@ import nGraph from 'ngraph.graph';
 import createForceLayout from 'ngraph.forcelayout';
 import d3 from 'd3';
 import util from 'util';
-import { isFunction, isString } from 'lodash';
+import { isFunction, isString, throttle, debounce } from 'lodash';
 
 import Options from './options';
 import Core from './core';
@@ -30,6 +30,7 @@ export default class Poincare {
     this._createContainer();
     this._createCore();
     this._installModules();
+    this._createAPI();
     this.updateDimensions();
   }
 
@@ -302,7 +303,19 @@ export default class Poincare {
   }
   
   // API
-  createNode({id, data, pos}){
+  _createAPI () {
+    this._moveNode = debounce(this._startMoveNode.bind(this), 0, {leading: true, trailing: false});
+    this.on('node:movestart', () => { 
+      this._moveNode.cancel();
+      this._moveNode = debounce(this._stopMoveNode.bind(this), 250, {leading: false, trailing: true}); 
+    });
+    this.on('node:movestop', () => { 
+      this._moveNode.cancel();
+      this._moveNode = debounce(this._startMoveNode.bind(this), 0, {leading: true, trailing: true}); 
+    });
+  }
+
+  createNode ({id, data, pos}) {
     const node = this.graph.addNode(id, data || {});
     this.core._createNode(node);
     pos && this._moveNode(id, pos);
@@ -310,22 +323,31 @@ export default class Poincare {
     return node;
   }
 
-  createNodes(nodes){
+  createNodes (nodes) {
     _.each(nodes, (node) => this.createNode(node));
   }
 
-  moveNode(id, {x, y}) {
-    this._layout.setNodePosition(id, this.core.xScale.invert(x), this.core.xScale.invert(y));
-    this.emit('view:start'); // for visualizer
-    this.zoom && this.emit(
-      'view:reset',
-      this.zoom._zoom.translate(),
-      this.zoom._zoom.scale()
+  moveNode (id, x, y) {
+    let scale = 1;
+    if (this.core._zoomedOut)
+      scale = this.zoom.scale();
+    this._layout.setNodePosition(
+      id, 
+      this.core.xScale.invert(x) * scale, 
+      this.core.yScale.invert(y) * scale
     );
+    this.emit('node:move', this.core.node(id));
+    this._moveNode(id, x, y);
   }
 
-  moveNodes(nodes) {
-    _.each(nodes, (node) => this.moveNode(node));
+  _startMoveNode (id, x, y) {
+    this.emit('node:movestart', this.core.node(id)); 
+    debug('Node movestart', id, x, y);
+  }
+
+  _stopMoveNode (id, x, y) {
+    this.emit('node:movestop', this.core.node(id));
+    debug('Node movestop', id, x, y);
   }
 
   updateNode({id, data, pos}){

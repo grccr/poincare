@@ -104,11 +104,11 @@ pn.on('zoom:change', () => debug('zoom'));
 //     labels && labels.highlight([id]);
 //   });
 
-// pn.on('node:tip:hover', id => {
+// pn.on('node:tip:show', id => {
 //   const labels = pn.plugins.labels;
 //   labels && labels.highlight({nodes: []});
 // });
-pn.on('node:tip:show', id => {
+pn.on('node:tip:hover', id => {
   const labels = pn.plugins.labels;
   labels && labels.highlight({nodes: [id]});
 });
@@ -154,7 +154,7 @@ pn.on('link:menu', (id, event) => {
 pn.on('link:tip:hover', (id) => {
   const item = pn.core.link(id);
   const labels = pn.plugins.labels;
-  labels && labels.highlight([item.fromId, item.toId]);
+  labels && labels.highlight({nodes: [item.fromId, item.toId]});
 });
 
 pn.on('link:over', (id) => {
@@ -169,7 +169,7 @@ pn.on('link:out', (id) => {
   const labels = pn.plugins.labels;
   lighter && lighter.lightLinks([]);
   lighter && lighter.lightNodes([]);
-  labels && labels.highlight([]);
+  labels && labels.highlight({nodes: []});
   debug('Link out', id);
 });
 pn.on('layout:ready', () => {
@@ -183,11 +183,12 @@ pn.on('node:mousedown', (id) => {
 });
 pn.on('mouseup', () => {
   move = null;
+  
 });
 pn.on('mousemove', (e) => {
   if (move) {
-    pn.moveNode(move, {x: e.clientX, y: e.clientY});
-    debug('Moving node', move, e.clientX, e.clientY);
+    pn.moveNode(move, e.clientX, e.clientY);
+    //debug('Moving node', move, e.clientX, e.clientY);
   }
 });
 
