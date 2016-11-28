@@ -8,6 +8,8 @@
     "test:node": "./node_modules/.bin/mocha --require babel-core/register --recursive",
     "build": "NODE_ENV=production node ./node_modules/.bin/webpack --config webpack.config.js --progress",
     "stagebuild": "NODE_ENV=stage node ./node_modules/.bin/webpack --config webpack.config.js --progress",
+    "release": "npm run build && npm run stagebuild && npm run archive",
+    "archive": "tar -cvf releases/poincare-$npm_package_version.tar dist/",
     "test": "node ./node_modules/.bin/karma start --browsers PhantomJS --single-run true",
     "test:watch": "node ./node_modules/.bin/karma start --browsers PhantomJS",
     "test:chrome": "node ./node_modules/.bin/karma start --browsers Chrome",
@@ -15,7 +17,7 @@
     "nibble": "node ./node_modules/.bin/eslint-nibble src",
     "summary": "node ./node_modules/.bin/eslint --format ./node_modules/eslint-summary/summary.js src"
   },
-  "author": "Nick Ts. <fbd@yawny.ru>, Dann <sharth23@gmail.com>",
+  "author": "Nick Ts. <fbd@yawny.ru>, Daniel P. <sharth23@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "autoprefixer": "^6.3.4",

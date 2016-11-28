@@ -22,7 +22,7 @@ module.exports = {
   output: {
     path: distPath,
     publicPath: '/dist/',
-    filename: 'poincare.js'
+    filename: ENV === 'production' ? 'poincare.min.js' : 'poincare.js'
   },
   babel: {
     cacheDirectory: true,
@@ -89,9 +89,9 @@ if (ENV === 'production') {
     new UglifyJsPlugin({
       compress: { warnings: false },
       mangle: {
-        except: ['Lighter', 'Events', 'Plugin', 'Radius', 'Zoom',
+        except: ['Lighter', 'Events', 'Plugin', 'Radius', 'Zoom', 'Module', 'Manager',
                  'Tween', 'Cursors', 'Labels', 'AutoResize', 'LineIndex',
-                 'Directions']
+                 'Directions', 'LinkClassifier']
       }
     }),
     new OccurenceOrderPlugin()
