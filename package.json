@@ -2,7 +2,7 @@
   "name": "poincare",
   "version": "0.3.0",
   "description": "A webgl-based graph visualization library. The successor of Ashberry",
-  "main": "src/index.js",
+  "main": "src/poincare/index.js",
   "scripts": {
     "dev": "node ./node_modules/.bin/webpack-dev-server --content-base test --hot --inline --quiet",
     "test:node": "./node_modules/.bin/mocha --require babel-core/register --recursive",
@@ -15,7 +15,8 @@
     "test:chrome": "node ./node_modules/.bin/karma start --browsers Chrome",
     "lint": "node ./node_modules/.bin/eslint --color --ext .js src",
     "nibble": "node ./node_modules/.bin/eslint-nibble src",
-    "summary": "node ./node_modules/.bin/eslint --format ./node_modules/eslint-summary/summary.js src"
+    "summary": "node ./node_modules/.bin/eslint --format ./node_modules/eslint-summary/summary.js src",
+    "docs": "node ./node_modules/.bin/jsdoc --configure jsdoc.json ./src/poincare/index.js"
   },
   "author": "Nick Ts. <fbd@yawny.ru>, Daniel P. <sharth23@gmail.com>",
   "license": "MIT",
@@ -38,6 +39,7 @@
     "eslint-nibble": "^2.0.0",
     "eslint-plugin-html": "^1.4.0",
     "file-loader": "^0.8.5",
+    "jsdoc-webpack-plugin": "0.0.1",
     "json-loader": "^0.5.4",
     "karma": "^0.13.21",
     "karma-chrome-launcher": "^0.2.2",
@@ -48,6 +50,7 @@
     "karma-webpack": "^1.7.0",
     "less": "^2.6.1",
     "less-loader": "^2.2.2",
+    "minami": "^1.1.1",
     "mocha": "^2.4.5",
     "most": "^0.19.7",
     "phantomjs-prebuilt": "^2.1.4",

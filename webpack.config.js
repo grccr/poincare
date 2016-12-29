@@ -1,6 +1,8 @@
 var DefinePlugin = require('webpack/lib/DefinePlugin');
 
 var webpack = require('webpack');
+var JsDocPlugin = require('jsdoc-webpack-plugin');
+
 var autoprefixer = require('autoprefixer');
 
 var join = require('path').join;
@@ -78,6 +80,9 @@ module.exports = {
   plugins: [
     new DefinePlugin({
       'process.env': { NODE_ENV: '"' + ENV + '"' }
+    }),
+    new JsDocPlugin({
+      conf: './jsdoc.json'
     })
   ]
 };
